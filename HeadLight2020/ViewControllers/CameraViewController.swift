@@ -9,7 +9,11 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+let semaphore = DispatchSemaphore(value: 0)
+
+class CameraViewController: UIViewController {
+    
+    let viewModel = CameraViewModel()
     
     let displayView: UIView = {
         let view = UIView()
@@ -53,12 +57,11 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         self.view.addSubview(displayView)
         displayView.addSubview(captureButton)
 
-
         setupLayoutConstraints()
     }
  
     func cameraSetup() {
-       let captureSession = AVCaptureSession()
+        let captureSession = viewModel.captureSession
         captureSession.sessionPreset = AVCaptureSession.Preset.high
 
         let videoDeviceDiscovery = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
@@ -93,20 +96,9 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
         self.view.layer.addSublayer(previewLayer)
         
-        let videoOutput = AVCaptureVideoDataOutput()
-        videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: Int(kCVPixelFormatType_32BGRA)]
-        videoOutput.alwaysDiscardsLateVideoFrames = true
-        
-        let videoOutputQueue = DispatchQueue(label: "VideoQueue")
-        videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
-        if captureSession.canAddOutput(videoOutput) {
-            captureSession.addOutput(videoOutput)
-        } else {
-            print("Could not add video data as output.")
-        }
-        
         //starts the camera
         captureSession.startRunning()
+        
     }
     
     //Selects the function of the camera to be 240 fps
@@ -132,51 +124,6 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
          }
      }
     
-    //This function is called automatically each time a new frame is recieved, i.e. 240 times per second
-    //as long as the configuration was successfull. Most of the analysis and processing goes on here.
-    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-        //counts the number of frames that have been captured
-        //counter = counter + 1
-
-        let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
-        
-        CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
-        
-        let width = CVPixelBufferGetWidth(imageBuffer)
-        let height = CVPixelBufferGetHeight(imageBuffer)
-        let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)!
-        let byteBuffer = baseAddress.assumingMemoryBound(to: UInt8.self)
-        
-        
-        //Chosen pixel for analysis
-        //We are pointing to the location of the pixel in the memory space, and not to the coordinate on the image.
-        //We therefore locate the pixel by going through a long memory array, rather than a coordinate on a (x,y) format.
-        //To find the pixel at (1,0) point on the image means we have to find the pixel at the (width + 1) space in the array.
-        //We have to increase the index by 4 to get to a new pixel in the array.
-        //This is because every pixel is represented by 4 bits of memory, so to get to the next pixel, we must move
-        //4 spaces down the array.
-        
-        //Dont know what this does, but dont move
-        CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
-        
-        //print(getPixelNumber(byteBuffer: byteBuffer, index: 0))
-    }
-    
-    //Calculates gray scale of pixel
-    func getPixelNumber(byteBuffer: UnsafeMutablePointer<UInt8>, index: Int) -> Double{
-        let b = byteBuffer[index]
-        let bInt = Double(b)
-        let g = byteBuffer[index + 1]
-        let gInt = Double(g)
-        let r = byteBuffer[index + 2]
-        let rInt = Double(r)
-        
-        //Find the shade of gray represented by the rgb
-        let gray = (bInt + gInt + rInt) / 3
-        
-        return gray
-    }
     
     private func setupLayoutConstraints() {
         let screenHeight = CGFloat(view.frame.height)
@@ -199,19 +146,12 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         let y = view.frame.height * 0.9
         circle.addArc(withCenter: CGPoint(x: x, y: y), radius: CGFloat(screenHeight * displayViewPortionOfScreen * 0.25 + 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
 
-
         let shapeLayer = CAShapeLayer()
 
-            
-        // Change the fill color
         shapeLayer.fillColor = UIColor.clear.cgColor
-        // You can change the stroke color
         shapeLayer.strokeColor = UIColor(named: "accentLight")?.cgColor
-        // You can change the line width
         shapeLayer.lineWidth = 5
-        
         shapeLayer.path = circle.cgPath
-        
         view.layer.addSublayer(shapeLayer)
             
         
@@ -222,8 +162,29 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         captureButton.widthAnchor.constraint(equalTo: displayView.heightAnchor, multiplier: 0.5).isActive = true
         //Ensures button is round on all screen sizes
         captureButton.layer.cornerRadius = screenHeight * displayViewPortionOfScreen * 0.25
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
+        captureButton.addGestureRecognizer(longGesture)
+    }
+    
 
+    @objc func longTap(_ sender: UIGestureRecognizer){
+        captureButton.backgroundColor = UIColor(named: "mainColor")
+        //This code runs when the button is released
+        if sender.state == .ended {
+            print("UIGestureRecognizerStateEnded")
+            captureButton.backgroundColor = UIColor(named: "accentLight")
+            viewModel.interruptAnalysis()
 
+        }
+        //This code runs as long as the capture button is being held down
+        else if sender.state == .began {
+            viewModel.startAnalysis()
+            print("UIGestureRecognizerStateBegan.")
+        }
+    }
+    
+    func segueToResults() {
+        self.performSegue(withIdentifier: "goToResults", sender: self)
     }
 
 }

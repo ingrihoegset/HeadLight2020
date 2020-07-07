@@ -9,23 +9,29 @@
 /* Begin PBXBuildFile section */
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
 		BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */; };
-		BFBCCB8E24AB8782005F93DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8D24AB8782005F93DB /* ViewController.swift */; };
+		BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */; };
 		BFBCCB9124AB8782005F93DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFBCCB8F24AB8782005F93DB /* Main.storyboard */; };
 		BFBCCB9424AB8782005F93DB /* HeadLight2020.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB9224AB8782005F93DB /* HeadLight2020.xcdatamodeld */; };
 		BFBCCB9624AB8785005F93DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFBCCB9524AB8785005F93DB /* Assets.xcassets */; };
 		BFBCCB9924AB8785005F93DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFBCCB9724AB8785005F93DB /* LaunchScreen.storyboard */; };
+		BFBCCBEC24B3211E005F93DB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBEB24B3211E005F93DB /* Model.swift */; };
+		BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBED24B32134005F93DB /* CameraViewModel.swift */; };
+		BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBCCB8924AB8782005F93DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BFBCCB8D24AB8782005F93DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		BFBCCB9024AB8782005F93DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFBCCB9324AB8782005F93DB /* HeadLight2020.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeadLight2020.xcdatamodel; sourceTree = "<group>"; };
 		BFBCCB9524AB8785005F93DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFBCCB9824AB8785005F93DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFBCCB9A24AB8785005F93DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFBCCBEB24B3211E005F93DB /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		BFBCCBED24B32134005F93DB /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,9 +64,11 @@
 		BFBCCB8824AB8782005F93DB /* HeadLight2020 */ = {
 			isa = PBXGroup;
 			children = (
+				BFBCCBF124B33F6F005F93DB /* ViewControllers */,
 				BFBCCB8924AB8782005F93DB /* AppDelegate.swift */,
 				BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */,
-				BFBCCB8D24AB8782005F93DB /* ViewController.swift */,
+				BFBCCBED24B32134005F93DB /* CameraViewModel.swift */,
+				BFBCCBEB24B3211E005F93DB /* Model.swift */,
 				BFBCCB8F24AB8782005F93DB /* Main.storyboard */,
 				BFBCCB9524AB8785005F93DB /* Assets.xcassets */,
 				BFBCCB9724AB8785005F93DB /* LaunchScreen.storyboard */,
@@ -68,6 +76,15 @@
 				BFBCCB9224AB8782005F93DB /* HeadLight2020.xcdatamodeld */,
 			);
 			path = HeadLight2020;
+			sourceTree = "<group>";
+		};
+		BFBCCBF124B33F6F005F93DB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */,
+				BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,10 +158,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFBCCBEC24B3211E005F93DB /* Model.swift in Sources */,
 				BFBCCB9424AB8782005F93DB /* HeadLight2020.xcdatamodeld in Sources */,
-				BFBCCB8E24AB8782005F93DB /* ViewController.swift in Sources */,
+				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
+				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
 				BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */,
+				BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
