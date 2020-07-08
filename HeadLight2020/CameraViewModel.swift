@@ -13,14 +13,17 @@ import AVFoundation
 class CameraViewModel {
 
 
-    let model = Model()
+    let model: Model
     let captureSession: AVCaptureSession
     var flickerResult: String
     
-    init() {
+    init(model: Model) {
         
+        self.model = model
         self.captureSession = model.captureSession
         self.flickerResult = String(model.flickerResults)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(getNewResults), name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
     }
     
     func startAnalysis() {
@@ -30,7 +33,15 @@ class CameraViewModel {
     func interruptAnalysis() {
         model.interruptAnalysis()
     }
-  
+    
+    @objc func getNewResults() {
+        self.flickerResult = String(model.flickerResults)
+    }
+    
+    func calculateResults() {
+        model.calculateFlickerPercent()
+    }
+
 }
     
 

@@ -10,12 +10,13 @@ import Foundation
 import AVFoundation
 import CoreMotion
 
-
 class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     let captureSession = AVCaptureSession()
     let motion = CMMotionManager()
     var flickerResults = 0
+    var matrixOfPixels = [[Int]]()
+    var rowOfSimultaneousPixels = [Int]()
     
     override init() {
         super.init()
@@ -26,6 +27,7 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: Int(kCVPixelFormatType_32BGRA)]
         videoOutput.alwaysDiscardsLateVideoFrames = true
+        
         
         let videoOutputQueue = DispatchQueue(label: "VideoQueue")
         videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
@@ -65,10 +67,18 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
         
         //print(getPixelNumber(byteBuffer: byteBuffer, index: 0))
+        
+        
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
+        
+        flickerResults = Int(getPixelNumber(byteBuffer: byteBuffer, index: 0))
+
+        createPixelMatrix(byteBuffer: byteBuffer, width: width, height: height)
+    
     }
     
     //Calculates gray scale of pixel
-    func getPixelNumber(byteBuffer: UnsafeMutablePointer<UInt8>, index: Int) -> Double{
+    func getPixelNumber(byteBuffer: UnsafeMutablePointer<UInt8>, index: Int) -> Int {
         let b = byteBuffer[index]
         let bInt = Double(b)
         let g = byteBuffer[index + 1]
@@ -79,7 +89,7 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         //Find the shade of gray represented by the rgb
         let gray = (bInt + gInt + rInt) / 3
         
-        return gray
+        return Int(gray)
     }
     
     func startAnalysis() {
@@ -129,4 +139,113 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         motion.stopDeviceMotionUpdates()
     }
     
+    /*Makes an matrix containing the pixeldata from a subset of pixels
+      The function is called as long as capture_output is called, i.e. 240 times
+      per second. The data in the matrix is the basis for the flickeranalysis*/
+    func createPixelMatrix(byteBuffer: UnsafeMutablePointer<UInt8>, width: Int, height: Int) {
+        
+        //first is row
+        //second is column
+        
+        //Empty row so it is ready for new input
+        rowOfSimultaneousPixels = []
+        
+        //Removes the oldest input from the matrix when the matrix reaches a certain size
+        if(matrixOfPixels.count >= 240) {
+            matrixOfPixels.removeFirst(1)
+        }
+        
+        //Returns array of 36 simultaneous pixels with leap of * 20
+        for i in stride(from: 0, to: width * height * 4 - 1, by: width * 4 * 120 ) {
+            let pixel = getPixelNumber(byteBuffer: byteBuffer, index: i)
+            rowOfSimultaneousPixels.append(pixel)
+        }
+        
+        //Adds the array of simultaneus pixels to the matrix
+        matrixOfPixels.append(rowOfSimultaneousPixels)
+    }
+    
+    func calculateFlickerIndex() {
+        
+    }
+    
+    func calculateFlickerPercent() {
+
+        let average = calculateAverageFlicker()
+        
+        var currentTop = average
+        var sumTops = 0
+        var countTops = 1
+        
+        var currentBottom = average
+        var sumBottoms = 0
+        var countBottoms = 1
+        
+        if (matrixOfPixels.count > 120) {
+        
+            for i in 1...matrixOfPixels.count - 1 {
+                if (isInflictionFromAbove(average: average, previous: matrixOfPixels[i - 1][0], current: matrixOfPixels[i][0])) {
+                    sumTops = sumTops + currentTop
+                    countTops = countTops + 1
+                }
+                
+                if (isInflictionFromBelow(average: average, previous: matrixOfPixels[i - 1][0], current: matrixOfPixels[i][0])) {
+                    sumBottoms = sumBottoms + currentBottom
+                    countBottoms = countBottoms + 1
+                }
+
+                if (matrixOfPixels[i][0] < currentBottom) {
+                    currentBottom = matrixOfPixels[i][0]
+                }
+                
+                if (matrixOfPixels[i][0] > currentTop) {
+                    currentTop = matrixOfPixels[i][0]
+                }
+            }
+            
+            print("avg top",  sumTops / countTops)
+            print("count top", countTops)
+            print("avg bot",  sumBottoms / countBottoms)
+            print("count bot", countBottoms)
+            
+            let lMin = Double(sumBottoms / countBottoms)
+            let lMax = Double(sumTops / countTops)
+            let percentageFlicker = ((lMax - lMin) / (lMax + lMin)) * 100
+            print("percentage flicker: ", percentageFlicker)
+            
+        }
+    }
+    
+    func calculateAverageFlicker() -> Int {
+        var sum = 0
+        
+        for i in 0...matrixOfPixels.count - 1 {
+            sum = sum + matrixOfPixels[i][0]
+        }
+        
+        let average = sum / matrixOfPixels.count
+        return average
+    }
+    
+    func isInflictionFromBelow(average: Int, previous: Int, current: Int) -> Bool {
+        //infliction crosses average from below
+        if (current > average && previous < average) {
+            return true
+        }
+        //not infliction crossing average line
+        else {
+            return false
+        }
+    }
+    
+    func isInflictionFromAbove(average: Int, previous: Int, current: Int) -> Bool {
+        //infliction crosses average from above
+        if (current < average && previous > average) {
+            return true
+        }
+        //not infliction crossing average line
+        else {
+            return false
+        }
+    }
 }

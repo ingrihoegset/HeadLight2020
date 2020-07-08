@@ -13,7 +13,7 @@ let semaphore = DispatchSemaphore(value: 0)
 
 class CameraViewController: UIViewController {
     
-    let viewModel = CameraViewModel()
+    let viewModel = CameraViewModel(model: Model())
     
     let displayView: UIView = {
         let view = UIView()
@@ -43,6 +43,17 @@ class CameraViewController: UIViewController {
         return button
     }()
     
+    let temporaryResultsView: UITextView = {
+        let view = UITextView()
+        view.backgroundColor = UIColor(named: "mainColor")
+        view.textAlignment = .center
+        view.textColor = UIColor(named: "accentLight")
+        view.isEditable = false
+        view.isScrollEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     //In order to set up camera
     var cameraDevice: AVCaptureDevice?
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -55,6 +66,7 @@ class CameraViewController: UIViewController {
         
         self.view.addSubview(topPanelView)
         self.view.addSubview(displayView)
+        self.view.addSubview(temporaryResultsView)
         displayView.addSubview(captureButton)
 
         setupLayoutConstraints()
@@ -141,6 +153,12 @@ class CameraViewController: UIViewController {
         displayView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         displayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: displayViewPortionOfScreen).isActive = true
         
+        //Temporary results display
+        temporaryResultsView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        temporaryResultsView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        temporaryResultsView.heightAnchor.constraint(equalTo: view.heightAnchor,  multiplier: 0.1).isActive = true
+        temporaryResultsView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
+        
         //Places decorative circle around capture button
         let x = view.frame.width / 2
         let y = view.frame.height * 0.9
@@ -174,7 +192,8 @@ class CameraViewController: UIViewController {
             print("UIGestureRecognizerStateEnded")
             captureButton.backgroundColor = UIColor(named: "accentLight")
             viewModel.interruptAnalysis()
-
+            getNewResults()
+            calculateResults()
         }
         //This code runs as long as the capture button is being held down
         else if sender.state == .began {
@@ -185,6 +204,14 @@ class CameraViewController: UIViewController {
     
     func segueToResults() {
         self.performSegue(withIdentifier: "goToResults", sender: self)
+    }
+    
+    func getNewResults() {
+        temporaryResultsView.text = String(viewModel.flickerResult)
+    }
+    
+    func calculateResults() {
+        viewModel.calculateResults()
     }
 
 }

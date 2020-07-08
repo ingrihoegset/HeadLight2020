@@ -64,11 +64,11 @@
 		BFBCCB8824AB8782005F93DB /* HeadLight2020 */ = {
 			isa = PBXGroup;
 			children = (
+				BFBCCBED24B32134005F93DB /* CameraViewModel.swift */,
 				BFBCCBF124B33F6F005F93DB /* ViewControllers */,
+				BFBCCBF424B4AC57005F93DB /* Model */,
 				BFBCCB8924AB8782005F93DB /* AppDelegate.swift */,
 				BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */,
-				BFBCCBED24B32134005F93DB /* CameraViewModel.swift */,
-				BFBCCBEB24B3211E005F93DB /* Model.swift */,
 				BFBCCB8F24AB8782005F93DB /* Main.storyboard */,
 				BFBCCB9524AB8785005F93DB /* Assets.xcassets */,
 				BFBCCB9724AB8785005F93DB /* LaunchScreen.storyboard */,
@@ -85,6 +85,14 @@
 				BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		BFBCCBF424B4AC57005F93DB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BFBCCBEB24B3211E005F93DB /* Model.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -11,7 +11,7 @@ import UIKit
 
 class ResultsViewController: UIViewController {
     
-    let viewModel = CameraViewModel()
+    let viewModel = CameraViewModel(model: Model())
     
     let temporaryResultsView: UITextView = {
         let view = UITextView()
@@ -27,8 +27,8 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(temporaryResultsView)
-        temporaryResultsView.text = viewModel.flickerResult
         setupLayoutConstraints()
+        temporaryResultsView.text = String(viewModel.flickerResult)
     }
 
     private func setupLayoutConstraints() {
@@ -38,5 +38,6 @@ class ResultsViewController: UIViewController {
         temporaryResultsView.heightAnchor.constraint(equalTo: view.heightAnchor,  multiplier: 0.1).isActive = true
         temporaryResultsView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
     }
+
     
 }
