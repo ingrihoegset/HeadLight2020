@@ -14,7 +14,7 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     let captureSession = AVCaptureSession()
     let motion = CMMotionManager()
-    var flickerResults = 0
+    var flickerResults = 0.0
     var matrixOfPixels = [[Int]]()
     var rowOfSimultaneousPixels = [Int]()
     
@@ -65,13 +65,6 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         
         //Dont know what this does, but dont move
         CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
-        
-        //print(getPixelNumber(byteBuffer: byteBuffer, index: 0))
-        
-        
-        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
-        
-        flickerResults = Int(getPixelNumber(byteBuffer: byteBuffer, index: 0))
 
         createPixelMatrix(byteBuffer: byteBuffer, width: width, height: height)
     
@@ -156,7 +149,7 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         }
         
         //Returns array of 36 simultaneous pixels with leap of * 20
-        for i in stride(from: 0, to: width * height * 4 - 1, by: width * 4 * 120 ) {
+        for i in stride(from: 0, to: width * height * 4 - 1, by: width * 4 * 2 ) {
             let pixel = getPixelNumber(byteBuffer: byteBuffer, index: i)
             rowOfSimultaneousPixels.append(pixel)
         }
@@ -165,68 +158,110 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         matrixOfPixels.append(rowOfSimultaneousPixels)
     }
     
-    func calculateFlickerIndex() {
+    /*Does analysis of each pixel over the amount of frames captued and returns an matrix with arrays
+     of info related to each pixel. The info captured for each pixel is average top of the wave
+     (average of highest point above average every time the wave crosses the average line from below),
+     average bottom of the wave (average of lowest point below average every time the wave crosses the
+     average from above, the average pixel colour of grey and the number of waves (number of times
+     the wave crosses the average line from either above or below)*/
+    func calculateFlickerInfo() -> [[Int]]{
         
-    }
-    
-    func calculateFlickerPercent() {
+        //captures the resulting info that follows from the analysis of a given pixel
+        var arrayOfPixelWaveInfo = [Int]()
+        //captures all the arrays of pixel analysis
+        var matrixOfTotalWaveInfo = [[Int]]()
 
-        let average = calculateAverageFlicker()
+        //this is the actual matrix of pixels that is analyzed. It is based on the current matrix
+        //when a given event happens.
+        let matrixOfPixelsForAnalysis = matrixOfPixels
+        //an array with the average pixel colour for each pixel being analyzed
+        let arrayOfAverageFlicker = calculateAverageFlicker(matrix: matrixOfPixelsForAnalysis)
         
-        var currentTop = average
+        var currentTop = arrayOfAverageFlicker[0]
         var sumTops = 0
-        var countTops = 1
+        var countTops = 0
         
-        var currentBottom = average
+        var currentBottom = arrayOfAverageFlicker[0]
         var sumBottoms = 0
-        var countBottoms = 1
+        var countBottoms = 0
         
         if (matrixOfPixels.count > 120) {
         
-            for i in 1...matrixOfPixels.count - 1 {
-                if (isInflictionFromAbove(average: average, previous: matrixOfPixels[i - 1][0], current: matrixOfPixels[i][0])) {
-                    sumTops = sumTops + currentTop
-                    countTops = countTops + 1
-                }
+            //each column contains the pixel colors related to one specific pixel
+            for column in 0...matrixOfPixelsForAnalysis[0].count - 1 {
+                //reset helper values
+                sumBottoms = 0
+                sumTops = 0
+                countTops = 0
+                countBottoms = 0
                 
-                if (isInflictionFromBelow(average: average, previous: matrixOfPixels[i - 1][0], current: matrixOfPixels[i][0])) {
-                    sumBottoms = sumBottoms + currentBottom
-                    countBottoms = countBottoms + 1
-                }
-
-                if (matrixOfPixels[i][0] < currentBottom) {
-                    currentBottom = matrixOfPixels[i][0]
-                }
+                //fetch appropriate average for pixel that is being analyzed
+                let average = arrayOfAverageFlicker[column]
                 
-                if (matrixOfPixels[i][0] > currentTop) {
-                    currentTop = matrixOfPixels[i][0]
+                //each row contains an observation of the given pixels color in the given frame
+                for row in 1...matrixOfPixelsForAnalysis.count - 1 {
+                    //determines if the wave is below average. If so, we are looking for
+                    //the lowest color (bottom point) we can find before the next infliction.
+                    if (isInflictionFromAbove(average: average, previous: matrixOfPixelsForAnalysis[row - 1][column], current: matrixOfPixelsForAnalysis[row][column])) {
+                        sumTops = sumTops + currentTop
+                        countTops = countTops + 1
+                        currentBottom = matrixOfPixelsForAnalysis[row][column]
+                    }
+                    //determines if the wave is above average. If so, we are looking for the highest
+                    //color (top point) we can find before the next infliction.
+                    if (isInflictionFromBelow(average: average, previous: matrixOfPixelsForAnalysis[row - 1][column], current: matrixOfPixelsForAnalysis[row][column])) {
+                        sumBottoms = sumBottoms + currentBottom
+                        countBottoms = countBottoms + 1
+                        currentTop = matrixOfPixelsForAnalysis[row][column]
+                    }
+                    //finds and maintains the lowest point after an infliction
+                    if (matrixOfPixelsForAnalysis[row][column] < currentBottom) {
+                        currentBottom = matrixOfPixelsForAnalysis[row][column]
+                    }
+                    //finds and maintains the highest point after an infliction
+                    if (matrixOfPixelsForAnalysis[row][column] > currentTop) {
+                        currentTop = matrixOfPixelsForAnalysis[row][column]
+                    }
                 }
+                //makes sure that we avoid the error that would follow from dividing by 0 if count is zero
+                //is also useful for further analysis because we can leave out these pixels.
+                if (countBottoms == 0 || countTops == 0) {
+                    arrayOfPixelWaveInfo = [1000,1,1,1]
+                }
+                //prepares and stores the desired info in the array of pixel info
+                else {
+                    let averageWaveTop = sumTops / countTops
+                    let averageWaveBottom = sumBottoms / countBottoms
+                    let noOfWaves = countTops
+                    arrayOfPixelWaveInfo = [average, averageWaveTop, averageWaveBottom, noOfWaves]
+                }
+                //append every array of pixel info to the matrix of total info
+                matrixOfTotalWaveInfo.append(arrayOfPixelWaveInfo)
             }
-            
-            print("avg top",  sumTops / countTops)
-            print("count top", countTops)
-            print("avg bot",  sumBottoms / countBottoms)
-            print("count bot", countBottoms)
-            
-            let lMin = Double(sumBottoms / countBottoms)
-            let lMax = Double(sumTops / countTops)
-            let percentageFlicker = ((lMax - lMin) / (lMax + lMin)) * 100
-            print("percentage flicker: ", percentageFlicker)
-            
         }
+        return matrixOfTotalWaveInfo
     }
     
-    func calculateAverageFlicker() -> Int {
+    //yields an array of average pixel color. average relates to analysis of one given pixel.
+    func calculateAverageFlicker(matrix: [[Int]]) -> [Int] {
         var sum = 0
+        var average = 0
+        var arrayOfAverageFlicker = [Int]()
         
-        for i in 0...matrixOfPixels.count - 1 {
-            sum = sum + matrixOfPixels[i][0]
+        for column in 0...matrix[0].count - 1 {
+            sum = 0
+            for row in 0...matrix.count - 1 {
+                sum = sum + matrix[row][column]
+            }
+            average = sum / matrix.count
+            arrayOfAverageFlicker.append(average)
         }
+        print("averages ", arrayOfAverageFlicker)
         
-        let average = sum / matrixOfPixels.count
-        return average
+        return arrayOfAverageFlicker
     }
     
+    //checks if the wave is crossing the average from below. If so, we are entering the top half of the wave.
     func isInflictionFromBelow(average: Int, previous: Int, current: Int) -> Bool {
         //infliction crosses average from below
         if (current > average && previous < average) {
@@ -238,6 +273,7 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         }
     }
     
+    //checks if the wave is crossing the average from above. If so, we are entering the bottom half of the wave.
     func isInflictionFromAbove(average: Int, previous: Int, current: Int) -> Bool {
         //infliction crosses average from above
         if (current < average && previous > average) {
@@ -247,5 +283,42 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         else {
             return false
         }
+    }
+    
+    //Consider removing outliers
+    func calculateFlickerPercent() {
+        
+        let matrixToBeAnalyzed = calculateFlickerInfo()
+        var lMax = 0.0
+        var lMin = 0.0
+        var flickerPercentPixel = 0.0
+        var arrayOfFlickerPercentages = [Double]()
+
+        for pixel in 0...matrixToBeAnalyzed.count - 1 {
+            if (matrixToBeAnalyzed[pixel][0] != 1000) {
+                lMax = Double(matrixToBeAnalyzed[pixel][1])
+                lMin = Double(matrixToBeAnalyzed[pixel][2])
+                flickerPercentPixel = (lMax - lMin) / (lMax + lMin)
+                arrayOfFlickerPercentages.append(flickerPercentPixel)
+            }
+        }
+        
+        var sumFlickerPercent = 0.0
+        for percent in 0...arrayOfFlickerPercentages.count - 1 {
+            sumFlickerPercent = sumFlickerPercent + arrayOfFlickerPercentages[percent]
+        }
+        
+        let averageFlickerPercent = sumFlickerPercent / Double(arrayOfFlickerPercentages.count)
+        flickerResults = averageFlickerPercent
+        
+        print(averageFlickerPercent)
+        
+        //Obs, what is being posted is always the previous measurement, not the current. WHY?!
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
+    }
+    
+    
+    func calculateFlickerIndex() {
+        
     }
 }

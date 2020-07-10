@@ -171,7 +171,6 @@ class CameraViewController: UIViewController {
         shapeLayer.lineWidth = 5
         shapeLayer.path = circle.cgPath
         view.layer.addSublayer(shapeLayer)
-            
         
         //Constraints of capture button
         captureButton.centerYAnchor.constraint(equalTo: displayView.centerYAnchor).isActive = true
