@@ -43,39 +43,6 @@ class CameraViewController: UIViewController {
         return button
     }()
     
-    let temporaryResultsView: UITextView = {
-        let view = UITextView()
-        view.backgroundColor = UIColor(named: "mainColor")
-        view.textAlignment = .center
-        view.textColor = UIColor(named: "accentLight")
-        view.isEditable = false
-        view.isScrollEnabled = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let temporaryResultsViewHertz: UITextView = {
-        let view = UITextView()
-        view.backgroundColor = UIColor.gray
-        view.textAlignment = .center
-        view.textColor = UIColor(named: "accentLight")
-        view.isEditable = false
-        view.isScrollEnabled = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let temporaryResultsViewPercent: UITextView = {
-        let view = UITextView()
-        view.backgroundColor = UIColor.red
-        view.textAlignment = .center
-        view.textColor = UIColor(named: "accentLight")
-        view.isEditable = false
-        view.isScrollEnabled = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     //In order to set up camera
     var cameraDevice: AVCaptureDevice?
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -88,12 +55,11 @@ class CameraViewController: UIViewController {
         
         self.view.addSubview(topPanelView)
         self.view.addSubview(displayView)
-        self.view.addSubview(temporaryResultsView)
-        self.view.addSubview(temporaryResultsViewHertz)
-        self.view.addSubview(temporaryResultsViewPercent)
         displayView.addSubview(captureButton)
 
         setupLayoutConstraints()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(segueToResults), name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
     }
  
     func cameraSetup() {
@@ -177,24 +143,6 @@ class CameraViewController: UIViewController {
         displayView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         displayView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: displayViewPortionOfScreen).isActive = true
         
-        //Temporary results display
-        temporaryResultsView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        temporaryResultsView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        temporaryResultsView.heightAnchor.constraint(equalTo: view.heightAnchor,  multiplier: 0.1).isActive = true
-        temporaryResultsView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
-        
-        //Temporary hertz results display
-        temporaryResultsViewHertz.topAnchor.constraint(equalTo: temporaryResultsView.bottomAnchor).isActive = true
-        temporaryResultsViewHertz.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        temporaryResultsViewHertz.heightAnchor.constraint(equalTo: view.heightAnchor,  multiplier: 0.1).isActive = true
-        temporaryResultsViewHertz.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
-        
-        //Temporary percent results display
-        temporaryResultsViewPercent.topAnchor.constraint(equalTo: temporaryResultsViewHertz.bottomAnchor).isActive = true
-        temporaryResultsViewPercent.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        temporaryResultsViewPercent.heightAnchor.constraint(equalTo: view.heightAnchor,  multiplier: 0.1).isActive = true
-        temporaryResultsViewPercent.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
-        
         //Places decorative circle around capture button
         let x = view.frame.width / 2
         let y = view.frame.height * 0.9
@@ -224,32 +172,34 @@ class CameraViewController: UIViewController {
         captureButton.backgroundColor = UIColor(named: "mainColor")
         //This code runs when the button is released
         if sender.state == .ended {
-            print("UIGestureRecognizerStateEnded")
             captureButton.backgroundColor = UIColor(named: "accentLight")
-            viewModel.interruptAnalysis()
-            calculateResults()
-            getNewResults()
+            viewModel.interruptMotionSensor()
         }
         //This code runs as long as the capture button is being held down
         else if sender.state == .began {
-            viewModel.startAnalysis()
-            print("UIGestureRecognizerStateBegan.")
+            viewModel.startMotionSensor()
+        }
+        else {
+            viewModel.interruptMotionSensor()
+            captureButton.backgroundColor = UIColor(named: "accentLight")
         }
     }
     
-    func segueToResults() {
+    @objc func segueToResults() {
         self.performSegue(withIdentifier: "goToResults", sender: self)
     }
     
-    func getNewResults() {
-        temporaryResultsView.text = "FI: " + String(viewModel.flickerIndex.rounded())
-        temporaryResultsViewHertz.text = "Hertz: " + String(viewModel.hertz.rounded())
-        temporaryResultsViewPercent.text = "FP: " + String(viewModel.flickerPercent.rounded()) + " %"
+    //Sender relevant data til resultatVC når destinasjonen til segue'en er ResultsVC
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is ResultsViewController
+        {
+            print(viewModel.flickerPercent)
+            let destinationViewController = segue.destination as? ResultsViewController
+            destinationViewController?.flickerIndex = viewModel.flickerIndex
+            destinationViewController?.hertz = viewModel.hertz
+            destinationViewController?.flickerPercent = viewModel.flickerPercent
+        }
     }
-    
-    func calculateResults() {
-        viewModel.calculateResults()
-    }
-
 }
 

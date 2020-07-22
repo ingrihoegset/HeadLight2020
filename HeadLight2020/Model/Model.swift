@@ -10,11 +10,9 @@ import Foundation
 import AVFoundation
 import CoreMotion
 
-class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
+class Model: NSObject {
     
     var rowOfSimultaneousPixels = [Int]()
-    let noOfframesForAnalysis = 120
-    let noOfFramesPerSecond = 240
     let pi = Double.pi
     var flickerIndex = 0.0
     var flickerPercent = 0.0
@@ -209,8 +207,8 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         let averageWaveCount = sumWaveCount / noOfValidPixels
         let amplitude = (averageWaveTop - averageWaveBottom) / 2
         let verticalShift = averageWaveTop - amplitude
-        let b = averageWaveCount * (Double(noOfFramesPerSecond) / Double(noOfframesForAnalysis))
-        hertz = b
+        let b = averageWaveCount * (Double(Constants.noOfFramesPerSecond) / Double(Constants.noOfFramesForAnalysis))
+        hertz = Double(b)
         luminance = verticalShift
         
         //Integral from 0 to endpoint to find area under graf
@@ -228,7 +226,7 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         //finally we can calculate the flickerIndex
         flickerIndex = peakArea / (fullArea - peakArea)
         
-        //Obs, what is being posted is always the previous measurement, not the current. WHY?!
+        //Notifies viewModel to update its relevant parameters
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
     }
 }

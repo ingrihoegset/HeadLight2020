@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */; };
+		BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E924C849450044F6B3 /* Constants.swift */; };
+		BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */; };
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
 		BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */; };
 		BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
+		BF70F6E924C849450044F6B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSensor.swift; sourceTree = "<group>"; };
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBCCB8924AB8782005F93DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +51,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF70F6E724C849040044F6B3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BFBCCBED24B32134005F93DB /* CameraViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		BF70F6E824C849300044F6B3 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				BF70F6E924C849450044F6B3 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		BFBCCB7D24AB8782005F93DB = {
 			isa = PBXGroup;
 			children = (
@@ -66,8 +86,9 @@
 		BFBCCB8824AB8782005F93DB /* HeadLight2020 */ = {
 			isa = PBXGroup;
 			children = (
-				BFBCCBED24B32134005F93DB /* CameraViewModel.swift */,
+				BF70F6E824C849300044F6B3 /* Constants */,
 				BFBCCBF124B33F6F005F93DB /* ViewControllers */,
+				BF70F6E724C849040044F6B3 /* ViewModels */,
 				BFBCCBF424B4AC57005F93DB /* Model */,
 				BFBCCB8924AB8782005F93DB /* AppDelegate.swift */,
 				BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */,
@@ -94,6 +115,7 @@
 			children = (
 				BFBCCBEB24B3211E005F93DB /* Model.swift */,
 				BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */,
+				BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -177,6 +199,8 @@
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
 				BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */,
 				BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */,
+				BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */,
+				BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

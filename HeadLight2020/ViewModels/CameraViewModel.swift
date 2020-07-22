@@ -12,9 +12,9 @@ import AVFoundation
 
 class CameraViewModel {
 
-
     let model: Model
     let captureSession: AVCaptureSession
+    let motionSensor: MotionSensor
     var flickerPercent: Double
     var flickerIndex: Double
     var hertz: Double
@@ -26,30 +26,33 @@ class CameraViewModel {
         self.flickerPercent = model.flickerPercent
         self.flickerIndex = model.flickerIndex
         self.hertz = model.hertz
+        self.motionSensor = MotionSensor()
         
         NotificationCenter.default.addObserver(self, selector: #selector(getNewResults), name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
-    }
-    
-    func startAnalysis() {
-        model.cameraCapture.startAnalysis()
-    }
-    
-    func interruptAnalysis() {
-        model.cameraCapture.interruptAnalysis()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(calculateResults), name: NSNotification.Name.init(rawValue: "calculateResults"), object: nil)
     }
     
     @objc func getNewResults() {
         self.flickerPercent = model.flickerPercent * 100
         self.flickerIndex = model.flickerIndex * 100
         self.hertz = model.hertz
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
     }
     
-    func calculateResults() {
+    @objc func calculateResults() {
         model.setMatrixForAnalysis()
         model.calculateFlickerPercent()
         model.calculateFlickerIndex()
     }
-
+    
+    func startMotionSensor() {
+        motionSensor.isPhoneStill()
+    }
+    
+    func interruptMotionSensor() {
+        motionSensor.interruptMotionSensor()
+    }
 }
     
 
