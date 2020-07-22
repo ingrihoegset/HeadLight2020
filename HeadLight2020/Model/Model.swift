@@ -12,150 +12,25 @@ import CoreMotion
 
 class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     
-    let captureSession = AVCaptureSession()
-    let motion = CMMotionManager()
-    var flickerResults = 0.0
-    var matrixOfPixels = [[Int]]()
     var rowOfSimultaneousPixels = [Int]()
+    let noOfframesForAnalysis = 120
+    let noOfFramesPerSecond = 240
+    let pi = Double.pi
+    var flickerIndex = 0.0
+    var flickerPercent = 0.0
+    var hertz = 0.0
+    var luminance = 0.0
+    var matrixOfPixelsForAnalysis = [[Int]]()
+    let cameraCapture: CameraCapture
+    var matrixOfTotalWaveInfo = [[Int]]()
     
-    override init() {
-        super.init()
-        getVideoOutput()
+    init(cameraCapture: CameraCapture) {
+        self.cameraCapture = cameraCapture
     }
     
-    func getVideoOutput() {
-        let videoOutput = AVCaptureVideoDataOutput()
-        videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: Int(kCVPixelFormatType_32BGRA)]
-        videoOutput.alwaysDiscardsLateVideoFrames = true
-        
-        
-        let videoOutputQueue = DispatchQueue(label: "VideoQueue")
-        videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
-        if captureSession.canAddOutput(videoOutput) {
-            captureSession.addOutput(videoOutput)
-        } else {
-            print("Could not add video data as output.")
-        }
-    }
-    
-    //This function is called automatically each time a new frame is recieved, i.e. 240 times per second
-    //as long as the configuration was successfull. Most of the analysis and processing goes on here.
-    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-        //counts the number of frames that have been captured
-        //counter = counter + 1
-
-        let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
-        
-        CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
-        
-        let width = CVPixelBufferGetWidth(imageBuffer)
-        let height = CVPixelBufferGetHeight(imageBuffer)
-        let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)!
-        let byteBuffer = baseAddress.assumingMemoryBound(to: UInt8.self)
-        
-        
-        //Chosen pixel for analysis
-        //We are pointing to the location of the pixel in the memory space, and not to the coordinate on the image.
-        //We therefore locate the pixel by going through a long memory array, rather than a coordinate on a (x,y) format.
-        //To find the pixel at (1,0) point on the image means we have to find the pixel at the (width + 1) space in the array.
-        //We have to increase the index by 4 to get to a new pixel in the array.
-        //This is because every pixel is represented by 4 bits of memory, so to get to the next pixel, we must move
-        //4 spaces down the array.
-        
-        //Dont know what this does, but dont move
-        CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
-
-        createPixelMatrix(byteBuffer: byteBuffer, width: width, height: height)
-    
-    }
-    
-    //Calculates gray scale of pixel
-    func getPixelNumber(byteBuffer: UnsafeMutablePointer<UInt8>, index: Int) -> Int {
-        let b = byteBuffer[index]
-        let bInt = Double(b)
-        let g = byteBuffer[index + 1]
-        let gInt = Double(g)
-        let r = byteBuffer[index + 2]
-        let rInt = Double(r)
-        
-        //Find the shade of gray represented by the rgb
-        let gray = (bInt + gInt + rInt) / 3
-        
-        return Int(gray)
-    }
-    
-    func startAnalysis() {
-        isPhoneStill()
-    }
-    
-    //Should send alert to flicker analysis process when phone has been held still for long enough
-    func isPhoneStill() {
-        var isStillArray = [Bool]()
-        motion.deviceMotionUpdateInterval = 0.25
-        motion.startDeviceMotionUpdates(to: OperationQueue.current!) { (data, error) in
-
-            if let trueData = data {
-                let mRotationRate = trueData.rotationRate
-                //When analysis array is not loaded with data yet
-                if isStillArray.count < 8 {
-                    if (abs(mRotationRate.x)) > 0.05 || abs(mRotationRate.y) > 0.05 || abs(mRotationRate.z) > 0.05 {
-                        isStillArray.append(false)
-                    }
-                    else {
-                        isStillArray.append(true)
-                    }
-                }
-                
-                //When analysis array is full and needs to be gradually filled with new data
-                if isStillArray.count >= 8 {
-                    if (abs(mRotationRate.x)) > 0.05 || abs(mRotationRate.y) > 0.05 || abs(mRotationRate.z) > 0.05 {
-                        isStillArray.removeFirst()
-                        isStillArray.append(false)
-                    }
-                    else {
-                        isStillArray.removeFirst()
-                        isStillArray.append(true)
-                    }
-                    
-                    if isStillArray.allSatisfy({$0}){
-                        self.motion.stopDeviceMotionUpdates()
-                        print("Phone is being held still")
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    func interruptAnalysis() {
-        motion.stopDeviceMotionUpdates()
-    }
-    
-    /*Makes an matrix containing the pixeldata from a subset of pixels
-      The function is called as long as capture_output is called, i.e. 240 times
-      per second. The data in the matrix is the basis for the flickeranalysis*/
-    func createPixelMatrix(byteBuffer: UnsafeMutablePointer<UInt8>, width: Int, height: Int) {
-        
-        //first is row
-        //second is column
-        
-        //Empty row so it is ready for new input
-        rowOfSimultaneousPixels = []
-        
-        //Removes the oldest input from the matrix when the matrix reaches a certain size
-        if(matrixOfPixels.count >= 240) {
-            matrixOfPixels.removeFirst(1)
-        }
-        
-        //Returns array of 36 simultaneous pixels with leap of * 20
-        for i in stride(from: 0, to: width * height * 4 - 1, by: width * 4 * 2 ) {
-            let pixel = getPixelNumber(byteBuffer: byteBuffer, index: i)
-            rowOfSimultaneousPixels.append(pixel)
-        }
-        
-        //Adds the array of simultaneus pixels to the matrix
-        matrixOfPixels.append(rowOfSimultaneousPixels)
+    func setMatrixForAnalysis() {
+        matrixOfPixelsForAnalysis = cameraCapture.getMatrix()
+        matrixOfTotalWaveInfo = calculateFlickerInfo()
     }
     
     /*Does analysis of each pixel over the amount of frames captued and returns an matrix with arrays
@@ -164,16 +39,12 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
      average bottom of the wave (average of lowest point below average every time the wave crosses the
      average from above, the average pixel colour of grey and the number of waves (number of times
      the wave crosses the average line from either above or below)*/
-    func calculateFlickerInfo() -> [[Int]]{
+    func calculateFlickerInfo() -> [[Int]] {
         
         //captures the resulting info that follows from the analysis of a given pixel
         var arrayOfPixelWaveInfo = [Int]()
         //captures all the arrays of pixel analysis
         var matrixOfTotalWaveInfo = [[Int]]()
-
-        //this is the actual matrix of pixels that is analyzed. It is based on the current matrix
-        //when a given event happens.
-        let matrixOfPixelsForAnalysis = matrixOfPixels
         //an array with the average pixel colour for each pixel being analyzed
         let arrayOfAverageFlicker = calculateAverageFlicker(matrix: matrixOfPixelsForAnalysis)
         
@@ -185,7 +56,7 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         var sumBottoms = 0
         var countBottoms = 0
         
-        if (matrixOfPixels.count > 120) {
+        if (matrixOfPixelsForAnalysis.count > 60) {
         
             //each column contains the pixel colors related to one specific pixel
             for column in 0...matrixOfPixelsForAnalysis[0].count - 1 {
@@ -256,8 +127,6 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
             average = sum / matrix.count
             arrayOfAverageFlicker.append(average)
         }
-        print("averages ", arrayOfAverageFlicker)
-        
         return arrayOfAverageFlicker
     }
     
@@ -287,17 +156,18 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     //Consider removing outliers
     func calculateFlickerPercent() {
+                print(matrixOfTotalWaveInfo)
         
-        let matrixToBeAnalyzed = calculateFlickerInfo()
         var lMax = 0.0
         var lMin = 0.0
         var flickerPercentPixel = 0.0
         var arrayOfFlickerPercentages = [Double]()
 
-        for pixel in 0...matrixToBeAnalyzed.count - 1 {
-            if (matrixToBeAnalyzed[pixel][0] != 1000) {
-                lMax = Double(matrixToBeAnalyzed[pixel][1])
-                lMin = Double(matrixToBeAnalyzed[pixel][2])
+        for pixel in 0...matrixOfTotalWaveInfo.count - 1 {
+            //Only analyze valid pixels. Pixels marked as 1000 are invalid
+            if (matrixOfTotalWaveInfo[pixel][0] != 1000) {
+                lMax = Double(matrixOfTotalWaveInfo[pixel][1])
+                lMin = Double(matrixOfTotalWaveInfo[pixel][2])
                 flickerPercentPixel = (lMax - lMin) / (lMax + lMin)
                 arrayOfFlickerPercentages.append(flickerPercentPixel)
             }
@@ -309,16 +179,56 @@ class Model: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         }
         
         let averageFlickerPercent = sumFlickerPercent / Double(arrayOfFlickerPercentages.count)
-        flickerResults = averageFlickerPercent
+        flickerPercent = averageFlickerPercent
+    }
+    
+    //Jeg er ikke 100 % overbevist om at "b" er regnet ut riktig, g også om endpoint og peakend er riktig.
+    func calculateFlickerIndex() {
+        print(matrixOfTotalWaveInfo)
         
-        print(averageFlickerPercent)
+        //Obs, should only be called once and than do all calcs based on the result
+        var sumWaveTop = 0.0
+        var sumWaveBottom = 0.0
+        var sumWaveCount = 0.0
+        var noOfValidPixels = 0.0
+        
+        //define amplitude for curve
+        for pixel in 0...matrixOfTotalWaveInfo.count - 1 {
+            //Only analyze valid pixels. Pixels marked as 1000 are invalid
+            if (matrixOfTotalWaveInfo[pixel][0] != 1000) {
+                sumWaveTop = sumWaveTop + Double(matrixOfTotalWaveInfo[pixel][1])
+                sumWaveBottom = sumWaveBottom + Double(matrixOfTotalWaveInfo[pixel][2])
+                sumWaveCount = sumWaveCount + Double(matrixOfTotalWaveInfo[pixel][3])
+                noOfValidPixels = noOfValidPixels + 1
+            }
+        }
+        
+        //y = A * sin(b * t) + vs
+        let averageWaveTop = sumWaveTop / noOfValidPixels
+        let averageWaveBottom = sumWaveBottom / noOfValidPixels
+        let averageWaveCount = sumWaveCount / noOfValidPixels
+        let amplitude = (averageWaveTop - averageWaveBottom) / 2
+        let verticalShift = averageWaveTop - amplitude
+        let b = averageWaveCount * (Double(noOfFramesPerSecond) / Double(noOfframesForAnalysis))
+        hertz = b
+        luminance = verticalShift
+        
+        //Integral from 0 to endpoint to find area under graf
+        let endpoint = (2 * pi) / b
+        //Intgegral from 0 halfway to endpoint with vs of 0 to find area under peak that is above avg. light emittance
+        let peakEnd = endpoint / 2
+        
+        //Integral is - (A/b * cos(bt)) + dt + C
+        //Area under one full wave is from 0 to endpoint (depends on how many waves per second)
+        let fullArea = (-(amplitude / b) * cos(b * endpoint) + verticalShift * endpoint) - (-(amplitude / b) * cos(b * 0) + verticalShift * 0)
+        
+        //Peakarea is area under one half wave, and is from 0 to half of endpoint (depends on how many waves per second)
+        let peakArea = (-(amplitude / b) * cos(b * peakEnd)) - (-(amplitude / b) * cos(b * 0))
+
+        //finally we can calculate the flickerIndex
+        flickerIndex = peakArea / (fullArea - peakArea)
         
         //Obs, what is being posted is always the previous measurement, not the current. WHY?!
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
-    }
-    
-    
-    func calculateFlickerIndex() {
-        
     }
 }

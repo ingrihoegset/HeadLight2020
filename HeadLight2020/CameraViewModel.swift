@@ -15,31 +15,39 @@ class CameraViewModel {
 
     let model: Model
     let captureSession: AVCaptureSession
-    var flickerResult: String
+    var flickerPercent: Double
+    var flickerIndex: Double
+    var hertz: Double
     
     init(model: Model) {
         
         self.model = model
-        self.captureSession = model.captureSession
-        self.flickerResult = String(model.flickerResults)
+        self.captureSession = model.cameraCapture.captureSession
+        self.flickerPercent = model.flickerPercent
+        self.flickerIndex = model.flickerIndex
+        self.hertz = model.hertz
         
         NotificationCenter.default.addObserver(self, selector: #selector(getNewResults), name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
     }
     
     func startAnalysis() {
-        model.startAnalysis()
+        model.cameraCapture.startAnalysis()
     }
     
     func interruptAnalysis() {
-        model.interruptAnalysis()
+        model.cameraCapture.interruptAnalysis()
     }
     
     @objc func getNewResults() {
-        self.flickerResult = String(model.flickerResults)
+        self.flickerPercent = model.flickerPercent * 100
+        self.flickerIndex = model.flickerIndex * 100
+        self.hertz = model.hertz
     }
     
     func calculateResults() {
+        model.setMatrixForAnalysis()
         model.calculateFlickerPercent()
+        model.calculateFlickerIndex()
     }
 
 }

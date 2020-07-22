@@ -11,7 +11,7 @@ import UIKit
 
 class ResultsViewController: UIViewController {
     
-    let viewModel = CameraViewModel(model: Model())
+    let viewModel = CameraViewModel(model: Model(cameraCapture: CameraCapture()))
     
     let temporaryResultsView: UITextView = {
         let view = UITextView()
@@ -28,7 +28,7 @@ class ResultsViewController: UIViewController {
         super.viewDidLoad()
         self.view.addSubview(temporaryResultsView)
         setupLayoutConstraints()
-        temporaryResultsView.text = String(viewModel.flickerResult)
+        temporaryResultsView.text = String(format: "FP: ", viewModel.flickerPercent, "FI: ", viewModel.flickerIndex )
     }
 
     private func setupLayoutConstraints() {

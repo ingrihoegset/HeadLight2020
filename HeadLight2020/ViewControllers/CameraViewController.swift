@@ -13,7 +13,7 @@ let semaphore = DispatchSemaphore(value: 0)
 
 class CameraViewController: UIViewController {
     
-    let viewModel = CameraViewModel(model: Model())
+    let viewModel = CameraViewModel(model: Model(cameraCapture: CameraCapture()))
     
     let displayView: UIView = {
         let view = UIView()
@@ -54,6 +54,28 @@ class CameraViewController: UIViewController {
         return view
     }()
     
+    let temporaryResultsViewHertz: UITextView = {
+        let view = UITextView()
+        view.backgroundColor = UIColor.gray
+        view.textAlignment = .center
+        view.textColor = UIColor(named: "accentLight")
+        view.isEditable = false
+        view.isScrollEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let temporaryResultsViewPercent: UITextView = {
+        let view = UITextView()
+        view.backgroundColor = UIColor.red
+        view.textAlignment = .center
+        view.textColor = UIColor(named: "accentLight")
+        view.isEditable = false
+        view.isScrollEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     //In order to set up camera
     var cameraDevice: AVCaptureDevice?
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -67,6 +89,8 @@ class CameraViewController: UIViewController {
         self.view.addSubview(topPanelView)
         self.view.addSubview(displayView)
         self.view.addSubview(temporaryResultsView)
+        self.view.addSubview(temporaryResultsViewHertz)
+        self.view.addSubview(temporaryResultsViewPercent)
         displayView.addSubview(captureButton)
 
         setupLayoutConstraints()
@@ -159,6 +183,18 @@ class CameraViewController: UIViewController {
         temporaryResultsView.heightAnchor.constraint(equalTo: view.heightAnchor,  multiplier: 0.1).isActive = true
         temporaryResultsView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
         
+        //Temporary hertz results display
+        temporaryResultsViewHertz.topAnchor.constraint(equalTo: temporaryResultsView.bottomAnchor).isActive = true
+        temporaryResultsViewHertz.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        temporaryResultsViewHertz.heightAnchor.constraint(equalTo: view.heightAnchor,  multiplier: 0.1).isActive = true
+        temporaryResultsViewHertz.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
+        
+        //Temporary percent results display
+        temporaryResultsViewPercent.topAnchor.constraint(equalTo: temporaryResultsViewHertz.bottomAnchor).isActive = true
+        temporaryResultsViewPercent.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        temporaryResultsViewPercent.heightAnchor.constraint(equalTo: view.heightAnchor,  multiplier: 0.1).isActive = true
+        temporaryResultsViewPercent.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3).isActive = true
+        
         //Places decorative circle around capture button
         let x = view.frame.width / 2
         let y = view.frame.height * 0.9
@@ -191,8 +227,8 @@ class CameraViewController: UIViewController {
             print("UIGestureRecognizerStateEnded")
             captureButton.backgroundColor = UIColor(named: "accentLight")
             viewModel.interruptAnalysis()
-            getNewResults()
             calculateResults()
+            getNewResults()
         }
         //This code runs as long as the capture button is being held down
         else if sender.state == .began {
@@ -206,7 +242,9 @@ class CameraViewController: UIViewController {
     }
     
     func getNewResults() {
-        temporaryResultsView.text = String(viewModel.flickerResult)
+        temporaryResultsView.text = "FI: " + String(viewModel.flickerIndex.rounded())
+        temporaryResultsViewHertz.text = "Hertz: " + String(viewModel.hertz.rounded())
+        temporaryResultsViewPercent.text = "FP: " + String(viewModel.flickerPercent.rounded()) + " %"
     }
     
     func calculateResults() {
