@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF634E8624CB13C80050CE69 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */; };
+		BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */; };
 		BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */; };
 		BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E924C849450044F6B3 /* Constants.swift */; };
 		BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
 		BF70F6E924C849450044F6B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSensor.swift; sourceTree = "<group>"; };
@@ -97,6 +101,8 @@
 				BFBCCB8F24AB8782005F93DB /* Main.storyboard */,
 				BFBCCB9524AB8785005F93DB /* Assets.xcassets */,
 				BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */,
+				BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */,
+				BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */,
 				BFBCCB9724AB8785005F93DB /* LaunchScreen.storyboard */,
 				BFBCCB9A24AB8785005F93DB /* Info.plist */,
 				BFBCCB9224AB8782005F93DB /* HeadLight2020.xcdatamodeld */,
@@ -181,6 +187,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */,
+				BF634E8624CB13C80050CE69 /* Poppins-SemiBold.ttf in Resources */,
 				BF70F6F624C888180044F6B3 /* Poppins-ExtraLight.ttf in Resources */,
 				BFBCCB9924AB8785005F93DB /* LaunchScreen.storyboard in Resources */,
 				BFBCCB9624AB8785005F93DB /* Assets.xcassets in Resources */,

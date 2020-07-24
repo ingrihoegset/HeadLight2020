@@ -17,7 +17,7 @@ class CameraViewController: UIViewController {
     
     let displayView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "mainColor")
+        view.backgroundColor = UIColor(named: "mainColorTinted")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -49,6 +49,11 @@ class CameraViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+
         
         //Camera setup
         cameraSetup()
@@ -134,8 +139,8 @@ class CameraViewController: UIViewController {
         //Constraints of top panel
         topPanelView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         topPanelView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        topPanelView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        topPanelView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.08).isActive = true
+        topPanelView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topPanelView.heightAnchor.constraint(equalToConstant: Constants.topMargin).isActive = true
         
         //Constraints of bottom display
         displayView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
