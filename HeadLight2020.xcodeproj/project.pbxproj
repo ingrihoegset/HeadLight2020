@@ -10,6 +10,7 @@
 		BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */; };
 		BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E924C849450044F6B3 /* Constants.swift */; };
 		BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */; };
+		BF70F6F624C888180044F6B3 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */; };
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
 		BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */; };
 		BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */; };
@@ -26,6 +27,7 @@
 		BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
 		BF70F6E924C849450044F6B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSensor.swift; sourceTree = "<group>"; };
+		BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBCCB8924AB8782005F93DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */,
 				BFBCCB8F24AB8782005F93DB /* Main.storyboard */,
 				BFBCCB9524AB8785005F93DB /* Assets.xcassets */,
+				BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */,
 				BFBCCB9724AB8785005F93DB /* LaunchScreen.storyboard */,
 				BFBCCB9A24AB8785005F93DB /* Info.plist */,
 				BFBCCB9224AB8782005F93DB /* HeadLight2020.xcdatamodeld */,
@@ -178,6 +181,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF70F6F624C888180044F6B3 /* Poppins-ExtraLight.ttf in Resources */,
 				BFBCCB9924AB8785005F93DB /* LaunchScreen.storyboard in Resources */,
 				BFBCCB9624AB8785005F93DB /* Assets.xcassets in Resources */,
 				BFBCCB9124AB8782005F93DB /* Main.storyboard in Resources */,
