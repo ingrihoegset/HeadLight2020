@@ -20,10 +20,18 @@ class ResultsViewController: UIViewController {
     let overallResults: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor(named: "accentLight")
-        view.layer.cornerRadius = Constants.largeContainerDimension / 2
+        view.layer.cornerRadius = Constants.largeContainerDimension * 0.8 / 2
         view.translatesAutoresizingMaskIntoConstraints = false
         let image = UIImage(named: "SecondWorst")
         view.image = image
+        return view
+    }()
+    
+    let overallResultsHelper: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = UIColor(named: "accentLight")
+        view.layer.cornerRadius = Constants.largeContainerDimension / 2
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -58,7 +66,7 @@ class ResultsViewController: UIViewController {
     
     let resultsViewFlickerIndex: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor(named: "mainColor")
+        label.backgroundColor = UIColor.clear
         label.textAlignment = .center
         label.textColor = UIColor(named: "accentLight")
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -347,6 +355,7 @@ class ResultsViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "mainColor")
+        self.view.addSubview(overallResultsHelper)
         self.view.addSubview(overallResults)
 
         self.view.addSubview(percentResultsContainer)
@@ -399,11 +408,17 @@ class ResultsViewController: UIViewController {
         // overall results display
         overallResults.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topMargin * 0.6).isActive = true
         overallResults.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        overallResults.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension).isActive = true
-        overallResults.widthAnchor.constraint(equalToConstant: Constants.largeContainerDimension).isActive = true
+        overallResults.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 0.8).isActive = true
+        overallResults.widthAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 0.8).isActive = true
+        
+        // overall results helper - purpose to create lalyer between animation
+        overallResultsHelper.centerYAnchor.constraint(equalTo: overallResults.centerYAnchor).isActive = true
+        overallResultsHelper.centerXAnchor.constraint(equalTo: overallResults.centerXAnchor).isActive = true
+        overallResultsHelper.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension).isActive = true
+        overallResultsHelper.widthAnchor.constraint(equalToConstant: Constants.largeContainerDimension).isActive = true
         
         // flicker index results container
-        flickerIndexResultsContainer.topAnchor.constraint(equalTo: overallResults.bottomAnchor).isActive = true
+        flickerIndexResultsContainer.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
         flickerIndexResultsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         flickerIndexResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         flickerIndexResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
@@ -420,7 +435,7 @@ class ResultsViewController: UIViewController {
         flickerIndexTitle.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
         // percent results container
-        percentResultsContainer.topAnchor.constraint(equalTo: overallResults.bottomAnchor).isActive = true
+        percentResultsContainer.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
         percentResultsContainer.trailingAnchor.constraint(equalTo: flickerIndexResultsContainer.leadingAnchor).isActive = true
         percentResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         percentResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
@@ -437,7 +452,7 @@ class ResultsViewController: UIViewController {
         flickerPercentTitle.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
         // hertz results container
-        hertzResultsContainer.topAnchor.constraint(equalTo: overallResults.bottomAnchor).isActive = true
+        hertzResultsContainer.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
         hertzResultsContainer.leadingAnchor.constraint(equalTo: flickerIndexResultsContainer.trailingAnchor).isActive = true
         hertzResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         hertzResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
@@ -604,6 +619,11 @@ class ResultsViewController: UIViewController {
     
     func worstLight() {
         //Top image
+        let position = CGPoint(x: Constants.largeContainerDimension / 2, y: Constants.largeContainerDimension / 2)
+        let pulse = PulseAnimation(numberOfPulses: 3, radius: Constants.largeContainerDimension / 2, position: position, color: UIColor.red.cgColor, duration: 1)
+        let pulse2 = PulseAnimation(numberOfPulses: 2, radius: Constants.largeContainerDimension / 1.8, position: position, color: UIColor.red.cgColor, duration: 1)
+        overallResultsHelper.layer.addSublayer(pulse)
+        overallResultsHelper.layer.addSublayer(pulse2)
         overallResults.image = UIImage(named: "Worst")
         
         //Recommended exposure time
