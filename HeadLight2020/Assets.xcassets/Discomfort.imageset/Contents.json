@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "noun_fatigue_3393259.png",
+      "filename" : "noun_fatigue_3393259-3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "noun_fatigue_3393259-1.png",
+      "filename" : "noun_fatigue_3393259-2@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "noun_fatigue_3393259-2.png",
+      "filename" : "noun_fatigue_3393259-2@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

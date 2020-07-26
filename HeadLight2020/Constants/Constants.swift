@@ -14,6 +14,7 @@ struct Constants {
     static let noOfFramesForAnalysis = 120
     static let widthOfDisplay = UIScreen.main.bounds.size.width
     static let heightOfDisplay = UIScreen.main.bounds.size.height
+    static let displayViewPortionOfScreen = heightOfDisplay * 0.2
     static let topMargin = heightOfDisplay * 0.1
     static let sideMargins = widthOfDisplay * 0.02
     static let verticalMargins = heightOfDisplay * 0.03

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "noun_hypnotized_231048.png",
+      "filename" : "noun_hypnotized_231048-3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "noun_hypnotized_231048-1.png",
+      "filename" : "noun_hypnotized_231048-2@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "noun_hypnotized_231048-2.png",
+      "filename" : "noun_hypnotized_231048-2@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

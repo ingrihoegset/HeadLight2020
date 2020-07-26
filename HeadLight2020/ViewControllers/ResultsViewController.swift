@@ -22,7 +22,7 @@ class ResultsViewController: UIViewController {
         view.backgroundColor = UIColor(named: "accentLight")
         view.layer.cornerRadius = Constants.largeContainerDimension / 2
         view.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "Worst")
+        let image = UIImage(named: "SecondWorst")
         view.image = image
         return view
     }()
@@ -192,9 +192,6 @@ class ResultsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .clear
         label.isUserInteractionEnabled = false
-        let text = "Recommended Exposure"
-        let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
-        label.attributedText = attributedText
         return label
     }()
     
@@ -318,11 +315,10 @@ class ResultsViewController: UIViewController {
     
     let timerIndicator: CAShapeLayer = {
         let animationLayer = CAShapeLayer()
-        animationLayer.frame = CGRect(x: Constants.sideMargins * 2, y: 0, width: 20, height: 20)
-        animationLayer.cornerRadius = 10
+        animationLayer.frame = CGRect(x: Constants.sideMargins * 2, y: 0, width: 25, height: 25)
+        animationLayer.cornerRadius = 12.5
         animationLayer.position = CGPoint(x: 0, y: Constants.smallContainerDimensions * 0.5)
         animationLayer.backgroundColor = UIColor.systemYellow.cgColor
-        
         return animationLayer
     }()
     
@@ -335,6 +331,15 @@ class ResultsViewController: UIViewController {
         return layer
     }()
     
+    let timerFillerLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.fillColor = UIColor.red.cgColor
+        layer.lineWidth = 8
+        layer.strokeEnd = 0
+        layer.lineCap = .round
+        layer.strokeColor = UIColor.systemYellow.cgColor
+        return layer
+    }()
 
     
     
@@ -383,7 +388,8 @@ class ResultsViewController: UIViewController {
 
         timerIndiatorContainer.layer.addSublayer(timerTrackLayer)
         timerIndiatorContainer.layer.addSublayer(timerIndicator)
-        makeTimerGraphic(score: 80.0, track: timerTrackLayer, animationLayer: timerIndicator)
+        timerIndiatorContainer.layer.addSublayer(timerFillerLayer)
+        makeTimerGraphic(score: 50.0, track: timerTrackLayer, animationLayer: timerIndicator, filler: timerFillerLayer)
 
         worstLight()
         getNewResults()
@@ -571,13 +577,22 @@ class ResultsViewController: UIViewController {
         animationLayer.add(basicAnimation, forKey: "basic")
     }
     
-    func makeTimerGraphic(score: Double, track: CAShapeLayer, animationLayer: CAShapeLayer) {
+    func makeTimerGraphic(score: Double, track: CAShapeLayer, animationLayer: CAShapeLayer, filler: CAShapeLayer) {
         
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0 + Constants.sideMargins * 2, y: Constants.smallContainerDimensions * 0.5))
         path.addLine(to: CGPoint(x: Constants.containerDimension * 2 , y: Constants.smallContainerDimensions * 0.5))
 
         track.path = path.cgPath
+        filler.path = path.cgPath
+        
+        let barAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        barAnimation.toValue = score / 100
+        barAnimation.duration = 2.0
+        barAnimation.fillMode = CAMediaTimingFillMode.forwards
+        barAnimation.isRemovedOnCompletion = false
+        filler.add(barAnimation, forKey: "basic")
+        
         
         let basicAnimation = CABasicAnimation(keyPath: "position")
         basicAnimation.toValue = CGPoint(x: Constants.containerDimension, y: Constants.smallContainerDimensions * 0.5)
@@ -588,6 +603,81 @@ class ResultsViewController: UIViewController {
     }
     
     func worstLight() {
+        //Top image
+        overallResults.image = UIImage(named: "Worst")
+        
+        //Recommended exposure time
+        timerTitle.attributedText = attributedExposureText(text1: "30 min")
+        
+        //Side effect containers
+        sideEffectContainer1.image = UIImage(named: "EyeStrain")
+        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
+        sideEffectContainer2.image = UIImage(named: "Dizzyness")
+        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
+        sideEffectContainer3.image = UIImage(named: "Headache")
+        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
+            sideEffectContainer4.image = UIImage(named: "Discomfort")
+        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
+    }
+    
+    func secondWorstLight() {
+        //Top image
+        overallResults.image = UIImage(named: "SecondWorst")
+        
+        //Recommended exposure time
+        
+        //Side effect containers
+        sideEffectContainer1.image = UIImage(named: "EyeStrain")
+        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
+        sideEffectContainer2.image = UIImage(named: "Dizzyness")
+        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
+        sideEffectContainer3.image = UIImage(named: "Headache")
+        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
+            sideEffectContainer4.image = UIImage(named: "Discomfort")
+        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
+    }
+    
+    func OKLight() {
+        //Top image
+        overallResults.image = UIImage(named: "OK")
+        
+        //Recommended exposure time
+        
+        //Side effect containers
+        sideEffectContainer1.image = UIImage(named: "EyeStrain")
+        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
+        sideEffectContainer2.image = UIImage(named: "Dizzyness")
+        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
+        sideEffectContainer3.image = UIImage(named: "Headache")
+        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
+            sideEffectContainer4.image = UIImage(named: "Discomfort")
+        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
+    }
+    
+    func secondBestLight() {
+        //Top image
+        overallResults.image = UIImage(named: "SecondBest")
+        
+        //Recommended exposure time
+        
+        //Side effect containers
+        sideEffectContainer1.image = UIImage(named: "EyeStrain")
+        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
+        sideEffectContainer2.image = UIImage(named: "Dizzyness")
+        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
+        sideEffectContainer3.image = UIImage(named: "Headache")
+        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
+            sideEffectContainer4.image = UIImage(named: "Discomfort")
+        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
+    }
+    
+    func bestLight() {
+        //Top image
+        overallResults.image = UIImage(named: "Best")
+        
+        //Recommended exposure time
+        
+        //Side effect containers
         sideEffectContainer1.image = UIImage(named: "EyeStrain")
         sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
         sideEffectContainer2.image = UIImage(named: "Dizzyness")
@@ -603,4 +693,12 @@ class ResultsViewController: UIViewController {
         attributedText.append(NSAttributedString(string: text2, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!]))
         return attributedText
     }
+    
+    func attributedExposureText(text1: String) -> NSAttributedString {
+        let attributedText = NSMutableAttributedString(string: "Exposure: ", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
+        attributedText.append(NSAttributedString(string: text1, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!]))
+        return attributedText
+    }
+    
+
 }

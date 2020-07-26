@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "noun_Eye_40003.png",
+      "filename" : "noun_Eye_5959.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "noun_Eye_40003-1.png",
+      "filename" : "noun_Eye_5959@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "noun_Eye_40003-2.png",
+      "filename" : "noun_Eye_5959@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
