@@ -34,7 +34,13 @@
                         <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Vie-KC-8Yb"/>
+                    <navigationItem key="navigationItem" id="Vie-KC-8Yb">
+                        <barButtonItem key="leftBarButtonItem" image="menu" id="t5F-02-u64">
+                            <connections>
+                                <action selector="didTapMenu" destination="BYZ-38-t0r" id="zNW-Ry-THA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="CIl-2P-ZA5" kind="show" identifier="goToResults" id="vJu-BY-Jq6"/>
                     </connections>
@@ -60,5 +66,11 @@
             <point key="canvasLocation" x="1222" y="134"/>
         </scene>
     </scenes>
-    <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" name="accentLight"/>
+    <resources>
+        <image name="menu" width="64" height="64"/>
+        <namedColor name="accentLight">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

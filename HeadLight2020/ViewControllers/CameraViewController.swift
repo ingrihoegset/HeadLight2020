@@ -8,12 +8,16 @@
 
 import UIKit
 import AVFoundation
+import SideMenu
 
 let semaphore = DispatchSemaphore(value: 0)
 let sizeOfCaptureButton = Constants.displayViewPortionOfScreen * 0.5
 
+
 class CameraViewController: UIViewController {
     
+    var sideMenu: UISideMenuNavigationController?
+
     let viewModel = CameraViewModel(model: Model(cameraCapture: CameraCapture()))
     
     let displayView: UIView = {
@@ -90,6 +94,11 @@ class CameraViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        sideMenu = UISideMenuNavigationController(rootViewController: MenuListController())
+        sideMenu?.leftSide = true
+        SideMenuManager.default.menuLeftNavigationController = sideMenu
+        SideMenuManager.default.menuAddPanGestureToPresent(toView: self.view)
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -212,6 +221,9 @@ class CameraViewController: UIViewController {
         helper.widthAnchor.constraint(equalToConstant: sizeOfCaptureButton).isActive = true
     }
     
+    @IBAction func didTapMenu() {
+        present(sideMenu!, animated: true)
+    }
 
     @objc func longTap(_ sender: UIGestureRecognizer){
         captureButton.backgroundColor = UIColor(named: "mainColor")

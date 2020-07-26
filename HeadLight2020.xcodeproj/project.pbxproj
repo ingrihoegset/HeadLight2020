@@ -3,13 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA244A2DC33F1696CFC13368 /* Pods_HeadLight2020.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CBAC868CCFA279193463738 /* Pods_HeadLight2020.framework */; };
 		BF634E8624CB13C80050CE69 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */; };
 		BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */; };
 		BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */; };
+		BF634E8E24CDF2270050CE69 /* MenuListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF634E8D24CDF2270050CE69 /* MenuListController.swift */; };
 		BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */; };
 		BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E924C849450044F6B3 /* Constants.swift */; };
 		BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */; };
@@ -27,9 +29,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05A428F84C6406DD9932DAC1 /* Pods-HeadLight2020.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeadLight2020.release.xcconfig"; path = "Target Support Files/Pods-HeadLight2020/Pods-HeadLight2020.release.xcconfig"; sourceTree = "<group>"; };
+		76D4DEBCFC7A40B37E948F5B /* Pods-HeadLight2020.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeadLight2020.debug.xcconfig"; path = "Target Support Files/Pods-HeadLight2020/Pods-HeadLight2020.debug.xcconfig"; sourceTree = "<group>"; };
+		8CBAC868CCFA279193463738 /* Pods_HeadLight2020.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HeadLight2020.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseAnimation.swift; sourceTree = "<group>"; };
+		BF634E8D24CDF2270050CE69 /* MenuListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListController.swift; sourceTree = "<group>"; };
 		BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
 		BF70F6E924C849450044F6B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSensor.swift; sourceTree = "<group>"; };
@@ -53,12 +59,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA244A2DC33F1696CFC13368 /* Pods_HeadLight2020.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B68F61CE6BFB1E212DE93F9E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				76D4DEBCFC7A40B37E948F5B /* Pods-HeadLight2020.debug.xcconfig */,
+				05A428F84C6406DD9932DAC1 /* Pods-HeadLight2020.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		BF70F6E724C849040044F6B3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +96,8 @@
 			children = (
 				BFBCCB8824AB8782005F93DB /* HeadLight2020 */,
 				BFBCCB8724AB8782005F93DB /* Products */,
+				B68F61CE6BFB1E212DE93F9E /* Pods */,
+				F584E4F84D5241CF8E5C442A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,6 +136,7 @@
 				BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */,
 				BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */,
 				BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */,
+				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -132,6 +151,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		F584E4F84D5241CF8E5C442A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8CBAC868CCFA279193463738 /* Pods_HeadLight2020.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,9 +166,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BFBCCB9D24AB8785005F93DB /* Build configuration list for PBXNativeTarget "HeadLight2020" */;
 			buildPhases = (
+				3EB5287F9EC6C9C1CC1AB74B /* [CP] Check Pods Manifest.lock */,
 				BFBCCB8224AB8782005F93DB /* Sources */,
 				BFBCCB8324AB8782005F93DB /* Frameworks */,
 				BFBCCB8424AB8782005F93DB /* Resources */,
+				B09A54AD052A23B5B95BE4DB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -201,6 +230,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3EB5287F9EC6C9C1CC1AB74B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HeadLight2020-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B09A54AD052A23B5B95BE4DB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HeadLight2020/Pods-HeadLight2020-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HeadLight2020/Pods-HeadLight2020-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HeadLight2020/Pods-HeadLight2020-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BFBCCB8224AB8782005F93DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -210,6 +281,7 @@
 				BFBCCB9424AB8782005F93DB /* HeadLight2020.xcdatamodeld in Sources */,
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
 				BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */,
+				BF634E8E24CDF2270050CE69 /* MenuListController.swift in Sources */,
 				BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */,
 				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
@@ -358,6 +430,7 @@
 		};
 		BFBCCB9E24AB8785005F93DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 76D4DEBCFC7A40B37E948F5B /* Pods-HeadLight2020.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -377,6 +450,7 @@
 		};
 		BFBCCB9F24AB8785005F93DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 05A428F84C6406DD9932DAC1 /* Pods-HeadLight2020.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
