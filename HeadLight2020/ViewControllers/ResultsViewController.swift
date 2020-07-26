@@ -674,22 +674,7 @@ class ResultsViewController: UIViewController {
         sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
     }
     
-    func secondBestLight() {
-        //Top image
-        overallResults.image = UIImage(named: "SecondBest")
-        
-        //Recommended exposure time
-        
-        //Side effect containers
-        sideEffectContainer1.image = UIImage(named: "EyeStrain")
-        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
-        sideEffectContainer2.image = UIImage(named: "Dizzyness")
-        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
-        sideEffectContainer3.image = UIImage(named: "Headache")
-        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
-            sideEffectContainer4.image = UIImage(named: "Discomfort")
-        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
-    }
+
     
     func bestLight() {
         //Top image
