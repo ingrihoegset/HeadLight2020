@@ -12,10 +12,12 @@
 		BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */; };
 		BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */; };
 		BF634E8E24CDF2270050CE69 /* MenuListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF634E8D24CDF2270050CE69 /* MenuListController.swift */; };
+		BF634E9024CE42770050CE69 /* HowToUseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF634E8F24CE42770050CE69 /* HowToUseController.swift */; };
 		BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */; };
 		BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E924C849450044F6B3 /* Constants.swift */; };
 		BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */; };
 		BF70F6F624C888180044F6B3 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */; };
+		BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8210AE24CF1D77000F4A74 /* CustomCell.swift */; };
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
 		BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */; };
 		BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */; };
@@ -36,10 +38,12 @@
 		BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseAnimation.swift; sourceTree = "<group>"; };
 		BF634E8D24CDF2270050CE69 /* MenuListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListController.swift; sourceTree = "<group>"; };
+		BF634E8F24CE42770050CE69 /* HowToUseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseController.swift; sourceTree = "<group>"; };
 		BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
 		BF70F6E924C849450044F6B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSensor.swift; sourceTree = "<group>"; };
 		BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
+		BF8210AE24CF1D77000F4A74 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBCCB8924AB8782005F93DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 				BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */,
 				BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */,
 				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
+				BF634E8F24CE42770050CE69 /* HowToUseController.swift */,
+				BF8210AE24CF1D77000F4A74 /* CustomCell.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -283,11 +289,13 @@
 				BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */,
 				BF634E8E24CDF2270050CE69 /* MenuListController.swift in Sources */,
 				BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */,
+				BF634E9024CE42770050CE69 /* HowToUseController.swift in Sources */,
 				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
 				BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */,
 				BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */,
 				BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */,
+				BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */,
 				BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

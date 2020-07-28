@@ -176,8 +176,29 @@ class ResultsViewController: UIViewController {
         return animationLayer
     }()
     
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .clear
+        scrollView.autoresizingMask = .flexibleHeight
+        scrollView.bounces = true
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let verticalContainer: UIStackView = {
+        let container = UIStackView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.axis = .vertical
+        container.alignment = .center
+        container.distribution = .fillProportionally
+        container.spacing = Constants.verticalMargins
+        return container
+    }()
+    
     let infoContainer: UIView = {
         let view = UIView()
+        view.isUserInteractionEnabled = true
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.cornerRadius
@@ -348,9 +369,35 @@ class ResultsViewController: UIViewController {
         layer.strokeColor = UIColor.systemYellow.cgColor
         return layer
     }()
+    
+    let tipsContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "mainColorAccentLight")
+        view.layer.cornerRadius = Constants.cornerRadius
+        let label = UILabel()
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .clear
+        label.isUserInteractionEnabled = false
+        let text = "Tips...."
+        let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
+        label.attributedText = attributedText
+        view.addSubview(label)
+        label.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.sideMargins).isActive = true
+        label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.sideMargins).isActive = true
+        label.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        return view
+    }()
+    
+    let popUpView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "accentLight")
+        view.layer.cornerRadius = Constants.cornerRadius
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -377,12 +424,16 @@ class ResultsViewController: UIViewController {
         detailCircle.addSubview(resultsViewHertz)
         self.view.addSubview(hertzTitle)
         
-        self.view.addSubview(infoContainer)
+        self.view.addSubview(scrollView)
+        scrollView.addSubview(verticalContainer)
+        verticalContainer.addArrangedSubview(infoContainer)
+        verticalContainer.addArrangedSubview(infoContainerSideEffects)
+        verticalContainer.addArrangedSubview(tipsContainer)
+        
         infoContainer.addSubview(timerTitle)
         infoContainer.addSubview(timerView)
         infoContainer.addSubview(timerIndiatorContainer)
         
-        self.view.addSubview(infoContainerSideEffects)
         infoContainerSideEffects.addSubview(sideEffectsTitle)
         infoContainerSideEffects.addSubview(sideEffectContainer1)
         infoContainerSideEffects.addSubview(sideEffectsTitle1)
@@ -402,6 +453,15 @@ class ResultsViewController: UIViewController {
 
         worstLight()
         getNewResults()
+        
+        //Event handlers
+        let exposureTap = UITapGestureRecognizer(target: self, action: #selector(exposureTap(_:)))
+        infoContainer.addGestureRecognizer(exposureTap)
+        let sideeffectTap = UITapGestureRecognizer(target: self, action: #selector(sideeffectTap(_:)))
+        infoContainerSideEffects.addGestureRecognizer(sideeffectTap)
+        let tipsTap = UITapGestureRecognizer(target: self, action: #selector(tipsTap(_:)))
+        tipsContainer.addGestureRecognizer(tipsTap)
+        
     }
 
     private func setupLayoutConstraints() {
@@ -476,11 +536,26 @@ class ResultsViewController: UIViewController {
         
         let seperator = ((Constants.containerDimension * 3) - (4 * Constants.smallContainerDimensions)) / 5
         
+        //ScrollView
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: flickerIndexTitle.bottomAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        //Vertical Container
+        verticalContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        verticalContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+        verticalContainer.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        verticalContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        verticalContainer.heightAnchor.constraint(equalToConstant: 700).isActive = true
+        verticalContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        
         // info container timer
-        infoContainer.topAnchor.constraint(equalTo: flickerIndexTitle.bottomAnchor, constant: Constants.verticalMargins).isActive = true
+        infoContainer.topAnchor.constraint(equalTo: verticalContainer.topAnchor, constant: Constants.verticalMargins).isActive = true
         infoContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        infoContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         infoContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
+        infoContainer.centerXAnchor.constraint(equalTo: verticalContainer.centerXAnchor).isActive = true
         
         // timer title
         timerTitle.topAnchor.constraint(equalTo: infoContainer.topAnchor, constant: Constants.sideMargins).isActive = true
@@ -499,9 +574,8 @@ class ResultsViewController: UIViewController {
         timerIndiatorContainer.topAnchor.constraint(equalTo: timerTitle.bottomAnchor).isActive = true
         timerIndiatorContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
-        // info container side effecte
-        infoContainerSideEffects.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.verticalMargins).isActive = true
-        infoContainerSideEffects.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
+        // info container side effects
+        infoContainerSideEffects.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 1.3).isActive = true
         infoContainerSideEffects.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         infoContainerSideEffects.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         
@@ -553,6 +627,11 @@ class ResultsViewController: UIViewController {
         sideEffectsTitle4.topAnchor.constraint(equalTo: sideEffectContainer4.bottomAnchor).isActive = true
         sideEffectsTitle4.centerXAnchor.constraint(equalTo: sideEffectContainer4.centerXAnchor).isActive = true
         sideEffectsTitle4.widthAnchor.constraint(equalTo: sideEffectContainer4.widthAnchor).isActive = true
+        
+        // info container side effects
+        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 2).isActive = true
+        tipsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        tipsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
     }
     
     func getNewResults() {
@@ -705,5 +784,27 @@ class ResultsViewController: UIViewController {
         return attributedText
     }
     
+    //when container views are tapped
+    @objc func exposureTap(_ sender: UITapGestureRecognizer? = nil) {
+        overallResults.backgroundColor = .green
+        presentMoreInfoPopUp()
+    }
+    
+    @objc func sideeffectTap(_ sender: UITapGestureRecognizer? = nil) {
+        overallResults.backgroundColor = .systemYellow
+    }
+    
+    @objc func tipsTap(_ sender: UITapGestureRecognizer? = nil) {
+        overallResults.backgroundColor = .systemPink
+    }
+    
+    func presentMoreInfoPopUp() {
+        self.view.addSubview(popUpView)
+        popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        popUpView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -(2 * Constants.topMargin)).isActive = true
+        popUpView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -(2 * Constants.verticalMargins)).isActive = true
+        
+    }
 
 }

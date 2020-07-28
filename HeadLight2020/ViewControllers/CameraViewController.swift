@@ -14,9 +14,10 @@ let semaphore = DispatchSemaphore(value: 0)
 let sizeOfCaptureButton = Constants.displayViewPortionOfScreen * 0.5
 
 
-class CameraViewController: UIViewController {
+class CameraViewController: UIViewController, MenuControllerDelegate {
     
     var sideMenu: UISideMenuNavigationController?
+    let howToUseController = HowToUseController()
 
     let viewModel = CameraViewModel(model: Model(cameraCapture: CameraCapture()))
     
@@ -94,15 +95,19 @@ class CameraViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+ 
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
         
-        sideMenu = UISideMenuNavigationController(rootViewController: MenuListController())
+        let menu = MenuListController()
+        menu.delegate = self
+        sideMenu = UISideMenuNavigationController(rootViewController: menu)
+        sideMenu?.setNavigationBarHidden(true, animated: false)
         sideMenu?.leftSide = true
         SideMenuManager.default.menuLeftNavigationController = sideMenu
         SideMenuManager.default.menuAddPanGestureToPresent(toView: self.view)
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
 
         
         //Camera setup
@@ -117,6 +122,7 @@ class CameraViewController: UIViewController {
         helper.addSubview(captureButton)
 
         setupLayoutConstraints()
+        addChildControllers()
 
         NotificationCenter.default.addObserver(self, selector: #selector(segueToResults), name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
     }
@@ -278,5 +284,45 @@ class CameraViewController: UIViewController {
         animation.repeatCount = .infinity
         layer.add(animation, forKey: "basic")
     }
+    
+    func didSelectMenuItem(named: String) {
+        sideMenu?.dismiss(animated: true, completion: {
+            
+            if named == "Home" {
+                self.howToUseController.view.isHidden = true
+               //dismiss
+            }
+            
+            else if named == "Second" {
+                self.howToUseController.view.isHidden = false
+                
+            }
+            
+            else if named == "Third" {
+                self.howToUseController.view.isHidden = true
+                
+            }
+            
+            else if named == "Fourth" {
+                self.howToUseController.view.isHidden = true
+                
+            }
+            
+        })
+    }
+    
+    func addChildControllers() {
+        addChild(howToUseController)
+        view.addSubview(howToUseController.view)
+        howToUseController.view.frame = view.bounds
+        howToUseController.didMove(toParent: self)
+        howToUseController.view.isHidden = true
+        
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
 }
 
