@@ -28,6 +28,9 @@
 		BFBCCBEC24B3211E005F93DB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBEB24B3211E005F93DB /* Model.swift */; };
 		BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBED24B32134005F93DB /* CameraViewModel.swift */; };
 		BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */; };
+		BFF48A5724D0AAC600304DB9 /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A5624D0AAC600304DB9 /* PopUpView.swift */; };
+		BFF48A5E24D0C16700304DB9 /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A5D24D0C16700304DB9 /* Tester.swift */; };
+		BFF48A6024D0C1E500304DB9 /* SwipingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A5F24D0C1E500304DB9 /* SwipingController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +59,9 @@
 		BFBCCBEB24B3211E005F93DB /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		BFBCCBED24B32134005F93DB /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		BFF48A5624D0AAC600304DB9 /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
+		BFF48A5D24D0C16700304DB9 /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
+		BFF48A5F24D0C1E500304DB9 /* SwipingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,12 +143,12 @@
 		BFBCCBF124B33F6F005F93DB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				BFF48A5824D0AACC00304DB9 /* Classes */,
 				BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */,
 				BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */,
-				BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */,
 				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
 				BF634E8F24CE42770050CE69 /* HowToUseController.swift */,
-				BF8210AE24CF1D77000F4A74 /* CustomCell.swift */,
+				BFF48A5D24D0C16700304DB9 /* Tester.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -155,6 +161,17 @@
 				BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BFF48A5824D0AACC00304DB9 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */,
+				BF8210AE24CF1D77000F4A74 /* CustomCell.swift */,
+				BFF48A5624D0AAC600304DB9 /* PopUpView.swift */,
+				BFF48A5F24D0C1E500304DB9 /* SwipingController.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		F584E4F84D5241CF8E5C442A /* Frameworks */ = {
@@ -283,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF48A5724D0AAC600304DB9 /* PopUpView.swift in Sources */,
 				BFBCCBEC24B3211E005F93DB /* Model.swift in Sources */,
 				BFBCCB9424AB8782005F93DB /* HeadLight2020.xcdatamodeld in Sources */,
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
@@ -293,9 +311,11 @@
 				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
 				BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */,
+				BFF48A6024D0C1E500304DB9 /* SwipingController.swift in Sources */,
 				BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */,
 				BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */,
 				BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */,
+				BFF48A5E24D0C16700304DB9 /* Tester.swift in Sources */,
 				BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

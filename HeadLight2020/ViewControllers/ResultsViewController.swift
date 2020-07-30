@@ -344,9 +344,10 @@ class ResultsViewController: UIViewController {
     
     let timerIndicator: CAShapeLayer = {
         let animationLayer = CAShapeLayer()
-        animationLayer.frame = CGRect(x: Constants.sideMargins * 2, y: 0, width: 25, height: 25)
-        animationLayer.cornerRadius = 12.5
-        animationLayer.position = CGPoint(x: 0, y: Constants.smallContainerDimensions * 0.5)
+        let size: CGFloat = 25.0
+        animationLayer.frame = CGRect(x: 0, y: 0, width: size, height: size)
+        animationLayer.cornerRadius = size / 2
+        animationLayer.position = CGPoint(x: size / 2, y: Constants.smallContainerDimensions * 0.5)
         animationLayer.backgroundColor = UIColor.systemYellow.cgColor
         return animationLayer
     }()
@@ -390,13 +391,28 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
-    let popUpView: UIView = {
-        let view = UIView()
+    lazy var popUpView: PopUpView = {
+        let view = PopUpView(frame: .zero, title: "Title")
         view.backgroundColor = UIColor(named: "accentLight")
         view.layer.cornerRadius = Constants.cornerRadius
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = self
         return view
     }()
+    
+    let swiper: SwipingController = {
+        let swiper = SwipingController(frame: .zero)
+        swiper.translatesAutoresizingMaskIntoConstraints = false
+        return swiper
+    }()
+    
+    let visualEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .regular)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -449,9 +465,9 @@ class ResultsViewController: UIViewController {
         timerIndiatorContainer.layer.addSublayer(timerTrackLayer)
         timerIndiatorContainer.layer.addSublayer(timerIndicator)
         timerIndiatorContainer.layer.addSublayer(timerFillerLayer)
-        makeTimerGraphic(score: 50.0, track: timerTrackLayer, animationLayer: timerIndicator, filler: timerFillerLayer)
 
-        worstLight()
+
+        setState(state: "stateSecondWorst")
         getNewResults()
         
         //Event handlers
@@ -539,7 +555,7 @@ class ResultsViewController: UIViewController {
         //ScrollView
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: flickerIndexTitle.bottomAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: flickerIndexTitle.bottomAnchor, constant: Constants.verticalMargins).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         //Vertical Container
@@ -552,7 +568,7 @@ class ResultsViewController: UIViewController {
         
         
         // info container timer
-        infoContainer.topAnchor.constraint(equalTo: verticalContainer.topAnchor, constant: Constants.verticalMargins).isActive = true
+        infoContainer.topAnchor.constraint(equalTo: verticalContainer.topAnchor).isActive = true
         infoContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         infoContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         infoContainer.centerXAnchor.constraint(equalTo: verticalContainer.centerXAnchor).isActive = true
@@ -673,104 +689,173 @@ class ResultsViewController: UIViewController {
     
     func makeTimerGraphic(score: Double, track: CAShapeLayer, animationLayer: CAShapeLayer, filler: CAShapeLayer) {
         
+        let endpoint = score / 100
+        
         let path = UIBezierPath()
+        let endOfPathX = Constants.containerDimension * 2
         path.move(to: CGPoint(x: 0 + Constants.sideMargins * 2, y: Constants.smallContainerDimensions * 0.5))
-        path.addLine(to: CGPoint(x: Constants.containerDimension * 2 , y: Constants.smallContainerDimensions * 0.5))
+        path.addLine(to: CGPoint(x: endOfPathX , y: Constants.smallContainerDimensions * 0.5))
 
         track.path = path.cgPath
         filler.path = path.cgPath
         
         let barAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        barAnimation.toValue = score / 100
+        barAnimation.toValue = endpoint
         barAnimation.duration = 2.0
         barAnimation.fillMode = CAMediaTimingFillMode.forwards
         barAnimation.isRemovedOnCompletion = false
         filler.add(barAnimation, forKey: "basic")
         
-        
         let basicAnimation = CABasicAnimation(keyPath: "position")
-        basicAnimation.toValue = CGPoint(x: Constants.containerDimension, y: Constants.smallContainerDimensions * 0.5)
+        basicAnimation.toValue = CGPoint(x: endOfPathX * CGFloat(endpoint) + 12.5, y: Constants.smallContainerDimensions * 0.5)
         basicAnimation.duration = 2.0
         basicAnimation.fillMode = CAMediaTimingFillMode.forwards
         basicAnimation.isRemovedOnCompletion = false
         animationLayer.add(basicAnimation, forKey: "position")
     }
     
-    func worstLight() {
-        //Top image
+    func setState(state: String) {
+        if (state == "stateBest") {
+            setDisplay(resultIcon: Constants.stateBest[0],
+                resultAnimationColor1: Constants.stateBest[1], resultAnimationColor2: Constants.stateBest[2],
+                timerTime: Constants.stateBest[3], timerIndication: Constants.stateBest[4], timerIndicatorColor: Constants.stateBest[5],
+                sideEffectsBackgroundColor1: Constants.stateBest[6],
+                sideEffect1Image: Constants.stateBest[7], sideEffect1Text1: Constants.stateBest[8], sideEffect1Text2: Constants.stateBest[9],
+                sideEffectsBackgroundColor2: Constants.stateBest[10],
+                sideEffect2Image: Constants.stateBest[11], sideEffect2Text1: Constants.stateBest[12], sideEffect2Text2: Constants.stateBest[13],
+                sideEffectsBackgroundColor3: Constants.stateBest[14],
+                sideEffect3Image: Constants.stateBest[15], sideEffect3Text1: Constants.stateBest[16], sideEffect3Text2: Constants.stateBest[17],
+                sideEffectsBackgroundColor4: Constants.stateBest[18],
+                sideEffect4Image: Constants.stateBest[19], sideEffect4Text1: Constants.stateBest[20], sideEffect4Text2: Constants.stateBest[21])
+        }
+        
+        if (state == "stateSecondBest") {
+            setDisplay(resultIcon: Constants.stateSecondBest[0],
+                resultAnimationColor1: Constants.stateSecondBest[1], resultAnimationColor2: Constants.stateSecondBest[2],
+                timerTime: Constants.stateSecondBest[3], timerIndication: Constants.stateSecondBest[4], timerIndicatorColor: Constants.stateSecondBest[5],
+                sideEffectsBackgroundColor1: Constants.stateSecondBest[6],
+                sideEffect1Image: Constants.stateSecondBest[7], sideEffect1Text1: Constants.stateSecondBest[8], sideEffect1Text2: Constants.stateSecondBest[9],
+                sideEffectsBackgroundColor2: Constants.stateSecondBest[10],
+                sideEffect2Image: Constants.stateSecondBest[11], sideEffect2Text1: Constants.stateSecondBest[12], sideEffect2Text2: Constants.stateSecondBest[13],
+                sideEffectsBackgroundColor3: Constants.stateSecondBest[14],
+                sideEffect3Image: Constants.stateSecondBest[15], sideEffect3Text1: Constants.stateSecondBest[16], sideEffect3Text2: Constants.stateSecondBest[17],
+                sideEffectsBackgroundColor4: Constants.stateSecondBest[18],
+                sideEffect4Image: Constants.stateSecondBest[19], sideEffect4Text1: Constants.stateSecondBest[20], sideEffect4Text2: Constants.stateBest[21])
+        }
+            
+        else if (state == "stateSecondBest") {
+            setDisplay(resultIcon: Constants.stateSecondBest[0],
+                resultAnimationColor1: Constants.stateSecondBest[1], resultAnimationColor2: Constants.stateSecondBest[2],
+                timerTime: Constants.stateSecondBest[3], timerIndication: Constants.stateSecondBest[4], timerIndicatorColor: Constants.stateSecondBest[5],
+                sideEffectsBackgroundColor1: Constants.stateSecondBest[6],
+                sideEffect1Image: Constants.stateSecondBest[7], sideEffect1Text1: Constants.stateSecondBest[8], sideEffect1Text2: Constants.stateSecondBest[9],
+                sideEffectsBackgroundColor2: Constants.stateSecondBest[10],
+                sideEffect2Image: Constants.stateSecondBest[11], sideEffect2Text1: Constants.stateSecondBest[12], sideEffect2Text2: Constants.stateSecondBest[13],
+                sideEffectsBackgroundColor3: Constants.stateSecondBest[14],
+                sideEffect3Image: Constants.stateSecondBest[15], sideEffect3Text1: Constants.stateSecondBest[16], sideEffect3Text2: Constants.stateSecondBest[17],
+                sideEffectsBackgroundColor4: Constants.stateSecondBest[18],
+                sideEffect4Image: Constants.stateSecondBest[19], sideEffect4Text1: Constants.stateSecondBest[20], sideEffect4Text2: Constants.stateBest[21])
+            }
+        else if (state == "stateSecondWorst") {
+            setDisplay(resultIcon: Constants.stateSecondWorst[0],
+                resultAnimationColor1: Constants.stateSecondWorst[1], resultAnimationColor2: Constants.stateSecondWorst[2],
+                timerTime: Constants.stateSecondWorst[3], timerIndication: Constants.stateSecondWorst[4], timerIndicatorColor: Constants.stateSecondWorst[5],
+                sideEffectsBackgroundColor1: Constants.stateSecondWorst[6],
+                sideEffect1Image: Constants.stateSecondWorst[7], sideEffect1Text1: Constants.stateSecondWorst[8], sideEffect1Text2: Constants.stateSecondWorst[9],
+                sideEffectsBackgroundColor2: Constants.stateSecondWorst[10],
+                sideEffect2Image: Constants.stateSecondWorst[11], sideEffect2Text1: Constants.stateSecondWorst[12], sideEffect2Text2: Constants.stateSecondWorst[13],
+                sideEffectsBackgroundColor3: Constants.stateSecondWorst[14],
+                sideEffect3Image: Constants.stateSecondWorst[15], sideEffect3Text1: Constants.stateSecondWorst[16], sideEffect3Text2: Constants.stateSecondWorst[17],
+                sideEffectsBackgroundColor4: Constants.stateSecondWorst[18],
+                sideEffect4Image: Constants.stateSecondWorst[19], sideEffect4Text1: Constants.stateSecondWorst[20], sideEffect4Text2: Constants.stateBest[21])
+        }
+            
+            
+        else if (state == "stateWorst") {
+            setDisplay(resultIcon: Constants.stateWorst[0],
+                resultAnimationColor1: Constants.stateWorst[1], resultAnimationColor2: Constants.stateWorst[2],
+                timerTime: Constants.stateWorst[3], timerIndication: Constants.stateWorst[4], timerIndicatorColor: Constants.stateWorst[5],
+                sideEffectsBackgroundColor1: Constants.stateWorst[6],
+                sideEffect1Image: Constants.stateWorst[7], sideEffect1Text1: Constants.stateWorst[8], sideEffect1Text2: Constants.stateWorst[9],
+                sideEffectsBackgroundColor2: Constants.stateWorst[10],
+                sideEffect2Image: Constants.stateWorst[11], sideEffect2Text1: Constants.stateWorst[12], sideEffect2Text2: Constants.stateWorst[13],
+                sideEffectsBackgroundColor3: Constants.stateWorst[14],
+                sideEffect3Image: Constants.stateWorst[15], sideEffect3Text1: Constants.stateWorst[16], sideEffect3Text2: Constants.stateWorst[17],
+                sideEffectsBackgroundColor4: Constants.stateWorst[18],
+                sideEffect4Image: Constants.stateWorst[19], sideEffect4Text1: Constants.stateWorst[20], sideEffect4Text2: Constants.stateWorst[21])
+        }
+        else if (state == "stateOK") {
+            setDisplay(resultIcon: Constants.stateOK[0],
+                resultAnimationColor1: Constants.stateOK[1], resultAnimationColor2: Constants.stateOK[2],
+                timerTime: Constants.stateOK[3], timerIndication: Constants.stateOK[4], timerIndicatorColor: Constants.stateOK[5],
+                sideEffectsBackgroundColor1: Constants.stateOK[6],
+                sideEffect1Image: Constants.stateOK[7], sideEffect1Text1: Constants.stateOK[8], sideEffect1Text2: Constants.stateOK[9],
+                sideEffectsBackgroundColor2: Constants.stateOK[10],
+                sideEffect2Image: Constants.stateOK[11], sideEffect2Text1: Constants.stateOK[12], sideEffect2Text2: Constants.stateOK[13],
+                sideEffectsBackgroundColor3: Constants.stateOK[14],
+                sideEffect3Image: Constants.stateOK[15], sideEffect3Text1: Constants.stateOK[16], sideEffect3Text2: Constants.stateOK[17],
+                sideEffectsBackgroundColor4: Constants.stateOK[18],
+                sideEffect4Image: Constants.stateOK[19], sideEffect4Text1: Constants.stateOK[20], sideEffect4Text2: Constants.stateOK[21])
+        }
+        
+
+        
+    }
+    
+    
+    func setDisplay(
+        resultIcon: String, resultAnimationColor1: String, resultAnimationColor2: String,
+        timerTime: String, timerIndication: String, timerIndicatorColor: String,
+        sideEffectsBackgroundColor1: String,
+        sideEffect1Image: String, sideEffect1Text1: String, sideEffect1Text2: String,
+        sideEffectsBackgroundColor2: String,
+        sideEffect2Image: String, sideEffect2Text1: String, sideEffect2Text2: String,
+        sideEffectsBackgroundColor3: String,
+        sideEffect3Image: String, sideEffect3Text1: String, sideEffect3Text2: String,
+        sideEffectsBackgroundColor4: String,
+        sideEffect4Image: String, sideEffect4Text1: String, sideEffect4Text2: String) {
+              
+        let pulse1Color = UIColor(named: resultAnimationColor1)?.cgColor
+        let pulse2Color = UIColor(named: resultAnimationColor2)?.cgColor
+        let trackColor = UIColor(named: timerIndicatorColor)?.cgColor
+        let timerScore = Double(timerIndication)
+        let sideEffectsBGC1 = UIColor(named: sideEffectsBackgroundColor1)
+        let sideEffectsBGC2 = UIColor(named: sideEffectsBackgroundColor2)
+        let sideEffectsBGC3 = UIColor(named: sideEffectsBackgroundColor3)
+        let sideEffectsBGC4 = UIColor(named: sideEffectsBackgroundColor4)
+        
+        //Top results image and animation
+        overallResults.image = UIImage(named: resultIcon)
         let position = CGPoint(x: Constants.largeContainerDimension / 2, y: Constants.largeContainerDimension / 2)
-        let pulse = PulseAnimation(numberOfPulses: 3, radius: Constants.largeContainerDimension / 2, position: position, color: UIColor.red.cgColor, duration: 1)
-        let pulse2 = PulseAnimation(numberOfPulses: 2, radius: Constants.largeContainerDimension / 1.8, position: position, color: UIColor.red.cgColor, duration: 1)
+        let pulse = PulseAnimation(numberOfPulses: 3, radius: Constants.largeContainerDimension / 2, position: position, color: pulse1Color!, duration: 1)
+        let pulse2 = PulseAnimation(numberOfPulses: 2, radius: Constants.largeContainerDimension / 1.8, position: position, color: pulse2Color!, duration: 1)
         overallResultsHelper.layer.addSublayer(pulse)
         overallResultsHelper.layer.addSublayer(pulse2)
-        overallResults.image = UIImage(named: "Worst")
         
-        //Recommended exposure time
-        timerTitle.attributedText = attributedExposureText(text1: "30 min")
-        
-        //Side effect containers
-        sideEffectContainer1.image = UIImage(named: "EyeStrain")
-        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
-        sideEffectContainer2.image = UIImage(named: "Dizzyness")
-        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
-        sideEffectContainer3.image = UIImage(named: "Headache")
-        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
-            sideEffectContainer4.image = UIImage(named: "Discomfort")
-        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
-    }
-    
-    func secondWorstLight() {
-        //Top image
-        overallResults.image = UIImage(named: "SecondWorst")
-        
-        //Recommended exposure time
+        //timer
+        timerTitle.attributedText = attributedExposureText(text1: timerTime)
+        timerFillerLayer.strokeColor = trackColor
+        timerIndicator.backgroundColor = trackColor
+        makeTimerGraphic(score: timerScore!, track: timerTrackLayer, animationLayer: timerIndicator, filler: timerFillerLayer)
         
         //Side effect containers
-        sideEffectContainer1.image = UIImage(named: "EyeStrain")
-        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
-        sideEffectContainer2.image = UIImage(named: "Dizzyness")
-        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
-        sideEffectContainer3.image = UIImage(named: "Headache")
-        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
-            sideEffectContainer4.image = UIImage(named: "Discomfort")
-        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
+        sideEffectContainer1.image = UIImage(named: sideEffect1Image)
+        sideEffectContainer1.backgroundColor = sideEffectsBGC1
+        sideEffectsTitle1.attributedText = attributedText(text1: sideEffect1Text1, text2: sideEffect1Text2)
+        
+        sideEffectContainer2.image = UIImage(named: sideEffect2Image)
+        sideEffectContainer2.backgroundColor = sideEffectsBGC2
+        sideEffectsTitle2.attributedText = attributedText(text1: sideEffect2Text1, text2: sideEffect2Text2)
+        
+        sideEffectContainer3.image = UIImage(named: sideEffect3Image)
+        sideEffectContainer3.backgroundColor = sideEffectsBGC3
+        sideEffectsTitle3.attributedText = attributedText(text1: sideEffect3Text1, text2: sideEffect3Text2)
+        
+        sideEffectContainer4.image = UIImage(named: sideEffect4Image)
+        sideEffectContainer4.backgroundColor = sideEffectsBGC4
+        sideEffectsTitle4.attributedText = attributedText(text1: sideEffect4Text1, text2: sideEffect4Text2)
     }
     
-    func OKLight() {
-        //Top image
-        overallResults.image = UIImage(named: "OK")
-        
-        //Recommended exposure time
-        
-        //Side effect containers
-        sideEffectContainer1.image = UIImage(named: "EyeStrain")
-        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
-        sideEffectContainer2.image = UIImage(named: "Dizzyness")
-        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
-        sideEffectContainer3.image = UIImage(named: "Headache")
-        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
-            sideEffectContainer4.image = UIImage(named: "Discomfort")
-        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
-    }
-    
-
-    
-    func bestLight() {
-        //Top image
-        overallResults.image = UIImage(named: "Best")
-        
-        //Recommended exposure time
-        
-        //Side effect containers
-        sideEffectContainer1.image = UIImage(named: "EyeStrain")
-        sideEffectsTitle1.attributedText = attributedText(text1: "Eye", text2: "Strain")
-        sideEffectContainer2.image = UIImage(named: "Dizzyness")
-        sideEffectsTitle2.attributedText = attributedText(text1: "Dizzyness", text2: "")
-        sideEffectContainer3.image = UIImage(named: "Headache")
-        sideEffectsTitle3.attributedText = attributedText(text1: "Headache", text2: "")
-            sideEffectContainer4.image = UIImage(named: "Discomfort")
-        sideEffectsTitle4.attributedText = attributedText(text1: "General", text2: "Discomfort")
-    }
     
     func attributedText(text1: String, text2: String) -> NSAttributedString {
         let attributedText = NSMutableAttributedString(string: text1 + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
@@ -786,25 +871,61 @@ class ResultsViewController: UIViewController {
     
     //when container views are tapped
     @objc func exposureTap(_ sender: UITapGestureRecognizer? = nil) {
-        overallResults.backgroundColor = .green
         presentMoreInfoPopUp()
     }
     
     @objc func sideeffectTap(_ sender: UITapGestureRecognizer? = nil) {
-        overallResults.backgroundColor = .systemYellow
+        presentMoreInfoPopUp()
     }
     
     @objc func tipsTap(_ sender: UITapGestureRecognizer? = nil) {
-        overallResults.backgroundColor = .systemPink
+        presentMoreInfoPopUp()
     }
     
     func presentMoreInfoPopUp() {
+        
+        self.view.addSubview(visualEffectView)
         self.view.addSubview(popUpView)
+        popUpView.addSubview(swiper)
+
         popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        popUpView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -(2 * Constants.topMargin)).isActive = true
+        popUpView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -(4 * Constants.topMargin)).isActive = true
         popUpView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -(2 * Constants.verticalMargins)).isActive = true
         
+        swiper.topAnchor.constraint(equalTo: popUpView.closePopUpButton.bottomAnchor).isActive = true
+        swiper.bottomAnchor.constraint(equalTo: popUpView.bottomAnchor).isActive = true
+        swiper.leadingAnchor.constraint(equalTo: popUpView.leadingAnchor).isActive = true
+        swiper.trailingAnchor.constraint(equalTo: popUpView.trailingAnchor).isActive = true
+        
+        visualEffectView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        visualEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        visualEffectView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        visualEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        popUpView.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+            self.visualEffectView.alpha = 1
+            self.popUpView.alpha = 1
+            self.popUpView.transform = CGAffineTransform.identity
+        }
     }
+}
 
+extension ResultsViewController: PopUpDelegate {
+    
+    func handleDismissal() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.visualEffectView.alpha = 0
+            self.popUpView.alpha = 0
+            self.popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        }) { (_) in
+            self.popUpView.removeFromSuperview()
+            print("did remove")
+        }
+    }
+    
+    
 }
