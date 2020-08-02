@@ -15,6 +15,20 @@ class ResultsViewController: UIViewController {
     var flickerIndex = 0.0
     var hertz = 0.0
     let okColor = UIColor.systemYellow.cgColor
+    var sideEffectsObjects = [MoreInfoObject]()
+    var timerObjects = [MoreInfoObject]()
+    var tipsObject = [MoreInfoObject]()
+    var state = State(overallImageName: "", overallIndicatorColorMain: "", overallIndicatorColorSub: "", exposureTime: "", indicatorTime: 0, indicatorColor: "", sideeffects: [], timerObject: [], tipsObject: [])
+    
+    
+    let dizzyness = MoreInfoObject(frame: .zero, image: "Dizzyness", title1: "Dizzyness", title2: "", moreInfoText: MoreInfoObjectTexts.dizzynessText)
+    let dizzyness2 = MoreInfoObject(frame: .zero, image: "Dizzyness", title1: "Dizzyness", title2: "", moreInfoText: MoreInfoObjectTexts.dizzynessText)
+    let dizzyness3 = MoreInfoObject(frame: .zero)
+    let dizzyness4 = MoreInfoObject(frame: .zero)
+
+    
+    let moreTimerInfo = MoreInfoObject(frame: .zero, image: "Timer", title1: "", title2: "", moreInfoText: "String")
+    
 
     
     let overallResults: UIImageView = {
@@ -205,12 +219,24 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
-    let infoContainerSideEffects: UIView = {
+    let infoContainerMoreInfoObjects: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.cornerRadius
         return view
+    }()
+    
+    let horizontalMoreInfoObjectsContainer: UIStackView = {
+        let container = UIStackView(frame: .zero)
+        
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.alignment = .center
+        container.distribution = .fillEqually
+        container.axis = .horizontal
+        container.spacing = (Constants.containerDimension * 3 - 4 * Constants.smallContainerDimensions) / 5
+
+        return container
     }()
     
     let timerTitle: UILabel = {
@@ -226,7 +252,7 @@ class ResultsViewController: UIViewController {
     
     let timerView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.init(named: "accentLight")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.smallContainerDimensions / 2
         let image = UIImage(named: "Timer")
@@ -234,7 +260,7 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
-    let sideEffectsTitle: UILabel = {
+    let MoreInfoObjectsTitle: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.numberOfLines = 1
@@ -245,94 +271,6 @@ class ResultsViewController: UIViewController {
         let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
         label.attributedText = attributedText
         return label
-    }()
-    
-    let sideEffectsTitle1: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .clear
-        label.isUserInteractionEnabled = false
-        let text = "nan"
-        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
-        attributedText.append(NSAttributedString(string: "nan", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!]))
-        label.attributedText = attributedText
-        return label
-    }()
-    
-    let sideEffectContainer1: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = UIColor(named: "accentLight")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = Constants.smallContainerDimensions / 2
-        return view
-    }()
-    
-    let sideEffectsTitle2: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .clear
-        label.isUserInteractionEnabled = false
-        let text = "nan"
-        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
-        attributedText.append(NSAttributedString(string: "nan", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!]))
-        label.attributedText = attributedText
-        return label
-    }()
-    
-    let sideEffectContainer2: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = UIColor(named: "accentLight")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = Constants.smallContainerDimensions / 2
-        return view
-    }()
-    
-    let sideEffectsTitle3: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .clear
-        label.isUserInteractionEnabled = false
-        let text = "nan"
-        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
-        attributedText.append(NSAttributedString(string: "nan", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!]))
-        label.attributedText = attributedText
-        return label
-    }()
-    
-    let sideEffectContainer3: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = UIColor(named: "accentLight")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = Constants.smallContainerDimensions / 2
-        return view
-    }()
-    
-    let sideEffectsTitle4: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .clear
-        label.isUserInteractionEnabled = false
-        let text = "nan"
-        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
-        attributedText.append(NSAttributedString(string: "nan", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 12)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!]))
-        label.attributedText = attributedText
-        return label
-    }()
-    
-    let sideEffectContainer4: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = UIColor(named: "accentLight")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = Constants.smallContainerDimensions / 2
-        return view
     }()
     
     let timerIndiatorContainer: UIView = {
@@ -400,7 +338,19 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
-    let swiper: SwipingController = {
+    let timerSwiper: SwipingController = {
+        let swiper = SwipingController(frame: .zero)
+        swiper.translatesAutoresizingMaskIntoConstraints = false
+        return swiper
+    }()
+    
+    let MoreInfoObjectsSwiper: SwipingController = {
+        let swiper = SwipingController(frame: .zero)
+        swiper.translatesAutoresizingMaskIntoConstraints = false
+        return swiper
+    }()
+    
+    let tipsSwiper: SwipingController = {
         let swiper = SwipingController(frame: .zero)
         swiper.translatesAutoresizingMaskIntoConstraints = false
         return swiper
@@ -443,22 +393,16 @@ class ResultsViewController: UIViewController {
         self.view.addSubview(scrollView)
         scrollView.addSubview(verticalContainer)
         verticalContainer.addArrangedSubview(infoContainer)
-        verticalContainer.addArrangedSubview(infoContainerSideEffects)
+        verticalContainer.addArrangedSubview(infoContainerMoreInfoObjects)
         verticalContainer.addArrangedSubview(tipsContainer)
         
         infoContainer.addSubview(timerTitle)
         infoContainer.addSubview(timerView)
         infoContainer.addSubview(timerIndiatorContainer)
         
-        infoContainerSideEffects.addSubview(sideEffectsTitle)
-        infoContainerSideEffects.addSubview(sideEffectContainer1)
-        infoContainerSideEffects.addSubview(sideEffectsTitle1)
-        infoContainerSideEffects.addSubview(sideEffectContainer2)
-        infoContainerSideEffects.addSubview(sideEffectsTitle2)
-        infoContainerSideEffects.addSubview(sideEffectContainer3)
-        infoContainerSideEffects.addSubview(sideEffectsTitle3)
-        infoContainerSideEffects.addSubview(sideEffectContainer4)
-        infoContainerSideEffects.addSubview(sideEffectsTitle4)
+        infoContainerMoreInfoObjects.addSubview(MoreInfoObjectsTitle)
+        infoContainerMoreInfoObjects.addSubview(horizontalMoreInfoObjectsContainer)
+
         
         setupLayoutConstraints()
 
@@ -467,14 +411,14 @@ class ResultsViewController: UIViewController {
         timerIndiatorContainer.layer.addSublayer(timerFillerLayer)
 
 
-        setState(state: "stateSecondWorst")
+        setState()
         getNewResults()
         
         //Event handlers
         let exposureTap = UITapGestureRecognizer(target: self, action: #selector(exposureTap(_:)))
         infoContainer.addGestureRecognizer(exposureTap)
-        let sideeffectTap = UITapGestureRecognizer(target: self, action: #selector(sideeffectTap(_:)))
-        infoContainerSideEffects.addGestureRecognizer(sideeffectTap)
+        let MoreInfoObjectTap = UITapGestureRecognizer(target: self, action: #selector(MoreInfoObjectTap(_:)))
+        infoContainerMoreInfoObjects.addGestureRecognizer(MoreInfoObjectTap)
         let tipsTap = UITapGestureRecognizer(target: self, action: #selector(tipsTap(_:)))
         tipsContainer.addGestureRecognizer(tipsTap)
         
@@ -591,60 +535,22 @@ class ResultsViewController: UIViewController {
         timerIndiatorContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
         // info container side effects
-        infoContainerSideEffects.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 1.3).isActive = true
-        infoContainerSideEffects.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        infoContainerSideEffects.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
+        
+        infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 1.3).isActive = true
+        infoContainerMoreInfoObjects.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        infoContainerMoreInfoObjects.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         
         // side effects title
-        sideEffectsTitle.topAnchor.constraint(equalTo: infoContainerSideEffects.topAnchor, constant: Constants.sideMargins).isActive = true
-        sideEffectsTitle.leadingAnchor.constraint(equalTo: infoContainerSideEffects.leadingAnchor, constant: Constants.sideMargins).isActive = true
-        sideEffectsTitle.widthAnchor.constraint(equalTo: infoContainerSideEffects.widthAnchor).isActive = true
+        MoreInfoObjectsTitle.topAnchor.constraint(equalTo: infoContainerMoreInfoObjects.topAnchor, constant: Constants.sideMargins).isActive = true
+        MoreInfoObjectsTitle.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: Constants.sideMargins).isActive = true
+        MoreInfoObjectsTitle.widthAnchor.constraint(equalTo: infoContainerMoreInfoObjects.widthAnchor).isActive = true
         
-        // side effect container 1
-        sideEffectContainer1.topAnchor.constraint(equalTo: sideEffectsTitle.bottomAnchor).isActive = true
-        sideEffectContainer1.leadingAnchor.constraint(equalTo: infoContainerSideEffects.leadingAnchor, constant: seperator).isActive = true
-        sideEffectContainer1.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
-        sideEffectContainer1.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
+        //Side effects stack container
+        horizontalMoreInfoObjectsContainer.topAnchor.constraint(equalTo: MoreInfoObjectsTitle.bottomAnchor).isActive = true
+        horizontalMoreInfoObjectsContainer.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: seperator).isActive = true
+        horizontalMoreInfoObjectsContainer.trailingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.trailingAnchor, constant: -seperator).isActive = true
         
-        // side effects title 1
-        sideEffectsTitle1.topAnchor.constraint(equalTo: sideEffectContainer1.bottomAnchor).isActive = true
-        sideEffectsTitle1.centerXAnchor.constraint(equalTo: sideEffectContainer1.centerXAnchor).isActive = true
-        sideEffectsTitle1.widthAnchor.constraint(equalTo: sideEffectContainer1.widthAnchor).isActive = true
-        
-        // side effect container 2
-        sideEffectContainer2.topAnchor.constraint(equalTo: sideEffectsTitle.bottomAnchor).isActive = true
-        sideEffectContainer2.leadingAnchor.constraint(equalTo: sideEffectContainer1.trailingAnchor, constant: seperator).isActive = true
-        sideEffectContainer2.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
-        sideEffectContainer2.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
-        
-        // side effects title 2
-        sideEffectsTitle2.topAnchor.constraint(equalTo: sideEffectContainer2.bottomAnchor).isActive = true
-        sideEffectsTitle2.centerXAnchor.constraint(equalTo: sideEffectContainer2.centerXAnchor).isActive = true
-        sideEffectsTitle2.widthAnchor.constraint(equalTo: sideEffectContainer2.widthAnchor).isActive = true
-        
-        // side effect container 3
-        sideEffectContainer3.topAnchor.constraint(equalTo: sideEffectsTitle.bottomAnchor).isActive = true
-        sideEffectContainer3.leadingAnchor.constraint(equalTo: sideEffectContainer2.trailingAnchor, constant: seperator).isActive = true
-        sideEffectContainer3.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
-        sideEffectContainer3.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
-        
-        // side effects title 3
-        sideEffectsTitle3.topAnchor.constraint(equalTo: sideEffectContainer3.bottomAnchor).isActive = true
-        sideEffectsTitle3.centerXAnchor.constraint(equalTo: sideEffectContainer3.centerXAnchor).isActive = true
-        sideEffectsTitle3.widthAnchor.constraint(equalTo: sideEffectContainer3.widthAnchor).isActive = true
-        
-        // side effect container 4
-        sideEffectContainer4.topAnchor.constraint(equalTo: sideEffectsTitle.bottomAnchor).isActive = true
-        sideEffectContainer4.leadingAnchor.constraint(equalTo: sideEffectContainer3.trailingAnchor, constant: seperator).isActive = true
-        sideEffectContainer4.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
-        sideEffectContainer4.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
-        
-        // side effects title 4
-        sideEffectsTitle4.topAnchor.constraint(equalTo: sideEffectContainer4.bottomAnchor).isActive = true
-        sideEffectsTitle4.centerXAnchor.constraint(equalTo: sideEffectContainer4.centerXAnchor).isActive = true
-        sideEffectsTitle4.widthAnchor.constraint(equalTo: sideEffectContainer4.widthAnchor).isActive = true
-        
-        // info container side effects
+        //tips container
         tipsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 2).isActive = true
         tipsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         tipsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
@@ -714,115 +620,25 @@ class ResultsViewController: UIViewController {
         animationLayer.add(basicAnimation, forKey: "position")
     }
     
-    func setState(state: String) {
-        if (state == "stateBest") {
-            setDisplay(resultIcon: Constants.stateBest[0],
-                resultAnimationColor1: Constants.stateBest[1], resultAnimationColor2: Constants.stateBest[2],
-                timerTime: Constants.stateBest[3], timerIndication: Constants.stateBest[4], timerIndicatorColor: Constants.stateBest[5],
-                sideEffectsBackgroundColor1: Constants.stateBest[6],
-                sideEffect1Image: Constants.stateBest[7], sideEffect1Text1: Constants.stateBest[8], sideEffect1Text2: Constants.stateBest[9],
-                sideEffectsBackgroundColor2: Constants.stateBest[10],
-                sideEffect2Image: Constants.stateBest[11], sideEffect2Text1: Constants.stateBest[12], sideEffect2Text2: Constants.stateBest[13],
-                sideEffectsBackgroundColor3: Constants.stateBest[14],
-                sideEffect3Image: Constants.stateBest[15], sideEffect3Text1: Constants.stateBest[16], sideEffect3Text2: Constants.stateBest[17],
-                sideEffectsBackgroundColor4: Constants.stateBest[18],
-                sideEffect4Image: Constants.stateBest[19], sideEffect4Text1: Constants.stateBest[20], sideEffect4Text2: Constants.stateBest[21])
-        }
+    func setState() {
+        setDisplay(resultIcon: state.overallImageName!, resultAnimationColor1: state.indicatorColor!, resultAnimationColor2: state.indicatorColor!, timerTime: state.exposureTime!, timerIndication: state.indicatorTime!, timerIndicatorColor: state.indicatorColor!)
         
-        if (state == "stateSecondBest") {
-            setDisplay(resultIcon: Constants.stateSecondBest[0],
-                resultAnimationColor1: Constants.stateSecondBest[1], resultAnimationColor2: Constants.stateSecondBest[2],
-                timerTime: Constants.stateSecondBest[3], timerIndication: Constants.stateSecondBest[4], timerIndicatorColor: Constants.stateSecondBest[5],
-                sideEffectsBackgroundColor1: Constants.stateSecondBest[6],
-                sideEffect1Image: Constants.stateSecondBest[7], sideEffect1Text1: Constants.stateSecondBest[8], sideEffect1Text2: Constants.stateSecondBest[9],
-                sideEffectsBackgroundColor2: Constants.stateSecondBest[10],
-                sideEffect2Image: Constants.stateSecondBest[11], sideEffect2Text1: Constants.stateSecondBest[12], sideEffect2Text2: Constants.stateSecondBest[13],
-                sideEffectsBackgroundColor3: Constants.stateSecondBest[14],
-                sideEffect3Image: Constants.stateSecondBest[15], sideEffect3Text1: Constants.stateSecondBest[16], sideEffect3Text2: Constants.stateSecondBest[17],
-                sideEffectsBackgroundColor4: Constants.stateSecondBest[18],
-                sideEffect4Image: Constants.stateSecondBest[19], sideEffect4Text1: Constants.stateSecondBest[20], sideEffect4Text2: Constants.stateBest[21])
+        for i in state.sideeffects! {
+            horizontalMoreInfoObjectsContainer.addArrangedSubview(i)
         }
-            
-        else if (state == "stateSecondBest") {
-            setDisplay(resultIcon: Constants.stateSecondBest[0],
-                resultAnimationColor1: Constants.stateSecondBest[1], resultAnimationColor2: Constants.stateSecondBest[2],
-                timerTime: Constants.stateSecondBest[3], timerIndication: Constants.stateSecondBest[4], timerIndicatorColor: Constants.stateSecondBest[5],
-                sideEffectsBackgroundColor1: Constants.stateSecondBest[6],
-                sideEffect1Image: Constants.stateSecondBest[7], sideEffect1Text1: Constants.stateSecondBest[8], sideEffect1Text2: Constants.stateSecondBest[9],
-                sideEffectsBackgroundColor2: Constants.stateSecondBest[10],
-                sideEffect2Image: Constants.stateSecondBest[11], sideEffect2Text1: Constants.stateSecondBest[12], sideEffect2Text2: Constants.stateSecondBest[13],
-                sideEffectsBackgroundColor3: Constants.stateSecondBest[14],
-                sideEffect3Image: Constants.stateSecondBest[15], sideEffect3Text1: Constants.stateSecondBest[16], sideEffect3Text2: Constants.stateSecondBest[17],
-                sideEffectsBackgroundColor4: Constants.stateSecondBest[18],
-                sideEffect4Image: Constants.stateSecondBest[19], sideEffect4Text1: Constants.stateSecondBest[20], sideEffect4Text2: Constants.stateBest[21])
-            }
-        else if (state == "stateSecondWorst") {
-            setDisplay(resultIcon: Constants.stateSecondWorst[0],
-                resultAnimationColor1: Constants.stateSecondWorst[1], resultAnimationColor2: Constants.stateSecondWorst[2],
-                timerTime: Constants.stateSecondWorst[3], timerIndication: Constants.stateSecondWorst[4], timerIndicatorColor: Constants.stateSecondWorst[5],
-                sideEffectsBackgroundColor1: Constants.stateSecondWorst[6],
-                sideEffect1Image: Constants.stateSecondWorst[7], sideEffect1Text1: Constants.stateSecondWorst[8], sideEffect1Text2: Constants.stateSecondWorst[9],
-                sideEffectsBackgroundColor2: Constants.stateSecondWorst[10],
-                sideEffect2Image: Constants.stateSecondWorst[11], sideEffect2Text1: Constants.stateSecondWorst[12], sideEffect2Text2: Constants.stateSecondWorst[13],
-                sideEffectsBackgroundColor3: Constants.stateSecondWorst[14],
-                sideEffect3Image: Constants.stateSecondWorst[15], sideEffect3Text1: Constants.stateSecondWorst[16], sideEffect3Text2: Constants.stateSecondWorst[17],
-                sideEffectsBackgroundColor4: Constants.stateSecondWorst[18],
-                sideEffect4Image: Constants.stateSecondWorst[19], sideEffect4Text1: Constants.stateSecondWorst[20], sideEffect4Text2: Constants.stateBest[21])
-        }
-            
-            
-        else if (state == "stateWorst") {
-            setDisplay(resultIcon: Constants.stateWorst[0],
-                resultAnimationColor1: Constants.stateWorst[1], resultAnimationColor2: Constants.stateWorst[2],
-                timerTime: Constants.stateWorst[3], timerIndication: Constants.stateWorst[4], timerIndicatorColor: Constants.stateWorst[5],
-                sideEffectsBackgroundColor1: Constants.stateWorst[6],
-                sideEffect1Image: Constants.stateWorst[7], sideEffect1Text1: Constants.stateWorst[8], sideEffect1Text2: Constants.stateWorst[9],
-                sideEffectsBackgroundColor2: Constants.stateWorst[10],
-                sideEffect2Image: Constants.stateWorst[11], sideEffect2Text1: Constants.stateWorst[12], sideEffect2Text2: Constants.stateWorst[13],
-                sideEffectsBackgroundColor3: Constants.stateWorst[14],
-                sideEffect3Image: Constants.stateWorst[15], sideEffect3Text1: Constants.stateWorst[16], sideEffect3Text2: Constants.stateWorst[17],
-                sideEffectsBackgroundColor4: Constants.stateWorst[18],
-                sideEffect4Image: Constants.stateWorst[19], sideEffect4Text1: Constants.stateWorst[20], sideEffect4Text2: Constants.stateWorst[21])
-        }
-        else if (state == "stateOK") {
-            setDisplay(resultIcon: Constants.stateOK[0],
-                resultAnimationColor1: Constants.stateOK[1], resultAnimationColor2: Constants.stateOK[2],
-                timerTime: Constants.stateOK[3], timerIndication: Constants.stateOK[4], timerIndicatorColor: Constants.stateOK[5],
-                sideEffectsBackgroundColor1: Constants.stateOK[6],
-                sideEffect1Image: Constants.stateOK[7], sideEffect1Text1: Constants.stateOK[8], sideEffect1Text2: Constants.stateOK[9],
-                sideEffectsBackgroundColor2: Constants.stateOK[10],
-                sideEffect2Image: Constants.stateOK[11], sideEffect2Text1: Constants.stateOK[12], sideEffect2Text2: Constants.stateOK[13],
-                sideEffectsBackgroundColor3: Constants.stateOK[14],
-                sideEffect3Image: Constants.stateOK[15], sideEffect3Text1: Constants.stateOK[16], sideEffect3Text2: Constants.stateOK[17],
-                sideEffectsBackgroundColor4: Constants.stateOK[18],
-                sideEffect4Image: Constants.stateOK[19], sideEffect4Text1: Constants.stateOK[20], sideEffect4Text2: Constants.stateOK[21])
-        }
-        
-
         
     }
     
     
     func setDisplay(
         resultIcon: String, resultAnimationColor1: String, resultAnimationColor2: String,
-        timerTime: String, timerIndication: String, timerIndicatorColor: String,
-        sideEffectsBackgroundColor1: String,
-        sideEffect1Image: String, sideEffect1Text1: String, sideEffect1Text2: String,
-        sideEffectsBackgroundColor2: String,
-        sideEffect2Image: String, sideEffect2Text1: String, sideEffect2Text2: String,
-        sideEffectsBackgroundColor3: String,
-        sideEffect3Image: String, sideEffect3Text1: String, sideEffect3Text2: String,
-        sideEffectsBackgroundColor4: String,
-        sideEffect4Image: String, sideEffect4Text1: String, sideEffect4Text2: String) {
+        timerTime: String, timerIndication: Int, timerIndicatorColor: String) {
               
         let pulse1Color = UIColor(named: resultAnimationColor1)?.cgColor
         let pulse2Color = UIColor(named: resultAnimationColor2)?.cgColor
         let trackColor = UIColor(named: timerIndicatorColor)?.cgColor
         let timerScore = Double(timerIndication)
-        let sideEffectsBGC1 = UIColor(named: sideEffectsBackgroundColor1)
-        let sideEffectsBGC2 = UIColor(named: sideEffectsBackgroundColor2)
-        let sideEffectsBGC3 = UIColor(named: sideEffectsBackgroundColor3)
-        let sideEffectsBGC4 = UIColor(named: sideEffectsBackgroundColor4)
+
         
         //Top results image and animation
         overallResults.image = UIImage(named: resultIcon)
@@ -836,24 +652,9 @@ class ResultsViewController: UIViewController {
         timerTitle.attributedText = attributedExposureText(text1: timerTime)
         timerFillerLayer.strokeColor = trackColor
         timerIndicator.backgroundColor = trackColor
-        makeTimerGraphic(score: timerScore!, track: timerTrackLayer, animationLayer: timerIndicator, filler: timerFillerLayer)
+        makeTimerGraphic(score: timerScore, track: timerTrackLayer, animationLayer: timerIndicator, filler: timerFillerLayer)
         
-        //Side effect containers
-        sideEffectContainer1.image = UIImage(named: sideEffect1Image)
-        sideEffectContainer1.backgroundColor = sideEffectsBGC1
-        sideEffectsTitle1.attributedText = attributedText(text1: sideEffect1Text1, text2: sideEffect1Text2)
-        
-        sideEffectContainer2.image = UIImage(named: sideEffect2Image)
-        sideEffectContainer2.backgroundColor = sideEffectsBGC2
-        sideEffectsTitle2.attributedText = attributedText(text1: sideEffect2Text1, text2: sideEffect2Text2)
-        
-        sideEffectContainer3.image = UIImage(named: sideEffect3Image)
-        sideEffectContainer3.backgroundColor = sideEffectsBGC3
-        sideEffectsTitle3.attributedText = attributedText(text1: sideEffect3Text1, text2: sideEffect3Text2)
-        
-        sideEffectContainer4.image = UIImage(named: sideEffect4Image)
-        sideEffectContainer4.backgroundColor = sideEffectsBGC4
-        sideEffectsTitle4.attributedText = attributedText(text1: sideEffect4Text1, text2: sideEffect4Text2)
+
     }
     
     
@@ -871,19 +672,33 @@ class ResultsViewController: UIViewController {
     
     //when container views are tapped
     @objc func exposureTap(_ sender: UITapGestureRecognizer? = nil) {
-        presentMoreInfoPopUp()
+        timerObjects = [moreTimerInfo]
+        timerSwiper.items = timerObjects
+        popUpView.titleLabel.attributedText = popUpView.attributedTitle(text1: Constants.exposureTitle)
+        presentMoreInfoPopUp(swiper: timerSwiper)
     }
     
-    @objc func sideeffectTap(_ sender: UITapGestureRecognizer? = nil) {
-        presentMoreInfoPopUp()
+    @objc func MoreInfoObjectTap(_ sender: UITapGestureRecognizer? = nil) {
+        sideEffectsObjects = [dizzyness, dizzyness2, dizzyness3, dizzyness4]
+        var helperArray = [MoreInfoObject]()
+        for i in sideEffectsObjects {
+            if (i.moreInfoImage != "") {
+                helperArray.append(i)
+            }
+        }
+        MoreInfoObjectsSwiper.items = helperArray
+        popUpView.titleLabel.attributedText = popUpView.attributedTitle(text1: Constants.sideEffectsTitle)
+        presentMoreInfoPopUp(swiper: MoreInfoObjectsSwiper)
     }
     
     @objc func tipsTap(_ sender: UITapGestureRecognizer? = nil) {
-        presentMoreInfoPopUp()
+        tipsSwiper.items = [moreTimerInfo]
+        popUpView.titleLabel.attributedText = popUpView.attributedTitle(text1: Constants.tipsTitle)
+        presentMoreInfoPopUp(swiper: tipsSwiper)
     }
     
-    func presentMoreInfoPopUp() {
-        
+    func presentMoreInfoPopUp(swiper: SwipingController) {
+    
         self.view.addSubview(visualEffectView)
         self.view.addSubview(popUpView)
         popUpView.addSubview(swiper)
@@ -923,6 +738,9 @@ extension ResultsViewController: PopUpDelegate {
             self.popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         }) { (_) in
             self.popUpView.removeFromSuperview()
+            self.timerSwiper.removeFromSuperview()
+            self.tipsSwiper.removeFromSuperview()
+            self.MoreInfoObjectsSwiper.removeFromSuperview()
             print("did remove")
         }
     }

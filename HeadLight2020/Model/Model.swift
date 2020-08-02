@@ -21,9 +21,12 @@ class Model: NSObject {
     var matrixOfPixelsForAnalysis = [[Int]]()
     let cameraCapture: CameraCapture
     var matrixOfTotalWaveInfo = [[Int]]()
+    let stateholder = StateHolder()
+    var state: State
     
     init(cameraCapture: CameraCapture) {
         self.cameraCapture = cameraCapture
+        self.state = stateholder.OK
     }
     
     func setMatrixForAnalysis() {
@@ -229,4 +232,9 @@ class Model: NSObject {
         //Notifies viewModel to update its relevant parameters
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
     }
+    
+    func calculateState() {
+        state = stateholder.best
+    }
+    
 }

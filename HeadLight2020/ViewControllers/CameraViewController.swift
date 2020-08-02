@@ -272,6 +272,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
             destinationViewController?.flickerIndex = viewModel.flickerIndex
             destinationViewController?.hertz = viewModel.hertz
             destinationViewController?.flickerPercent = viewModel.flickerPercent
+            destinationViewController?.state = viewModel.state
         }
     }
     

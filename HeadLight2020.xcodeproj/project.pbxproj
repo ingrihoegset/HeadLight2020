@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AA244A2DC33F1696CFC13368 /* Pods_HeadLight2020.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CBAC868CCFA279193463738 /* Pods_HeadLight2020.framework */; };
+		BF41A12024D771B800228F81 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41A11F24D771B800228F81 /* State.swift */; };
+		BF41A12224D7790C00228F81 /* StateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41A12124D7790C00228F81 /* StateHolder.swift */; };
 		BF634E8624CB13C80050CE69 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */; };
 		BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */; };
 		BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */; };
@@ -29,14 +31,18 @@
 		BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBED24B32134005F93DB /* CameraViewModel.swift */; };
 		BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */; };
 		BFF48A5724D0AAC600304DB9 /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A5624D0AAC600304DB9 /* PopUpView.swift */; };
-		BFF48A5E24D0C16700304DB9 /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A5D24D0C16700304DB9 /* Tester.swift */; };
 		BFF48A6024D0C1E500304DB9 /* SwipingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A5F24D0C1E500304DB9 /* SwipingController.swift */; };
+		BFF48A6224D7425500304DB9 /* MoreInfoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A6124D7425500304DB9 /* MoreInfoObject.swift */; };
+		BFF48A6424D745DF00304DB9 /* MoreInfoObjectTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A6324D745DF00304DB9 /* MoreInfoObjectTexts.swift */; };
+		BFF48A6624D75CBC00304DB9 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A6524D75CBC00304DB9 /* InfoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		05A428F84C6406DD9932DAC1 /* Pods-HeadLight2020.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeadLight2020.release.xcconfig"; path = "Target Support Files/Pods-HeadLight2020/Pods-HeadLight2020.release.xcconfig"; sourceTree = "<group>"; };
 		76D4DEBCFC7A40B37E948F5B /* Pods-HeadLight2020.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeadLight2020.debug.xcconfig"; path = "Target Support Files/Pods-HeadLight2020/Pods-HeadLight2020.debug.xcconfig"; sourceTree = "<group>"; };
 		8CBAC868CCFA279193463738 /* Pods_HeadLight2020.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HeadLight2020.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF41A11F24D771B800228F81 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		BF41A12124D7790C00228F81 /* StateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHolder.swift; sourceTree = "<group>"; };
 		BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseAnimation.swift; sourceTree = "<group>"; };
@@ -60,8 +66,10 @@
 		BFBCCBED24B32134005F93DB /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		BFF48A5624D0AAC600304DB9 /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
-		BFF48A5D24D0C16700304DB9 /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
 		BFF48A5F24D0C1E500304DB9 /* SwipingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingController.swift; sourceTree = "<group>"; };
+		BFF48A6124D7425500304DB9 /* MoreInfoObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoObject.swift; sourceTree = "<group>"; };
+		BFF48A6324D745DF00304DB9 /* MoreInfoObjectTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoObjectTexts.swift; sourceTree = "<group>"; };
+		BFF48A6524D75CBC00304DB9 /* InfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				BF70F6E924C849450044F6B3 /* Constants.swift */,
+				BFF48A6324D745DF00304DB9 /* MoreInfoObjectTexts.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -148,7 +157,6 @@
 				BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */,
 				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
 				BF634E8F24CE42770050CE69 /* HowToUseController.swift */,
-				BFF48A5D24D0C16700304DB9 /* Tester.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -159,6 +167,8 @@
 				BFBCCBEB24B3211E005F93DB /* Model.swift */,
 				BF70F6E524C71A2B0044F6B3 /* CameraCapture.swift */,
 				BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */,
+				BF41A11F24D771B800228F81 /* State.swift */,
+				BF41A12124D7790C00228F81 /* StateHolder.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -170,6 +180,8 @@
 				BF8210AE24CF1D77000F4A74 /* CustomCell.swift */,
 				BFF48A5624D0AAC600304DB9 /* PopUpView.swift */,
 				BFF48A5F24D0C1E500304DB9 /* SwipingController.swift */,
+				BFF48A6124D7425500304DB9 /* MoreInfoObject.swift */,
+				BFF48A6524D75CBC00304DB9 /* InfoCell.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -303,19 +315,23 @@
 				BFF48A5724D0AAC600304DB9 /* PopUpView.swift in Sources */,
 				BFBCCBEC24B3211E005F93DB /* Model.swift in Sources */,
 				BFBCCB9424AB8782005F93DB /* HeadLight2020.xcdatamodeld in Sources */,
+				BF41A12024D771B800228F81 /* State.swift in Sources */,
+				BFF48A6224D7425500304DB9 /* MoreInfoObject.swift in Sources */,
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
 				BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */,
 				BF634E8E24CDF2270050CE69 /* MenuListController.swift in Sources */,
 				BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */,
 				BF634E9024CE42770050CE69 /* HowToUseController.swift in Sources */,
+				BFF48A6624D75CBC00304DB9 /* InfoCell.swift in Sources */,
 				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
+				BFF48A6424D745DF00304DB9 /* MoreInfoObjectTexts.swift in Sources */,
 				BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */,
 				BFF48A6024D0C1E500304DB9 /* SwipingController.swift in Sources */,
 				BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */,
+				BF41A12224D7790C00228F81 /* StateHolder.swift in Sources */,
 				BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */,
 				BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */,
-				BFF48A5E24D0C16700304DB9 /* Tester.swift in Sources */,
 				BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

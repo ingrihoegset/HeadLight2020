@@ -18,6 +18,7 @@ class CameraViewModel {
     var flickerPercent: Double
     var flickerIndex: Double
     var hertz: Double
+    var state: State
     
     init(model: Model) {
         
@@ -27,6 +28,7 @@ class CameraViewModel {
         self.flickerIndex = model.flickerIndex
         self.hertz = model.hertz
         self.motionSensor = MotionSensor()
+        self.state = model.state
         
         NotificationCenter.default.addObserver(self, selector: #selector(getNewResults), name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
         
@@ -37,6 +39,7 @@ class CameraViewModel {
         self.flickerPercent = model.flickerPercent * 100
         self.flickerIndex = model.flickerIndex * 100
         self.hertz = model.hertz
+        self.state = model.state
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
     }
     
@@ -44,6 +47,8 @@ class CameraViewModel {
         model.setMatrixForAnalysis()
         model.calculateFlickerPercent()
         model.calculateFlickerIndex()
+        model.calculateState()
+        print(state)
     }
     
     func startMotionSensor() {

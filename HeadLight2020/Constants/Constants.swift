@@ -10,8 +10,17 @@ import Foundation
 import UIKit
 
 struct Constants {
+    
+    //Titles
+    static let exposureTitle = "Exposure"
+    static let sideEffectsTitle = "Possible Side Effects"
+    static let tipsTitle = "Tips Title XXXX"
+    
+    //For analysis
     static let noOfFramesPerSecond = 240
     static let noOfFramesForAnalysis = 120
+    
+    //Sizes and margins
     static let widthOfDisplay = UIScreen.main.bounds.size.width
     static let heightOfDisplay = UIScreen.main.bounds.size.height
     static let displayViewPortionOfScreen = heightOfDisplay * 0.2

@@ -13,17 +13,22 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
 
     
 
-    let items = ["1","2","3","4","5","6","7","8"]
+    var items = [MoreInfoObject]()
     let cellId = "infoCellId"
     
 
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         self.backgroundColor = .clear
         setupViews()
-
+    }
+    
+    init(frame: CGRect, contentArray: [MoreInfoObject]) {
+        super.init(frame: frame)
+        self.backgroundColor = .clear
+        items = contentArray
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
@@ -32,7 +37,6 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
     
     
     let collectionView: UICollectionView = {
-        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -61,7 +65,11 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! InfoCell
+        let sideeffect = items[indexPath.row]
+        cell.imageView.image = UIImage(named: sideeffect.moreInfoImage)
+        cell.textView.text = sideeffect.moreInfoText
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -81,76 +89,8 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
-    
-    
 
-    
-    
 
 }
 
 
-class InfoCell: UICollectionViewCell {
-    
-    let container: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
-        return view
-    }()
-    
-    let imageView: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = .green
-        view.layer.cornerRadius = Constants.largeContainerDimension * 0.8 / 2
-        view.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "Best")
-        view.image = image
-        return view
-    }()
-    
-    let textView: UITextView = {
-        let view = UITextView()
-        view.backgroundColor = UIColor(named: "mainColor")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.textColor = .white
-        view.text = "Some information"
-        view.isUserInteractionEnabled = false
-        return view
-    }()
-    
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = .clear
-        self.layer.cornerRadius = Constants.cornerRadius
-        self.addSubview(container)
-        container.addSubview(imageView)
-        container.addSubview(textView)
-        setupViews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupViews() {
-        container.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2 * Constants.sideMargins).isActive = true
-        container.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.sideMargins).isActive = true
-        container.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
-        container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-
-        imageView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.5).isActive = true
-        imageView.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.5).isActive = true
-        imageView.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
-        imageView.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
-
-        textView.widthAnchor.constraint(equalTo: container.widthAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
-        textView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.verticalMargins).isActive = true
-        textView.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
-    }
-    
-}
