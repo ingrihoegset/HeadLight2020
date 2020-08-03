@@ -36,6 +36,7 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.layer.cornerRadius = Constants.radius
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -45,8 +46,9 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
     
     let dots: UIPageControl = {
         let controller = UIPageControl()
-        controller.currentPageIndicatorTintColor = UIColor(named: "mainColorAccentLight")
+        controller.currentPageIndicatorTintColor = UIColor(named: "mainContrastColor")
         controller.backgroundColor = .clear
+        controller.layer.cornerRadius = Constants.cornerRadius
         controller.pageIndicatorTintColor = UIColor(named: "mainColor")
         controller.translatesAutoresizingMaskIntoConstraints = false
         return controller
@@ -59,7 +61,7 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
         dots.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         dots.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         dots.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        dots.heightAnchor.constraint(equalToConstant: Constants.verticalMargins).isActive = true
+        dots.heightAnchor.constraint(equalToConstant: 1.5 * Constants.verticalMargins).isActive = true
         
         addSubview(collectionView)
         collectionView.dataSource = self

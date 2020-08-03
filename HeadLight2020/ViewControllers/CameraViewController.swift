@@ -59,9 +59,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         shapeLayer.lineWidth = 8
         //decorative circle around capture button Center is half of button height and width
         let x = sizeOfCaptureButton * 0.5
-        print(x)
         let y = sizeOfCaptureButton * 0.5
-                print(y)
         let circle = UIBezierPath()
         circle.addArc(withCenter: CGPoint(x: x, y: y), radius: CGFloat(sizeOfCaptureButton * 0.5 + 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
         shapeLayer.path = circle.cgPath
@@ -82,7 +80,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         let layer = CAShapeLayer()
         layer.fillColor = UIColor(named: "mainContrastColor")?.cgColor
         layer.isHidden = true
-        let size = CGFloat(25)
+        let size = CGFloat(10)
         layer.path = CGPath(ellipseIn: CGRect(x: -size / 2, y: ( -CGFloat(sizeOfCaptureButton) / 2) - size / 2 - 5, width: size, height: size), transform: nil)
         let circleCenter = CGPoint(x: CGFloat(sizeOfCaptureButton / 2), y: CGFloat(sizeOfCaptureButton / 2))
         layer.position = circleCenter
@@ -99,6 +97,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
+        
         
         let menu = MenuListController()
         menu.delegate = self
@@ -267,7 +266,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
     {
         if segue.destination is ResultsViewController
         {
-            print(viewModel.flickerPercent)
             let destinationViewController = segue.destination as? ResultsViewController
             destinationViewController?.flickerIndex = viewModel.flickerIndex
             destinationViewController?.hertz = viewModel.hertz
@@ -308,7 +306,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
                 self.howToUseController.view.isHidden = true
                 
             }
-            
         })
     }
     
@@ -320,10 +317,5 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         howToUseController.view.isHidden = true
         
     }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
 }
 

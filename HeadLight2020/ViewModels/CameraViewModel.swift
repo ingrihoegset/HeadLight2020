@@ -48,7 +48,6 @@ class CameraViewModel {
         model.calculateFlickerPercent()
         model.calculateFlickerIndex()
         model.calculateState()
-        print("state", state)
     }
     
     func startMotionSensor() {

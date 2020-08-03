@@ -182,8 +182,8 @@
 				BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */,
 				BF8210AE24CF1D77000F4A74 /* CustomCell.swift */,
 				BFF48A5624D0AAC600304DB9 /* PopUpView.swift */,
-				BFF48A5F24D0C1E500304DB9 /* SwipingController.swift */,
 				BFF48A6124D7425500304DB9 /* MoreInfoObject.swift */,
+				BFF48A5F24D0C1E500304DB9 /* SwipingController.swift */,
 				BFF48A6524D75CBC00304DB9 /* InfoCell.swift */,
 			);
 			path = Classes;

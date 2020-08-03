@@ -15,6 +15,7 @@ class InfoCell: UICollectionViewCell {
     let container: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = Constants.cornerRadius
         view.backgroundColor = .clear
         return view
     }()
@@ -59,19 +60,19 @@ class InfoCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        container.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2 * Constants.sideMargins).isActive = true
+        container.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -4 * Constants.sideMargins).isActive = true
         container.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.sideMargins).isActive = true
         container.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
         container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 
-        imageView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.4).isActive = true
-        imageView.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.4).isActive = true
+        imageView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.35).isActive = true
+        imageView.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.35).isActive = true
         imageView.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
         imageView.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
 
         textView.widthAnchor.constraint(equalTo: container.widthAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
+        textView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -1.5 * Constants.verticalMargins).isActive = true
         textView.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
         textView.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
     }

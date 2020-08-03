@@ -50,9 +50,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Vie-KC-8Yb">
-                        <barButtonItem key="leftBarButtonItem" image="menu" id="t5F-02-u64">
+                        <barButtonItem key="leftBarButtonItem" image="Menu" id="s0V-b7-NUH">
                             <connections>
-                                <action selector="didTapMenu" destination="BYZ-38-t0r" id="zNW-Ry-THA"/>
+                                <action selector="didTapMenu" destination="BYZ-38-t0r" id="cvd-1p-yCy"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -83,7 +83,7 @@
     </scenes>
     <color key="tintColor" name="accentLight"/>
     <resources>
-        <image name="menu" width="64" height="64"/>
+        <image name="Menu" width="64" height="64"/>
         <namedColor name="accentLight">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -267,6 +267,7 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
+    /*
     let timerIndicator: CAShapeLayer = {
         let animationLayer = CAShapeLayer()
         let size: CGFloat = 25.0
@@ -275,7 +276,7 @@ class ResultsViewController: UIViewController {
         animationLayer.position = CGPoint(x: size / 2, y: Constants.smallContainerDimensions * 0.5)
         animationLayer.backgroundColor = UIColor.systemYellow.cgColor
         return animationLayer
-    }()
+    }()*/
     
     let timerTrackLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
@@ -318,7 +319,7 @@ class ResultsViewController: UIViewController {
     
     lazy var popUpView: PopUpView = {
         let view = PopUpView(frame: .zero, title: "Title")
-        view.backgroundColor = UIColor(named: "accentLight")
+        view.backgroundColor = UIColor(named: "mainColor")
         view.layer.cornerRadius = Constants.cornerRadius
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
@@ -327,18 +328,21 @@ class ResultsViewController: UIViewController {
     
     let timerSwiper: SwipingController = {
         let swiper = SwipingController(frame: .zero)
+        swiper.backgroundColor = UIColor(named: "accentLight")
         swiper.translatesAutoresizingMaskIntoConstraints = false
         return swiper
     }()
     
     let MoreInfoObjectsSwiper: SwipingController = {
         let swiper = SwipingController(frame: .zero)
+        swiper.backgroundColor = UIColor(named: "accentLight")
         swiper.translatesAutoresizingMaskIntoConstraints = false
         return swiper
     }()
     
     let tipsSwiper: SwipingController = {
         let swiper = SwipingController(frame: .zero)
+        swiper.backgroundColor = UIColor(named: "accentLight")
         swiper.translatesAutoresizingMaskIntoConstraints = false
         return swiper
     }()
@@ -393,7 +397,7 @@ class ResultsViewController: UIViewController {
         setupLayoutConstraints()
 
         timerIndiatorContainer.layer.addSublayer(timerTrackLayer)
-        timerIndiatorContainer.layer.addSublayer(timerIndicator)
+        //timerIndiatorContainer.layer.addSublayer(timerIndicator)
         timerIndiatorContainer.layer.addSublayer(timerFillerLayer)
 
         setState()
@@ -577,7 +581,7 @@ class ResultsViewController: UIViewController {
         animationLayer.add(basicAnimation, forKey: "basic")
     }
     
-    func makeTimerGraphic(score: Double, track: CAShapeLayer, animationLayer: CAShapeLayer, filler: CAShapeLayer) {
+    func makeTimerGraphic(score: Double, track: CAShapeLayer, filler: CAShapeLayer) {
         
         let endpoint = score / 100
         
@@ -588,20 +592,26 @@ class ResultsViewController: UIViewController {
 
         track.path = path.cgPath
         filler.path = path.cgPath
-        
+    
         let barAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        barAnimation.toValue = endpoint
+        if endpoint == 0 {
+            barAnimation.toValue = endpoint + 0.01
+        }
+        else {
+            barAnimation.toValue = endpoint
+        }
         barAnimation.duration = 2.0
         barAnimation.fillMode = CAMediaTimingFillMode.forwards
         barAnimation.isRemovedOnCompletion = false
         filler.add(barAnimation, forKey: "basic")
         
+        /*
         let basicAnimation = CABasicAnimation(keyPath: "position")
         basicAnimation.toValue = CGPoint(x: endOfPathX * CGFloat(endpoint) + 12.5, y: Constants.smallContainerDimensions * 0.5)
         basicAnimation.duration = 2.0
         basicAnimation.fillMode = CAMediaTimingFillMode.forwards
         basicAnimation.isRemovedOnCompletion = false
-        animationLayer.add(basicAnimation, forKey: "position")
+        animationLayer.add(basicAnimation, forKey: "position")*/
     }
     
     func setState() {
@@ -633,8 +643,8 @@ class ResultsViewController: UIViewController {
         //timer
         timerTitle.attributedText = attributedExposureText(text1: timerTime)
         timerFillerLayer.strokeColor = trackColor
-        timerIndicator.backgroundColor = trackColor
-        makeTimerGraphic(score: timerScore, track: timerTrackLayer, animationLayer: timerIndicator, filler: timerFillerLayer)
+        //timerIndicator.backgroundColor = trackColor
+        makeTimerGraphic(score: timerScore, track: timerTrackLayer, filler: timerFillerLayer)
     }
     
     
@@ -688,8 +698,8 @@ class ResultsViewController: UIViewController {
         popUpView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -(4 * Constants.topMargin)).isActive = true
         popUpView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -(2 * Constants.verticalMargins)).isActive = true
         
-        swiper.topAnchor.constraint(equalTo: popUpView.closePopUpButton.bottomAnchor).isActive = true
-        swiper.bottomAnchor.constraint(equalTo: popUpView.bottomAnchor).isActive = true
+        swiper.topAnchor.constraint(equalTo: popUpView.closePopUpButton.bottomAnchor, constant: Constants.sideMargins).isActive = true
+        swiper.bottomAnchor.constraint(equalTo: popUpView.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
         swiper.leadingAnchor.constraint(equalTo: popUpView.leadingAnchor).isActive = true
         swiper.trailingAnchor.constraint(equalTo: popUpView.trailingAnchor).isActive = true
         

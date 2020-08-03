@@ -19,7 +19,8 @@ class PopUpView: UIView {
     
     let closePopUpButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .clear
+        button.backgroundColor = UIColor(named: "accentLight")
+        button.layer.cornerRadius = Constants.topMargin / 1.8 / 2
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "Exit"), for: .normal)
         button.addTarget(self, action: #selector(handleDismissal), for: .touchUpInside)
@@ -30,14 +31,13 @@ class PopUpView: UIView {
         let label = UILabel()
         label.backgroundColor = .clear
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(named: "mainColor")
+        label.textColor = UIColor(named: "accentLight")
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(closePopUpButton)
-
         closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
         closePopUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.sideMargins).isActive = true
         closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
@@ -50,13 +50,13 @@ class PopUpView: UIView {
         self.addSubview(titleLabel)
         closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
         closePopUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.sideMargins).isActive = true
-        closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
-        closePopUpButton.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
+        closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.8).isActive = true
+        closePopUpButton.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.8).isActive = true
         
         titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.sideMargins).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: closePopUpButton.leadingAnchor, constant: -Constants.sideMargins).isActive = true
-        titleLabel.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: closePopUpButton.centerYAnchor).isActive = true
         titleLabel.attributedText = attributedTitle(text1: title)
     }
     
@@ -69,7 +69,7 @@ class PopUpView: UIView {
     }
     
     func attributedTitle(text1: String) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: text1, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
+        let attributedText = NSMutableAttributedString(string: text1, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
         return attributedText
     }
 }
