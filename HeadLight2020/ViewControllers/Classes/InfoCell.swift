@@ -22,7 +22,7 @@ class InfoCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .clear
-        view.layer.cornerRadius = Constants.largeContainerDimension * 0.8 / 2
+        view.layer.cornerRadius = Constants.largeContainerDimension * 0.4 / 2
         view.translatesAutoresizingMaskIntoConstraints = false
         let image = UIImage(named: "Best")
         view.image = image
@@ -31,11 +31,15 @@ class InfoCell: UICollectionViewCell {
     
     let textView: UITextView = {
         let view = UITextView()
-        view.backgroundColor = UIColor(named: "mainColor")
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.textColor = .white
+        view.textColor = UIColor(named: "mainColorAccentDark")
         view.text = "Some information"
-        view.isUserInteractionEnabled = false
+        view.font = UIFont(name: "Poppins-Light", size: 18)
+        view.textAlignment = .left
+        view.isUserInteractionEnabled = true
+        view.isEditable = false
+        view.isScrollEnabled = true
         return view
     }()
     
@@ -61,14 +65,14 @@ class InfoCell: UICollectionViewCell {
         container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 
-        imageView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.5).isActive = true
-        imageView.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.5).isActive = true
+        imageView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.4).isActive = true
+        imageView.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.4).isActive = true
         imageView.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
         imageView.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
 
         textView.widthAnchor.constraint(equalTo: container.widthAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
-        textView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.verticalMargins).isActive = true
+        textView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
+        textView.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
         textView.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
     }
     

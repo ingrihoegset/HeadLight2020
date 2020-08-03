@@ -20,17 +20,6 @@ class ResultsViewController: UIViewController {
     var tipsObject = [MoreInfoObject]()
     var state = State(overallImageName: "", overallIndicatorColorMain: "", overallIndicatorColorSub: "", exposureTime: "", indicatorTime: 0, indicatorColor: "", sideeffects: [], timerObject: [], tipsObject: [])
     
-    
-    let dizzyness = MoreInfoObject(frame: .zero, image: "Dizzyness", title1: "Dizzyness", title2: "", moreInfoText: MoreInfoObjectTexts.dizzynessText)
-    let dizzyness2 = MoreInfoObject(frame: .zero, image: "Dizzyness", title1: "Dizzyness", title2: "", moreInfoText: MoreInfoObjectTexts.dizzynessText)
-    let dizzyness3 = MoreInfoObject(frame: .zero)
-    let dizzyness4 = MoreInfoObject(frame: .zero)
-
-    
-    let moreTimerInfo = MoreInfoObject(frame: .zero, image: "Timer", title1: "", title2: "", moreInfoText: "String")
-    
-
-    
     let overallResults: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor(named: "accentLight")
@@ -229,13 +218,11 @@ class ResultsViewController: UIViewController {
     
     let horizontalMoreInfoObjectsContainer: UIStackView = {
         let container = UIStackView(frame: .zero)
-        
         container.translatesAutoresizingMaskIntoConstraints = false
         container.alignment = .center
         container.distribution = .fillEqually
         container.axis = .horizontal
         container.spacing = (Constants.containerDimension * 3 - 4 * Constants.smallContainerDimensions) / 5
-
         return container
     }()
     
@@ -402,14 +389,12 @@ class ResultsViewController: UIViewController {
         
         infoContainerMoreInfoObjects.addSubview(MoreInfoObjectsTitle)
         infoContainerMoreInfoObjects.addSubview(horizontalMoreInfoObjectsContainer)
-
         
         setupLayoutConstraints()
 
         timerIndiatorContainer.layer.addSublayer(timerTrackLayer)
         timerIndiatorContainer.layer.addSublayer(timerIndicator)
         timerIndiatorContainer.layer.addSublayer(timerFillerLayer)
-
 
         setState()
         getNewResults()
@@ -573,7 +558,6 @@ class ResultsViewController: UIViewController {
     
     func makeGraphic(score: Double, trackLayer: CAShapeLayer, animationLayer: CAShapeLayer, duration: Double) {
 
-
         //Location for track and for animation
         let center = CGPoint(x: Constants.containerDimension * 0.5, y: Constants.containerDimension * 0.5)
 
@@ -621,12 +605,11 @@ class ResultsViewController: UIViewController {
     }
     
     func setState() {
-        setDisplay(resultIcon: state.overallImageName!, resultAnimationColor1: state.indicatorColor!, resultAnimationColor2: state.indicatorColor!, timerTime: state.exposureTime!, timerIndication: state.indicatorTime!, timerIndicatorColor: state.indicatorColor!)
-        
+        setDisplay(resultIcon: state.overallImageName!, resultAnimationColor1: state.overallIndicatorColorMain!, resultAnimationColor2: state.overallIndicatorColorSub!, timerTime: state.exposureTime!, timerIndication: state.indicatorTime!, timerIndicatorColor: state.indicatorColor!)
+
         for i in state.sideeffects! {
             horizontalMoreInfoObjectsContainer.addArrangedSubview(i)
         }
-        
     }
     
     
@@ -639,7 +622,6 @@ class ResultsViewController: UIViewController {
         let trackColor = UIColor(named: timerIndicatorColor)?.cgColor
         let timerScore = Double(timerIndication)
 
-        
         //Top results image and animation
         overallResults.image = UIImage(named: resultIcon)
         let position = CGPoint(x: Constants.largeContainerDimension / 2, y: Constants.largeContainerDimension / 2)
@@ -653,8 +635,6 @@ class ResultsViewController: UIViewController {
         timerFillerLayer.strokeColor = trackColor
         timerIndicator.backgroundColor = trackColor
         makeTimerGraphic(score: timerScore, track: timerTrackLayer, animationLayer: timerIndicator, filler: timerFillerLayer)
-        
-
     }
     
     
@@ -672,14 +652,14 @@ class ResultsViewController: UIViewController {
     
     //when container views are tapped
     @objc func exposureTap(_ sender: UITapGestureRecognizer? = nil) {
-        timerObjects = [moreTimerInfo]
+        timerObjects = state.timerObject!
         timerSwiper.items = timerObjects
         popUpView.titleLabel.attributedText = popUpView.attributedTitle(text1: Constants.exposureTitle)
         presentMoreInfoPopUp(swiper: timerSwiper)
     }
     
     @objc func MoreInfoObjectTap(_ sender: UITapGestureRecognizer? = nil) {
-        sideEffectsObjects = [dizzyness, dizzyness2, dizzyness3, dizzyness4]
+        sideEffectsObjects = state.sideeffects!
         var helperArray = [MoreInfoObject]()
         for i in sideEffectsObjects {
             if (i.moreInfoImage != "") {
@@ -692,7 +672,7 @@ class ResultsViewController: UIViewController {
     }
     
     @objc func tipsTap(_ sender: UITapGestureRecognizer? = nil) {
-        tipsSwiper.items = [moreTimerInfo]
+        tipsSwiper.items = state.tipsObject!
         popUpView.titleLabel.attributedText = popUpView.attributedTitle(text1: Constants.tipsTitle)
         presentMoreInfoPopUp(swiper: tipsSwiper)
     }
@@ -744,6 +724,4 @@ extension ResultsViewController: PopUpDelegate {
             print("did remove")
         }
     }
-    
-    
 }

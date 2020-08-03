@@ -229,12 +229,13 @@ class Model: NSObject {
         //finally we can calculate the flickerIndex
         flickerIndex = peakArea / (fullArea - peakArea)
         
-        //Notifies viewModel to update its relevant parameters
-        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
+
     }
     
     func calculateState() {
-        state = stateholder.best
+        state = stateholder.worst
+        //Notifies viewModel to update its relevant parameters
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
     }
     
 }

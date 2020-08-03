@@ -11,13 +11,9 @@ import UIKit
 
 class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    
-
     var items = [MoreInfoObject]()
     let cellId = "infoCellId"
     
-
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
@@ -43,24 +39,37 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsHorizontalScrollIndicator = false
        return collectionView
+    }()
+    
+    let dots: UIPageControl = {
+        let controller = UIPageControl()
+        controller.currentPageIndicatorTintColor = UIColor(named: "mainColorAccentLight")
+        controller.backgroundColor = .clear
+        controller.pageIndicatorTintColor = UIColor(named: "mainColor")
+        controller.translatesAutoresizingMaskIntoConstraints = false
+        return controller
     }()
     
     
     func setupViews() {
+
+        addSubview(dots)
+        dots.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        dots.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        dots.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        dots.heightAnchor.constraint(equalToConstant: Constants.verticalMargins).isActive = true
+        
         addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(InfoCell.self, forCellWithReuseIdentifier: cellId)
         
         collectionView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        
         collectionView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        
         collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        
-        collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-
+        collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
 
     
@@ -73,6 +82,7 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        dots.numberOfPages = items.count
         return items.count
     }
     
@@ -88,6 +98,13 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        dots.currentPage = Int(
+            (collectionView.contentOffset.x / collectionView.frame.width)
+            .rounded(.toNearestOrAwayFromZero)
+        )
     }
 
 

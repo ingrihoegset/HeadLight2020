@@ -69,7 +69,7 @@ class PopUpView: UIView {
     }
     
     func attributedTitle(text1: String) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: text1, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColor")!])
+        let attributedText = NSMutableAttributedString(string: text1, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
         return attributedText
     }
 }
