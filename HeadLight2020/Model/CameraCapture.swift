@@ -15,6 +15,7 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     let captureSession = AVCaptureSession()
     var matrixOfPixels = [[Int]]()
     var rowOfSimultaneousPixels = [Int]()
+    var counter = 0
 
     override init() {
         super.init()
@@ -41,7 +42,7 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
         //counts the number of frames that have been captured
-        //counter = counter + 1
+        counter = counter + 1
         let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
         
         CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
@@ -51,6 +52,44 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)!
         let byteBuffer = baseAddress.assumingMemoryBound(to: UInt8.self)
         
+        /*
+        //Retrieving EXIF data of camara frame buffer
+        let rawMetadata = CMCopyDictionaryOfAttachments(allocator: nil, target: sampleBuffer, attachmentMode: CMAttachmentMode(kCMAttachmentMode_ShouldPropagate))
+        let metadata = CFDictionaryCreateMutableCopy(nil, 0, rawMetadata) as NSMutableDictionary
+        let exifData = metadata.value(forKey: "{Exif}") as? NSMutableDictionary
+
+        let FNumber : Double = exifData?["FNumber"] as! Double
+        
+         
+        print("f",FNumber)
+
+        let ExposureTime : Double = exifData?["ExposureTime"] as! Double
+        print(ExposureTime)
+
+        let ISOSpeedRatingsArray = exifData!["ISOSpeedRatings"] as? NSArray
+        let ISOSpeedRatings : Double = ISOSpeedRatingsArray![0] as! Double
+        print(ISOSpeedRatings)
+        let CalibrationConstant : Double = 1
+
+        //Calculating the luminosity
+        let luminosity : Double = (CalibrationConstant * FNumber * FNumber ) / ( ExposureTime * ISOSpeedRatings )
+
+        print("lumosity", luminosity)*/
+        
+        
+        let rawMetadata = CMCopyDictionaryOfAttachments(allocator: nil, target: sampleBuffer, attachmentMode: CMAttachmentMode(kCMAttachmentMode_ShouldPropagate))
+        let metadata = CFDictionaryCreateMutableCopy(nil, 0, rawMetadata) as NSMutableDictionary
+        let exifData = metadata.value(forKey: "{Exif}") as? NSMutableDictionary
+        let brightnessValue: NSNumber = exifData![kCGImagePropertyExifBrightnessValue] as! NSNumber
+       // let lsValue = exifData![kCGImagePropertyExifLightSource] as! NSNumber
+        
+        if (counter == 4) {
+           //print(brightnessValue)
+            counter = 0
+        }
+
+        //print(lsValue)
+
         //Chosen pixel for analysis
         //We are pointing to the location of the pixel in the memory space, and not to the coordinate on the image.
         //We therefore locate the pixel by going through a long memory array, rather than a coordinate on a (x,y) format.
@@ -62,6 +101,8 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         //Dont know what this does, but dont move
         CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
 
+        print(Float(getPixelNumber(byteBuffer: byteBuffer, index: 0)))
+        
         createPixelMatrix(byteBuffer: byteBuffer, width: width, height: height)
     }
         

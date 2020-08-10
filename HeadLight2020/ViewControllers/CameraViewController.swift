@@ -107,8 +107,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         SideMenuManager.default.menuLeftNavigationController = sideMenu
         SideMenuManager.default.menuAddPanGestureToPresent(toView: self.view)
         
-
-        
         //Camera setup
         cameraSetup()
         
@@ -161,7 +159,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
             previewLayer.connection?.videoOrientation = .portrait
         }
         self.view.layer.addSublayer(previewLayer)
-        
+
         //starts the camera
         captureSession.startRunning()
         
