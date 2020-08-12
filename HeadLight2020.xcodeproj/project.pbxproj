@@ -20,6 +20,10 @@
 		BF70F6EA24C849450044F6B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6E924C849450044F6B3 /* Constants.swift */; };
 		BF70F6EC24C84D650044F6B3 /* MotionSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */; };
 		BF70F6F624C888180044F6B3 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */; };
+		BF75E3E524E1CACC000E9F7C /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75E3E424E1CACC000E9F7C /* Result.swift */; };
+		BF75E3E724E1CB37000E9F7C /* FourierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75E3E624E1CB37000E9F7C /* FourierModel.swift */; };
+		BF75E3E924E1E925000E9F7C /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF75E3E824E1E925000E9F7C /* Poppins-ExtraBold.ttf */; };
+		BF75E3EB24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF75E3EA24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf */; };
 		BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8210AE24CF1D77000F4A74 /* CustomCell.swift */; };
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
 		BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */; };
@@ -54,6 +58,10 @@
 		BF70F6E924C849450044F6B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSensor.swift; sourceTree = "<group>"; };
 		BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
+		BF75E3E424E1CACC000E9F7C /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		BF75E3E624E1CB37000E9F7C /* FourierModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourierModel.swift; sourceTree = "<group>"; };
+		BF75E3E824E1E925000E9F7C /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		BF75E3EA24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
 		BF8210AE24CF1D77000F4A74 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBCCB8924AB8782005F93DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,6 +149,8 @@
 				BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */,
 				BFBCCB8F24AB8782005F93DB /* Main.storyboard */,
 				BFBCCB9524AB8785005F93DB /* Assets.xcassets */,
+				BF75E3EA24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf */,
+				BF75E3E824E1E925000E9F7C /* Poppins-ExtraBold.ttf */,
 				BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */,
 				BF4A255C24D839D000E03B6C /* Poppins-Light.ttf */,
 				BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */,
@@ -172,6 +182,8 @@
 				BF70F6EB24C84D650044F6B3 /* MotionSensor.swift */,
 				BF41A11F24D771B800228F81 /* State.swift */,
 				BF41A12124D7790C00228F81 /* StateHolder.swift */,
+				BF75E3E424E1CACC000E9F7C /* Result.swift */,
+				BF75E3E624E1CB37000E9F7C /* FourierModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -261,8 +273,10 @@
 				BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */,
 				BF634E8624CB13C80050CE69 /* Poppins-SemiBold.ttf in Resources */,
 				BF70F6F624C888180044F6B3 /* Poppins-ExtraLight.ttf in Resources */,
+				BF75E3E924E1E925000E9F7C /* Poppins-ExtraBold.ttf in Resources */,
 				BFBCCB9924AB8785005F93DB /* LaunchScreen.storyboard in Resources */,
 				BFBCCB9624AB8785005F93DB /* Assets.xcassets in Resources */,
+				BF75E3EB24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf in Resources */,
 				BFBCCB9124AB8782005F93DB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,8 +338,10 @@
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
 				BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */,
 				BF634E8E24CDF2270050CE69 /* MenuListController.swift in Sources */,
+				BF75E3E724E1CB37000E9F7C /* FourierModel.swift in Sources */,
 				BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */,
 				BF634E9024CE42770050CE69 /* HowToUseController.swift in Sources */,
+				BF75E3E524E1CACC000E9F7C /* Result.swift in Sources */,
 				BFF48A6624D75CBC00304DB9 /* InfoCell.swift in Sources */,
 				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
@@ -484,7 +500,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TDRH7B9W9S;
 				INFOPLIST_FILE = HeadLight2020/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -504,7 +520,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TDRH7B9W9S;
 				INFOPLIST_FILE = HeadLight2020/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

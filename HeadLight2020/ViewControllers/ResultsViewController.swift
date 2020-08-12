@@ -18,7 +18,7 @@ class ResultsViewController: UIViewController {
     var sideEffectsObjects = [MoreInfoObject]()
     var timerObjects = [MoreInfoObject]()
     var tipsObject = [MoreInfoObject]()
-    var state = State(overallImageName: "", overallIndicatorColorMain: "", overallIndicatorColorSub: "", exposureTime: "", indicatorTime: 0, indicatorColor: "", sideeffects: [], timerObject: [], tipsObject: [])
+    var state = State(overallTitle: "", overallImageName: "", overallIndicatorColorMain: "", overallIndicatorColorSub: "", exposureTime: "", indicatorTime: 0, indicatorColor: "", sideeffects: [], timerObject: [], tipsObject: [])
     
     let overallResults: UIImageView = {
         let view = UIImageView()
@@ -267,17 +267,6 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
-    /*
-    let timerIndicator: CAShapeLayer = {
-        let animationLayer = CAShapeLayer()
-        let size: CGFloat = 25.0
-        animationLayer.frame = CGRect(x: 0, y: 0, width: size, height: size)
-        animationLayer.cornerRadius = size / 2
-        animationLayer.position = CGPoint(x: size / 2, y: Constants.smallContainerDimensions * 0.5)
-        animationLayer.backgroundColor = UIColor.systemYellow.cgColor
-        return animationLayer
-    }()*/
-    
     let timerTrackLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.fillColor = UIColor.clear.cgColor
@@ -354,14 +343,78 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
+    let thisLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.backgroundColor = UIColor(named: "mainColorAccentDark")
+        label.textColor = UIColor(named: "accentLight")
+        label.text = "This"
+        label.font = UIFont(name: "Poppins-BlackItalic", size: 20)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    let lightIsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = UIColor(named: "mainColorAccentDark")
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "accentLight")
+        label.text = "Light is"
+        label.font = UIFont(name: "Poppins-BlackItalic", size: 20)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    let lightQualityLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.backgroundColor = UIColor(named: "mainColorAccentDark")
+        label.textColor = UIColor(named: "accentLight")
+        label.text = "Good"
+        label.font = UIFont(name: "Poppins-BlackItalic", size: 20)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    let helperLabel1: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = UIColor(named: "mainColorAccentDark")
+        return label
+    }()
+    
+    let helperLabel2: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = UIColor(named: "mainColorAccentDark")
+        return label
+    }()
+    
+    let helperLabel3: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = UIColor(named: "mainColorAccentDark")
+        return label
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "mainColor")
+        self.view.addSubview(thisLabel)
+        self.view.addSubview(lightIsLabel)
+        self.view.addSubview(lightQualityLabel)
+        self.view.addSubview(helperLabel1)
+        self.view.addSubview(helperLabel2)
+        self.view.addSubview(helperLabel3)
         self.view.addSubview(overallResultsHelper)
         self.view.addSubview(overallResults)
 
+        
         self.view.addSubview(percentResultsContainer)
         percentResultsContainer.addSubview(resultsViewPercent)
         percentResultsContainer.layer.addSublayer(trackLayerPercent)
@@ -425,6 +478,34 @@ class ResultsViewController: UIViewController {
         overallResultsHelper.centerXAnchor.constraint(equalTo: overallResults.centerXAnchor).isActive = true
         overallResultsHelper.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension).isActive = true
         overallResultsHelper.widthAnchor.constraint(equalToConstant: Constants.largeContainerDimension).isActive = true
+        
+        //result labels
+        lightIsLabel.leadingAnchor.constraint(equalTo: overallResultsHelper.trailingAnchor).isActive = true
+        lightIsLabel.centerYAnchor.constraint(equalTo: overallResultsHelper.centerYAnchor).isActive = true
+        lightIsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    
+        thisLabel.bottomAnchor.constraint(equalTo: lightIsLabel.topAnchor, constant: -Constants.sideMargins).isActive = true
+        thisLabel.leadingAnchor.constraint(equalTo: overallResultsHelper.trailingAnchor).isActive = true
+        thisLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        lightQualityLabel.topAnchor.constraint(equalTo: lightIsLabel.bottomAnchor, constant:  Constants.sideMargins).isActive = true
+        lightQualityLabel.leadingAnchor.constraint(equalTo: overallResultsHelper.trailingAnchor).isActive = true
+        lightQualityLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        helperLabel1.leadingAnchor.constraint(equalTo: overallResultsHelper.centerXAnchor).isActive = true
+        helperLabel1.trailingAnchor.constraint(equalTo: thisLabel.leadingAnchor).isActive = true
+        helperLabel1.heightAnchor.constraint(equalTo: thisLabel.heightAnchor).isActive = true
+        helperLabel1.centerYAnchor.constraint(equalTo: thisLabel.centerYAnchor).isActive = true
+        
+        helperLabel2.leadingAnchor.constraint(equalTo: overallResultsHelper.centerXAnchor).isActive = true
+        helperLabel2.trailingAnchor.constraint(equalTo: lightIsLabel.leadingAnchor).isActive = true
+        helperLabel2.heightAnchor.constraint(equalTo: lightIsLabel.heightAnchor).isActive = true
+        helperLabel2.centerYAnchor.constraint(equalTo: lightIsLabel.centerYAnchor).isActive = true
+        
+        helperLabel3.leadingAnchor.constraint(equalTo: overallResultsHelper.centerXAnchor).isActive = true
+        helperLabel3.trailingAnchor.constraint(equalTo: lightQualityLabel.leadingAnchor).isActive = true
+        helperLabel3.heightAnchor.constraint(equalTo: lightQualityLabel.heightAnchor).isActive = true
+        helperLabel3.centerYAnchor.constraint(equalTo: lightQualityLabel.centerYAnchor).isActive = true
         
         // flicker index results container
         flickerIndexResultsContainer.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
@@ -616,6 +697,12 @@ class ResultsViewController: UIViewController {
     
     func setState() {
         setDisplay(resultIcon: state.overallImageName!, resultAnimationColor1: state.overallIndicatorColorMain!, resultAnimationColor2: state.overallIndicatorColorSub!, timerTime: state.exposureTime!, timerIndication: state.indicatorTime!, timerIndicatorColor: state.indicatorColor!)
+        
+        animationLayerPercent.strokeColor = UIColor(named: state.overallIndicatorColorMain!)?.cgColor
+        animationLayerFlickerIndex.strokeColor = UIColor(named: state.overallIndicatorColorMain!)?.cgColor
+        lightQualityLabel.text = state.overallTitle
+        lightQualityLabel.backgroundColor = UIColor(named: state.overallIndicatorColorSub!)
+        helperLabel3.backgroundColor = lightQualityLabel.backgroundColor
 
         for i in state.sideeffects! {
             horizontalMoreInfoObjectsContainer.addArrangedSubview(i)
@@ -672,7 +759,7 @@ class ResultsViewController: UIViewController {
         sideEffectsObjects = state.sideeffects!
         var helperArray = [MoreInfoObject]()
         for i in sideEffectsObjects {
-            if (i.moreInfoImage != "") {
+            if (i.moreInfoImage != "Empty") {
                 helperArray.append(i)
             }
         }

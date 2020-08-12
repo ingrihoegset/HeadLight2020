@@ -18,7 +18,7 @@ struct Constants {
     
     //For analysis
     static let noOfFramesPerSecond = 240
-    static let noOfFramesForAnalysis = 120
+    static let noOfFramesForAnalysis = 240
     
     //Sizes and margins
     static let widthOfDisplay = UIScreen.main.bounds.size.width

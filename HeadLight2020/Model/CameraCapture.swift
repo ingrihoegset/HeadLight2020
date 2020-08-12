@@ -13,9 +13,11 @@ import AVFoundation
 class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     let captureSession = AVCaptureSession()
-    var matrixOfPixels = [[Int]]()
-    var rowOfSimultaneousPixels = [Int]()
     var counter = 0
+    
+    //For Fourier
+    var rowOfPixels = [Float]()
+    var matrixOfPixelsFourier = [[Float]]()
 
     override init() {
         super.init()
@@ -40,9 +42,8 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     //This function is called automatically each time a new frame is recieved, i.e. 240 times per second
     //as long as the configuration was successfull. Most of the analysis and processing goes on here.
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
 
-        //counts the number of frames that have been captured
-        counter = counter + 1
         let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
         
         CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
@@ -52,44 +53,14 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)!
         let byteBuffer = baseAddress.assumingMemoryBound(to: UInt8.self)
         
-        /*
-        //Retrieving EXIF data of camara frame buffer
-        let rawMetadata = CMCopyDictionaryOfAttachments(allocator: nil, target: sampleBuffer, attachmentMode: CMAttachmentMode(kCMAttachmentMode_ShouldPropagate))
-        let metadata = CFDictionaryCreateMutableCopy(nil, 0, rawMetadata) as NSMutableDictionary
-        let exifData = metadata.value(forKey: "{Exif}") as? NSMutableDictionary
-
-        let FNumber : Double = exifData?["FNumber"] as! Double
+        // ------ For Fourier Start ------- //
+        rowOfPixels = []
         
-         
-        print("f",FNumber)
-
-        let ExposureTime : Double = exifData?["ExposureTime"] as! Double
-        print(ExposureTime)
-
-        let ISOSpeedRatingsArray = exifData!["ISOSpeedRatings"] as? NSArray
-        let ISOSpeedRatings : Double = ISOSpeedRatingsArray![0] as! Double
-        print(ISOSpeedRatings)
-        let CalibrationConstant : Double = 1
-
-        //Calculating the luminosity
-        let luminosity : Double = (CalibrationConstant * FNumber * FNumber ) / ( ExposureTime * ISOSpeedRatings )
-
-        print("lumosity", luminosity)*/
-        
-        
-        let rawMetadata = CMCopyDictionaryOfAttachments(allocator: nil, target: sampleBuffer, attachmentMode: CMAttachmentMode(kCMAttachmentMode_ShouldPropagate))
-        let metadata = CFDictionaryCreateMutableCopy(nil, 0, rawMetadata) as NSMutableDictionary
-        let exifData = metadata.value(forKey: "{Exif}") as? NSMutableDictionary
-        let brightnessValue: NSNumber = exifData![kCGImagePropertyExifBrightnessValue] as! NSNumber
-       // let lsValue = exifData![kCGImagePropertyExifLightSource] as! NSNumber
-        
-        if (counter == 4) {
-           //print(brightnessValue)
-            counter = 0
+        //Removes the oldest input from the matrix when the matrix reaches a certain size
+        if(matrixOfPixelsFourier.count >= Constants.noOfFramesForAnalysis) {
+            matrixOfPixelsFourier.removeFirst(1)
         }
-
-        //print(lsValue)
-
+        
         //Chosen pixel for analysis
         //We are pointing to the location of the pixel in the memory space, and not to the coordinate on the image.
         //We therefore locate the pixel by going through a long memory array, rather than a coordinate on a (x,y) format.
@@ -97,43 +68,23 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         //We have to increase the index by 4 to get to a new pixel in the array.
         //This is because every pixel is represented by 4 bits of memory, so to get to the next pixel, we must move
         //4 spaces down the array.
-        
-        //Dont know what this does, but dont move
-        CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
-
-        print(Float(getPixelNumber(byteBuffer: byteBuffer, index: 0)))
-        
-        createPixelMatrix(byteBuffer: byteBuffer, width: width, height: height)
-    }
-        
-    /*Makes an matrix containing the pixeldata from a subset of pixels
-      The function is called as long as capture_output is called, i.e. 240 times
-      per second. The data in the matrix is the basis for the flickeranalysis*/
-    func createPixelMatrix(byteBuffer: UnsafeMutablePointer<UInt8>, width: Int, height: Int) {
-        
-        //first is row
-        //second is column
-        
-        //Empty row so it is ready for new input
-        rowOfSimultaneousPixels = []
-        
-        //Removes the oldest input from the matrix when the matrix reaches a certain size
-        if(matrixOfPixels.count >= Constants.noOfFramesForAnalysis) {
-            matrixOfPixels.removeFirst(1)
-        }
-        
-        //Returns array of 36 simultaneous pixels with leap of * 20
-        for i in stride(from: 0, to: width * height * 4 - 1, by: width * 4) {
+        //Returns array of 36 simultaneous pixels with leap of * 20 (for my screen size)
+        for i in stride(from: 0, to: width * height * 4 - 1, by: width * 20) {
             let pixel = getPixelNumber(byteBuffer: byteBuffer, index: i)
-            rowOfSimultaneousPixels.append(pixel)
+            rowOfPixels.append(pixel)
         }
         
         //Adds the array of simultaneus pixels to the matrix
-        matrixOfPixels.append(rowOfSimultaneousPixels)
+        matrixOfPixelsFourier.append(rowOfPixels)
+        
+        // ------ For Fourier END ------- //
+
+        //Dont know what this does, but dont move
+        CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
     }
-    
+        
     //Calculates gray scale of pixel
-    func getPixelNumber(byteBuffer: UnsafeMutablePointer<UInt8>, index: Int) -> Int {
+    func getPixelNumber(byteBuffer: UnsafeMutablePointer<UInt8>, index: Int) -> Float {
         let b = byteBuffer[index]
         let bInt = Double(b)
         let g = byteBuffer[index + 1]
@@ -144,10 +95,10 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         //Find the shade of gray represented by the rgb
         let gray = (bInt + gInt + rInt) / 3
         
-        return Int(gray)
+        return Float(gray)
     }
     
-    func getMatrix() -> [[Int]] {
-        return matrixOfPixels
+    func getMatrixFourier() -> [[Float]] {
+        return matrixOfPixelsFourier
     }
 }

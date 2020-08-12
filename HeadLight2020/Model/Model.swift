@@ -6,6 +6,8 @@
 //  Copyright © 2020 Ingrid. All rights reserved.
 //
 
+
+/*
 import Foundation
 import AVFoundation
 import CoreMotion
@@ -239,3 +241,5 @@ class Model: NSObject {
     }
     
 }
+ 
+ */

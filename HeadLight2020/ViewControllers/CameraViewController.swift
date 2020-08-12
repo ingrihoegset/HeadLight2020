@@ -19,7 +19,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
     var sideMenu: UISideMenuNavigationController?
     let howToUseController = HowToUseController()
 
-    let viewModel = CameraViewModel(model: Model(cameraCapture: CameraCapture()))
+    let viewModel = CameraViewModel(fourierModel: FourierModel(cameraCapture: CameraCapture()))
     
     let displayView: UIView = {
         let view = UIView()

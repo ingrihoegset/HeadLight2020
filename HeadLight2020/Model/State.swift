@@ -10,6 +10,7 @@ import Foundation
 
 struct State {
     
+    let overallTitle: String?
     let overallImageName: String?
     let overallIndicatorColorMain: String?
     let overallIndicatorColorSub: String?

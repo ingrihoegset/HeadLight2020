@@ -22,7 +22,7 @@ class StateHolder {
         let generalDiscomfort = MoreInfoObject(frame: .zero, image: "Discomfort", title1: "General", title2: "Discomfort", moreInfoText: MoreInfoObjectTexts.generalDiscomfortText)
         let headache = MoreInfoObject(frame: .zero, image: "Headache", title1: "Headache", title2: "", moreInfoText: MoreInfoObjectTexts.headacheText)
         let eyeStrain = MoreInfoObject(frame: .zero, image: "EyeStrain", title1: "Eye", title2: "Strain", moreInfoText: MoreInfoObjectTexts.eyeStrainText)
-        let noSideEffect = MoreInfoObject(frame: .zero, image: "", title1: "", title2: "", moreInfoText: "")
+        let noSideEffect = MoreInfoObject(frame: .zero, image: "Empty", title1: "", title2: "", moreInfoText: "")
         
         let indicatorGreen = "indicatorGreen"
         
@@ -34,6 +34,7 @@ class StateHolder {
         
         
         self.best = State(
+            overallTitle: "Awesome",
             overallImageName: "Best",
             overallIndicatorColorMain: Constants.green,
             overallIndicatorColorSub: Constants.green,
@@ -45,6 +46,7 @@ class StateHolder {
         
         //SecondBest
         self.secondBest = State(
+            overallTitle: "Good",
             overallImageName: "SecondBest",
             overallIndicatorColorMain: Constants.green,
             overallIndicatorColorSub: Constants.yellow,
@@ -56,6 +58,7 @@ class StateHolder {
         
         //OK
         self.OK = State(
+            overallTitle: "OK",
             overallImageName: "OK",
             overallIndicatorColorMain: Constants.yellow,
             overallIndicatorColorSub: Constants.yellow,
@@ -67,6 +70,7 @@ class StateHolder {
 
         //SecondWorst
         self.secondWorst = State(
+            overallTitle: "Bad",
             overallImageName: "SecondWorst",
             overallIndicatorColorMain: Constants.yellow,
             overallIndicatorColorSub: Constants.red,
@@ -79,6 +83,7 @@ class StateHolder {
         
         //Worst
         self.worst = State(
+            overallTitle: "Terrible",
             overallImageName: "Worst",
             overallIndicatorColorMain: Constants.red,
             overallIndicatorColorSub: Constants.red,
