@@ -19,22 +19,10 @@ class CameraViewModel {
     var flickerPercent: Double
     var flickerIndex: Double
     var hertz: Double
+    var luminance: Double
+    var lightDetected: Bool
     var state: State
-    
-    /*init(model: Model) {
-        
-        self.model = model
-        self.captureSession = model.cameraCapture.captureSession
-        self.flickerPercent = model.flickerPercent
-        self.flickerIndex = model.flickerIndex
-        self.hertz = model.hertz
-        self.motionSensor = MotionSensor()
-        self.state = model.state
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(getNewResults), name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(calculateResults), name: NSNotification.Name.init(rawValue: "calculateResults"), object: nil)
-    }*/
+    var phoneIsStill: Bool
     
     init(fourierModel: FourierModel) {
         
@@ -43,18 +31,25 @@ class CameraViewModel {
         self.flickerPercent = fourierModel.flickerPercent
         self.flickerIndex = fourierModel.flickerIndex
         self.hertz = fourierModel.hertz
+        self.luminance = fourierModel.luminance
         self.motionSensor = MotionSensor()
         self.state = fourierModel.state
+        self.lightDetected = true
+        self.phoneIsStill = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(getNewResults), name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(calculateResults), name: NSNotification.Name.init(rawValue: "calculateResults"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(phoneIsNotStillAlert), name: NSNotification.Name.init(rawValue: "phoneIsNotStill"), object: nil)
     }
     
     @objc func getNewResults() {
         self.flickerPercent = fourierModel.flickerPercent * 100
         self.flickerIndex = fourierModel.flickerIndex * 100
         self.hertz = fourierModel.hertz
+        self.luminance = fourierModel.luminance
+        self.lightDetected = checkForLight()
         self.state = fourierModel.state
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
     }
@@ -63,12 +58,27 @@ class CameraViewModel {
         fourierModel.calculateResults()
     }
     
+    @objc func phoneIsNotStillAlert() {
+        phoneIsStill = false
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "holdPhoneStillToast"), object: nil)
+    }
+    
     func startMotionSensor() {
         motionSensor.isPhoneStill()
     }
     
     func interruptMotionSensor() {
         motionSensor.interruptMotionSensor()
+    }
+    
+    func checkForLight() -> Bool {
+        if (luminance < 30 && hertz < 20) {
+            print("lum",luminance,"hert",hertz)
+            return false
+        }
+        else {
+            return true
+        }
     }
 }
     

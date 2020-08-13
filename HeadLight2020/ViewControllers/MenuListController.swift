@@ -18,7 +18,7 @@ class MenuListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(CustomCell.self, forCellReuseIdentifier: "cell")
-        self.view.backgroundColor = UIColor(named: "mainColor")
+        self.view.backgroundColor = UIColor(named: "mainColorAccentDark")
         tableView.separatorStyle = .none
         tableView.rowHeight = Constants.smallContainerDimensions * 1.5
     }
@@ -29,14 +29,14 @@ class MenuListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomCell
-        cell.backgroundColor = UIColor(named: "mainColor")
+        cell.backgroundColor = UIColor(named: "mainColorAccentDark")
         cell.name.font = UIFont(name: "Poppins-Italic", size: 20)
         cell.name.textColor = UIColor(named: "accentLight")
         cell.name.text = items[indexPath.row]
         cell.icon.image = UIImage(named: icons[indexPath.row])
 
         let backgroundColorWhenSelected = UIView()
-         backgroundColorWhenSelected.backgroundColor = UIColor.init(named: "mainColorAccentLight")
+         backgroundColorWhenSelected.backgroundColor = UIColor.init(named: "mainContrastColor")
          cell.selectedBackgroundView = backgroundColorWhenSelected
  
         return cell
@@ -50,7 +50,7 @@ class MenuListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CustomCell
-        cell.name.textColor = UIColor(named: "mainColor")
+        cell.name.textColor = UIColor(named: "mainColorAccentDark")
     }
     
     override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {

@@ -32,6 +32,9 @@ struct Constants {
     static let smallContainerDimensions = widthOfDisplay * 0.175
     static let largeContainerDimension = widthOfDisplay * 0.4
     static let radius = Constants.containerDimension * 0.375
+    static let radiusContainers = Constants.containerDimension * 0.225
+    static let trackLayerLineWidth = CGFloat(8)
+    static let seperator = ((Constants.containerDimension * 3) - (4 * Constants.smallContainerDimensions)) / 5
     
     //Colors
     static let mainColor = "mainColor"

@@ -34,6 +34,7 @@ class StateHolder {
         
         
         self.best = State(
+            type: "Best",
             overallTitle: "Awesome",
             overallImageName: "Best",
             overallIndicatorColorMain: Constants.green,
@@ -46,6 +47,7 @@ class StateHolder {
         
         //SecondBest
         self.secondBest = State(
+            type: "Good",
             overallTitle: "Good",
             overallImageName: "SecondBest",
             overallIndicatorColorMain: Constants.green,
@@ -58,6 +60,7 @@ class StateHolder {
         
         //OK
         self.OK = State(
+            type: "OK",
             overallTitle: "OK",
             overallImageName: "OK",
             overallIndicatorColorMain: Constants.yellow,
@@ -70,6 +73,7 @@ class StateHolder {
 
         //SecondWorst
         self.secondWorst = State(
+            type: "secondWorst",
             overallTitle: "Bad",
             overallImageName: "SecondWorst",
             overallIndicatorColorMain: Constants.yellow,
@@ -83,6 +87,7 @@ class StateHolder {
         
         //Worst
         self.worst = State(
+            type: "Worst",
             overallTitle: "Terrible",
             overallImageName: "Worst",
             overallIndicatorColorMain: Constants.red,

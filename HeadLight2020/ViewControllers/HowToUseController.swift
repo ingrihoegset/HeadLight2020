@@ -31,18 +31,18 @@ class HowToUseController: UIViewController {
     
     let pageTitle: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.green
+        label.backgroundColor = UIColor(named: "mainColorAccentDark")
         label.text = "Page Title"
         label.textColor = UIColor(named: "accentLight")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Poppins-Italic", size: 26)
+        label.font = UIFont(name: "Poppins-Medium", size: 26)
         return label
     }()
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .cyan
+        scrollView.backgroundColor = UIColor(named: "accentLight")
         scrollView.autoresizingMask = .flexibleHeight
         scrollView.bounces = true
         scrollView.showsVerticalScrollIndicator = true
@@ -52,45 +52,62 @@ class HowToUseController: UIViewController {
     
     let verticalContainer: UIStackView = {
         let container = UIStackView()
+        container.axis = .vertical
+        container.distribution = .fillEqually
         container.backgroundColor = UIColor.purple
         container.translatesAutoresizingMaskIntoConstraints = false
-        container.axis = .vertical
-        container.distribution = .fillProportionally
         return container
+    }()
+    
+    let firstView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let subTitle1: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.orange
+        label.backgroundColor = UIColor(named: "accentLight")
         label.text = "Subtitle 1"
-        label.textColor = UIColor(named: "accentLight")
-        label.textAlignment = .center
+        label.textColor = UIColor(named: "mainColorAccentDak")
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Poppins-Italic", size: 20)
+        label.font = UIFont(name: "Poppins-Medium", size: 20)
         return label
     }()
     
     let textView: UITextView = {
         let view = UITextView()
-        view.backgroundColor = .yellow
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "accentLight")
+        view.sizeToFit()
         view.text = "blablabbaballablabla"
+        return view
+    }()
+    
+    let secondView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let subTitle2: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.orange
+        label.backgroundColor = UIColor(named: "accentLight")
         label.text = "Subtitle 2"
-        label.textColor = UIColor(named: "accentLight")
-        label.textAlignment = .center
+        label.textColor = UIColor(named: "mainColorAccentDark")
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Poppins-Italic", size: 20)
+        label.font = UIFont(name: "Poppins-Medium", size: 20)
         return label
     }()
     
     let textView2: UITextView = {
         let view = UITextView()
-        view.backgroundColor = .gray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "accentLight")
         view.text = "fgiuhvndv"
         return view
     }()
@@ -101,15 +118,17 @@ class HowToUseController: UIViewController {
         view.addSubview(topPanelView)
         topPanelView.addSubview(titleLabel)
         view.addSubview(pageTitle)
+
+        firstView.addSubview(subTitle1)
+        firstView.addSubview(textView)
+        
+        secondView.addSubview(subTitle2)
+        secondView.addSubview(textView2)
+        
         view.addSubview(scrollView)
-   
         scrollView.addSubview(verticalContainer)
-        
-        textView.addSubview(subTitle1)
-        textView2.addSubview(subTitle2)
-        
-        verticalContainer.addArrangedSubview(textView)
-        verticalContainer.addArrangedSubview(textView2)
+        verticalContainer.addSubview(firstView)
+        verticalContainer.addSubview(secondView)
 
         setConstraints()
 
@@ -145,20 +164,35 @@ class HowToUseController: UIViewController {
         verticalContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
         verticalContainer.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         verticalContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        verticalContainer.heightAnchor.constraint(equalToConstant: 2000).isActive = true
+        verticalContainer.heightAnchor.constraint(equalToConstant: 800).isActive = true
         verticalContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
-        //First Subtitle
-        subTitle1.topAnchor.constraint(equalTo: textView.topAnchor).isActive = true
-        subTitle1.widthAnchor.constraint(equalTo: textView.widthAnchor).isActive = true
-        subTitle1.leadingAnchor.constraint(equalTo: textView.leadingAnchor).isActive = true
+        firstView.topAnchor.constraint(equalTo: verticalContainer.topAnchor, constant: Constants.verticalMargins).isActive = true
+        firstView.leadingAnchor.constraint(equalTo: verticalContainer.leadingAnchor).isActive = true
+        firstView.trailingAnchor.constraint(equalTo: verticalContainer.trailingAnchor).isActive = true
+        firstView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.4).isActive = true
         
-        //Second Subtitle
-        subTitle2.topAnchor.constraint(equalTo: textView2.topAnchor).isActive = true
-        subTitle2.widthAnchor.constraint(equalTo: textView2.widthAnchor).isActive = true
-        subTitle2.leadingAnchor.constraint(equalTo: textView2.leadingAnchor).isActive = true
+        subTitle1.topAnchor.constraint(equalTo: firstView.topAnchor).isActive = true
+        subTitle1.leadingAnchor.constraint(equalTo: firstView.leadingAnchor, constant: Constants.seperator).isActive = true
+        subTitle1.trailingAnchor.constraint(equalTo: firstView.trailingAnchor, constant: -Constants.seperator).isActive = true
         
+        textView.topAnchor.constraint(equalTo: subTitle1.bottomAnchor).isActive = true
+        textView.leadingAnchor.constraint(equalTo: firstView.leadingAnchor, constant: Constants.seperator).isActive = true
+        textView.trailingAnchor.constraint(equalTo: firstView.trailingAnchor, constant: -Constants.seperator).isActive = true
+        textView.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        secondView.topAnchor.constraint(equalTo: firstView.bottomAnchor, constant: Constants.verticalMargins).isActive = true
+        secondView.leadingAnchor.constraint(equalTo: verticalContainer.leadingAnchor).isActive = true
+        secondView.trailingAnchor.constraint(equalTo: verticalContainer.trailingAnchor).isActive = true
+        secondView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.4).isActive = true
+        
+        subTitle2.topAnchor.constraint(equalTo: secondView.topAnchor).isActive = true
+        subTitle2.leadingAnchor.constraint(equalTo: secondView.leadingAnchor, constant: Constants.seperator).isActive = true
+        subTitle2.trailingAnchor.constraint(equalTo: secondView.trailingAnchor, constant: -Constants.seperator).isActive = true
 
-        
+        textView2.topAnchor.constraint(equalTo: subTitle2.bottomAnchor).isActive = true
+        textView2.leadingAnchor.constraint(equalTo: secondView.leadingAnchor, constant: Constants.seperator).isActive = true
+        textView2.trailingAnchor.constraint(equalTo: secondView.trailingAnchor, constant: -Constants.seperator).isActive = true
+        textView2.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
     }
 }

@@ -32,7 +32,7 @@ class MotionSensor {
             if let trueData = data {
                 let mRotationRate = trueData.rotationRate
                 //When analysis array is not loaded with data yet
-                if isStillArray.count < 8 {
+                if isStillArray.count < 4 {
                     if (abs(mRotationRate.x)) > 0.05 || abs(mRotationRate.y) > 0.05 || abs(mRotationRate.z) > 0.05 {
                         isStillArray.append(false)
                     }
@@ -47,6 +47,8 @@ class MotionSensor {
                     if (abs(mRotationRate.x)) > 0.05 || abs(mRotationRate.y) > 0.05 || abs(mRotationRate.z) > 0.05 {
                         isStillArray.removeFirst()
                         isStillArray.append(false)
+                        //To alert with a toast that phone is in motion
+                        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "phoneIsNotStill"), object: nil)
                     }
                     else {
                         isStillArray.removeFirst()

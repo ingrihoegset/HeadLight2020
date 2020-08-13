@@ -11,7 +11,7 @@ import AVFoundation
 import SideMenu
 
 let semaphore = DispatchSemaphore(value: 0)
-let sizeOfCaptureButton = Constants.displayViewPortionOfScreen * 0.5
+let sizeOfCaptureButton = Constants.displayViewPortionOfScreen * 0.6
 
 
 class CameraViewController: UIViewController, MenuControllerDelegate {
@@ -52,18 +52,12 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         return view
     }()
     
-    let decorativeCircle: CAShapeLayer = {
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeColor = UIColor(named: "accentLight")?.cgColor
-        shapeLayer.lineWidth = 8
-        //decorative circle around capture button Center is half of button height and width
-        let x = sizeOfCaptureButton * 0.5
-        let y = sizeOfCaptureButton * 0.5
-        let circle = UIBezierPath()
-        circle.addArc(withCenter: CGPoint(x: x, y: y), radius: CGFloat(sizeOfCaptureButton * 0.5 + 2), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
-        shapeLayer.path = circle.cgPath
-        return shapeLayer
+    let decorativeCircle: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "accentLight")
+        view.layer.cornerRadius = sizeOfCaptureButton * 1.2 / 2
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let titleLabel: UILabel = {
@@ -80,8 +74,8 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         let layer = CAShapeLayer()
         layer.fillColor = UIColor(named: "mainContrastColor")?.cgColor
         layer.isHidden = true
-        let size = CGFloat(10)
-        layer.path = CGPath(ellipseIn: CGRect(x: -size / 2, y: ( -CGFloat(sizeOfCaptureButton) / 2) - size / 2 - 5, width: size, height: size), transform: nil)
+        let size = (sizeOfCaptureButton * 1.2 - sizeOfCaptureButton) / 2
+        layer.path = CGPath(ellipseIn: CGRect(x: -size / 2, y: ( -CGFloat(sizeOfCaptureButton * 1.2) / 2), width: size, height: size), transform: nil)
         let circleCenter = CGPoint(x: CGFloat(sizeOfCaptureButton / 2), y: CGFloat(sizeOfCaptureButton / 2))
         layer.position = circleCenter
         return layer
@@ -114,7 +108,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         topPanelView.addSubview(titleLabel)
         self.view.addSubview(displayView)
         displayView.addSubview(helper)
-        helper.layer.addSublayer(decorativeCircle)
+        helper.addSubview(decorativeCircle)
         helper.layer.addSublayer(captureAnimation)
         helper.addSubview(captureButton)
 
@@ -122,6 +116,17 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         addChildControllers()
 
         NotificationCenter.default.addObserver(self, selector: #selector(segueToResults), name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
+        
+       NotificationCenter.default.addObserver(self, selector: #selector(holdPhoneStillToast), name: NSNotification.Name.init(rawValue: "holdPhoneStillToast"), object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        viewModel.interruptMotionSensor()
+        captureButton.backgroundColor = UIColor(named: "accentLight")
+        decorativeCircle.backgroundColor = UIColor(named: "accentLight")
+        captureAnimation.isHidden = true
+        captureAnimation.removeAnimation(forKey: "basic")
     }
  
     func cameraSetup() {
@@ -222,6 +227,11 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         helper.centerXAnchor.constraint(equalTo: displayView.centerXAnchor).isActive = true
         helper.heightAnchor.constraint(equalToConstant: sizeOfCaptureButton).isActive = true
         helper.widthAnchor.constraint(equalToConstant: sizeOfCaptureButton).isActive = true
+        
+        decorativeCircle.centerYAnchor.constraint(equalTo: helper.centerYAnchor).isActive =  true
+        decorativeCircle.centerXAnchor.constraint(equalTo: helper.centerXAnchor).isActive = true
+        decorativeCircle.heightAnchor.constraint(equalToConstant: sizeOfCaptureButton * 1.2).isActive = true
+        decorativeCircle.widthAnchor.constraint(equalToConstant: sizeOfCaptureButton * 1.2).isActive = true
     }
     
     @IBAction func didTapMenu() {
@@ -230,13 +240,13 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
 
     @objc func longTap(_ sender: UIGestureRecognizer){
         captureButton.backgroundColor = UIColor(named: "mainColor")
-        decorativeCircle.strokeColor = UIColor(named: "accentLight")?.cgColor
+        decorativeCircle.backgroundColor = UIColor(named: "accentLight")
         captureAnimation.isHidden = false
         
         //This code runs when the button is released
         if sender.state == .ended {
             captureButton.backgroundColor = UIColor(named: "accentLight")
-            decorativeCircle.strokeColor = UIColor(named: "accentLight")?.cgColor
+            decorativeCircle.backgroundColor = UIColor(named: "accentLight")
             captureAnimation.removeAnimation(forKey: "basic")
             captureAnimation.isHidden = true
             viewModel.interruptMotionSensor()
@@ -246,17 +256,16 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
             viewModel.startMotionSensor()
             captureAnimation(layer: captureAnimation)
         }
-        else {
-            viewModel.interruptMotionSensor()
-            captureButton.backgroundColor = UIColor(named: "accentLight")
-            decorativeCircle.strokeColor = UIColor(named: "accentLight")?.cgColor
-            captureAnimation.isHidden = true
-            captureAnimation.removeAnimation(forKey: "basic")
-        }
     }
     
     @objc func segueToResults() {
-        self.performSegue(withIdentifier: "goToResults", sender: self)
+        if (viewModel.lightDetected == false) {
+            self.showToast(message: "No light detected", font: UIFont(name: "Poppins-Light", size: 18)!)
+        }
+        else {
+            self.performSegue(withIdentifier: "goToResults", sender: self)
+        }
+
     }
     
     //Sender relevant data til resultatVC når destinasjonen til segue'en er ResultsVC
@@ -268,6 +277,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
             destinationViewController?.flickerIndex = viewModel.flickerIndex
             destinationViewController?.hertz = viewModel.hertz
             destinationViewController?.flickerPercent = viewModel.flickerPercent
+            destinationViewController?.luminance = viewModel.luminance
             destinationViewController?.state = viewModel.state
         }
     }
@@ -277,7 +287,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         animation.fromValue = 0
         animation.toValue = 2 * CGFloat.pi
         animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        animation.duration = 1.2
+        animation.duration = 0.9
         animation.repeatCount = .infinity
         layer.add(animation, forKey: "basic")
     }
@@ -316,4 +326,52 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         
     }
 }
+
+
+extension CameraViewController {
+
+    func showToast(message : String, font: UIFont) {
+
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 100, y: self.view.frame.size.height/2, width: 200, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
+    
+}
+
+extension CameraViewController {
+
+    @objc func holdPhoneStillToast() {
+
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 100, y: self.view.frame.size.height/2, width: 200, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = UIFont(name: "Poppins-Light", size: 18)
+        toastLabel.textAlignment = .center;
+        toastLabel.text = "Hold phone still!"
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 2.0, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
+    
+}
+
 

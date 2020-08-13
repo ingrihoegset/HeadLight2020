@@ -72,6 +72,7 @@ class FourierModel: NSObject {
         let modeHertz = findModeOfArray(array: resultArray)
         let averageAmplitude = findAverageAmplitude(array: resultArray, mode: modeHertz)
         let averageLumosity = findAverageLumosity(array: resultArray, mode: modeHertz)
+        luminance = Double(averageLumosity)
 
         let preflickerPercent = calculateFlickerPercent(averageLumosity: averageLumosity, averageAmplitude: averageAmplitude)
         flickerPercent = roundFlickerPercent(flickerPercent: preflickerPercent)
@@ -85,8 +86,8 @@ class FourierModel: NSObject {
         hertz = roundHertz(hertz: preHertz)
         
         
-        print(averageAmplitude)
-        print(averageLumosity)
+        print("average amplitude:", averageAmplitude)
+        print("average Lumosity:", averageLumosity)
         
         print("hertz: ", modeHertz)
         print("flicker percent: ", flickerPercent)
@@ -176,6 +177,7 @@ class FourierModel: NSObject {
             }
         }
         let averageLumosity = sum / count
+        luminance = Double(averageLumosity)
         return averageLumosity
     }
     
@@ -222,6 +224,12 @@ class FourierModel: NSObject {
         }
         else if (flickerPercent >= 0.30) {
             calculatedState = stateholder.worst
+        }
+        
+        // To account for when the light is without flicker (flicker must be set to 0 manually because of the strange things that happen when hertz is close to 0)
+        if (hertz < 10) {
+            calculatedState = stateholder.best
+            self.flickerPercent = 0
         }
         
         return calculatedState

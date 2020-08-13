@@ -14,11 +14,13 @@ class ResultsViewController: UIViewController {
     var flickerPercent = 0.0
     var flickerIndex = 0.0
     var hertz = 0.0
+    var luminance = 0.0
     let okColor = UIColor.systemYellow.cgColor
     var sideEffectsObjects = [MoreInfoObject]()
     var timerObjects = [MoreInfoObject]()
     var tipsObject = [MoreInfoObject]()
-    var state = State(overallTitle: "", overallImageName: "", overallIndicatorColorMain: "", overallIndicatorColorSub: "", exposureTime: "", indicatorTime: 0, indicatorColor: "", sideeffects: [], timerObject: [], tipsObject: [])
+    var resultObjects = [UIView]()
+    var state = State(type: "", overallTitle: "", overallImageName: "", overallIndicatorColorMain: "", overallIndicatorColorSub: "", exposureTime: "", indicatorTime: 0, indicatorColor: "", sideeffects: [], timerObject: [], tipsObject: [])
     
     let overallResults: UIImageView = {
         let view = UIImageView()
@@ -38,11 +40,43 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
+    let dayLightDisplay: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = UIColor(named: "mainColorAccentDark")
+        label.layer.cornerRadius = Constants.radius
+        label.numberOfLines = 3
+        label.translatesAutoresizingMaskIntoConstraints = false
+        let text = "No"
+        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 22)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
+        attributedText.append(NSAttributedString(string: "Detectable" + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 22)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
+        attributedText.append(NSAttributedString(string: "Flicker", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 22)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
+        label.attributedText = attributedText
+        label.layer.masksToBounds = true
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "accentLight")
+        return label
+    }()
+    
     let percentResultsContainer: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    let percentLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "accentLight")
+        label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .clear
+        label.isUserInteractionEnabled = false
+        let text = "Flicker"
+        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
+        attributedText.append(NSAttributedString(string: "Percent", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
+        label.attributedText = attributedText
+        return label
     }()
     
     let flickerIndexResultsContainer: UIView = {
@@ -52,10 +86,47 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
+    let flickerIndexLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "accentLight")
+        label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .clear
+        label.isUserInteractionEnabled = false
+        let text = "Flicker"
+        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
+        attributedText.append(NSAttributedString(string: "Index", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
+        label.attributedText = attributedText
+        return label
+    }()
+    
     let hertzResultsContainer: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
         view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let hertzLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "accentLight")
+        label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .clear
+        label.isUserInteractionEnabled = false
+        let text = "Hertz"
+        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
+        attributedText.append(NSAttributedString(string: "", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
+        label.attributedText = attributedText
+        return label
+    }()
+    
+    let resultsDisplay: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -95,56 +166,12 @@ class ResultsViewController: UIViewController {
          return label
      }()
     
-    let flickerPercentTitle: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor(named: "accentLight")
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .clear
-        label.isUserInteractionEnabled = false
-        let text = "Flicker"
-        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
-        attributedText.append(NSAttributedString(string: "Percent", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
-        label.attributedText = attributedText
-        return label
-    }()
-    
-    let flickerIndexTitle: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor(named: "accentLight")
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .clear
-        label.isUserInteractionEnabled = false
-        let text = "Flicker"
-        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
-        attributedText.append(NSAttributedString(string: "Index", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
-        label.attributedText = attributedText
-        return label
-    }()
-    
-    let hertzTitle: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor(named: "accentLight")
-        label.numberOfLines = 1
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .clear
-        label.isUserInteractionEnabled = false
-        let text = "Hertz"
-        let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
-        label.attributedText = attributedText
-        return label
-    }()
-    
     //Underlying track for animation flicker percent
     let trackLayerPercent: CAShapeLayer = {
         let trackLayer = CAShapeLayer()
         trackLayer.fillColor = UIColor.clear.cgColor
         trackLayer.strokeColor = UIColor(named: "mainColorAccentLight")?.cgColor
-        trackLayer.lineWidth = 8
+        trackLayer.lineWidth = Constants.trackLayerLineWidth
         trackLayer.lineCap = .round
         return trackLayer
     }()
@@ -152,7 +179,7 @@ class ResultsViewController: UIViewController {
     let animationLayerPercent: CAShapeLayer = {
         let animationLayer = CAShapeLayer()
         animationLayer.fillColor = UIColor.clear.cgColor
-        animationLayer.lineWidth = 8
+        animationLayer.lineWidth = Constants.trackLayerLineWidth
         animationLayer.strokeEnd = 0
         animationLayer.lineCap = .round
         animationLayer.strokeColor = UIColor.systemYellow.cgColor
@@ -179,32 +206,12 @@ class ResultsViewController: UIViewController {
         return animationLayer
     }()
     
-    let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.backgroundColor = .clear
-        scrollView.autoresizingMask = .flexibleHeight
-        scrollView.bounces = true
-        scrollView.showsVerticalScrollIndicator = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    let verticalContainer: UIStackView = {
-        let container = UIStackView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-        container.axis = .vertical
-        container.alignment = .center
-        container.distribution = .fillProportionally
-        container.spacing = Constants.verticalMargins
-        return container
-    }()
-    
     let infoContainer: UIView = {
         let view = UIView()
         view.isUserInteractionEnabled = true
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = Constants.cornerRadius
+        view.layer.cornerRadius = Constants.radiusContainers
         return view
     }()
     
@@ -212,7 +219,7 @@ class ResultsViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = Constants.cornerRadius
+        view.layer.cornerRadius = Constants.radiusContainers
         return view
     }()
     
@@ -255,7 +262,7 @@ class ResultsViewController: UIViewController {
         label.backgroundColor = .clear
         label.isUserInteractionEnabled = false
         let text = "Possible Side Effects"
-        let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
+        let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
         label.attributedText = attributedText
         return label
     }()
@@ -288,8 +295,12 @@ class ResultsViewController: UIViewController {
     
     let tipsContainer: UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
-        view.layer.cornerRadius = Constants.cornerRadius
+        return view
+    }()
+    
+    let tipsTitle: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.numberOfLines = 1
@@ -297,19 +308,15 @@ class ResultsViewController: UIViewController {
         label.backgroundColor = .clear
         label.isUserInteractionEnabled = false
         let text = "Tips...."
-        let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
+        let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
         label.attributedText = attributedText
-        view.addSubview(label)
-        label.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.sideMargins).isActive = true
-        label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.sideMargins).isActive = true
-        label.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        return view
+        return label
     }()
     
     lazy var popUpView: PopUpView = {
         let view = PopUpView(frame: .zero, title: "Title")
-        view.backgroundColor = UIColor(named: "mainColor")
-        view.layer.cornerRadius = Constants.cornerRadius
+        view.backgroundColor = UIColor(named: "mainColorAccentDark")
+        view.layer.cornerRadius = Constants.radiusContainers
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         return view
@@ -400,46 +407,20 @@ class ResultsViewController: UIViewController {
         return label
     }()
     
+    let resultsSwiper: ResultSwipingController = {
+        let swiper = ResultSwipingController(frame: .zero)
+        swiper.layer.cornerRadius = Constants.radiusContainers
+        swiper.translatesAutoresizingMaskIntoConstraints = false
+        swiper.backgroundColor = UIColor(named: "mainColorAccentLight")
+        return swiper
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "mainColor")
-        self.view.addSubview(thisLabel)
-        self.view.addSubview(lightIsLabel)
-        self.view.addSubview(lightQualityLabel)
-        self.view.addSubview(helperLabel1)
-        self.view.addSubview(helperLabel2)
-        self.view.addSubview(helperLabel3)
-        self.view.addSubview(overallResultsHelper)
-        self.view.addSubview(overallResults)
-
         
-        self.view.addSubview(percentResultsContainer)
-        percentResultsContainer.addSubview(resultsViewPercent)
-        percentResultsContainer.layer.addSublayer(trackLayerPercent)
-        percentResultsContainer.layer.addSublayer(animationLayerPercent)
-        makeGraphic(score: flickerPercent, trackLayer: trackLayerPercent, animationLayer: animationLayerPercent, duration: 2.5)
-        self.view.addSubview(flickerPercentTitle)
-        
-        self.view.addSubview(flickerIndexResultsContainer)
-        flickerIndexResultsContainer.addSubview(resultsViewFlickerIndex)
-        flickerIndexResultsContainer.layer.addSublayer(trackLayerFlickerIndex)
-        flickerIndexResultsContainer.layer.addSublayer(animationLayerFlickerIndex)
-        makeGraphic(score: flickerIndex, trackLayer: trackLayerFlickerIndex, animationLayer: animationLayerFlickerIndex, duration: 1.5)
-        self.view.addSubview(flickerIndexTitle)
-        
-        self.view.addSubview(hertzResultsContainer)
-        hertzResultsContainer.addSubview(detailCircle)
-        detailCircle.addSubview(resultsViewHertz)
-        self.view.addSubview(hertzTitle)
-        
-        self.view.addSubview(scrollView)
-        scrollView.addSubview(verticalContainer)
-        verticalContainer.addArrangedSubview(infoContainer)
-        verticalContainer.addArrangedSubview(infoContainerMoreInfoObjects)
-        verticalContainer.addArrangedSubview(tipsContainer)
-        
+        self.view.addSubview(infoContainer)
         infoContainer.addSubview(timerTitle)
         infoContainer.addSubview(timerView)
         infoContainer.addSubview(timerIndiatorContainer)
@@ -447,14 +428,22 @@ class ResultsViewController: UIViewController {
         infoContainerMoreInfoObjects.addSubview(MoreInfoObjectsTitle)
         infoContainerMoreInfoObjects.addSubview(horizontalMoreInfoObjectsContainer)
         
+        tipsContainer.addSubview(tipsTitle)
+        
+        resultObjects = [infoContainerMoreInfoObjects, tipsContainer]
+        resultsSwiper.items = resultObjects
+        self.view.addSubview(resultsSwiper)
+        
         setupLayoutConstraints()
 
         timerIndiatorContainer.layer.addSublayer(timerTrackLayer)
-        //timerIndiatorContainer.layer.addSublayer(timerIndicator)
         timerIndiatorContainer.layer.addSublayer(timerFillerLayer)
-
+        
         setState()
         getNewResults()
+        
+        makeGraphic(score: flickerPercent, trackLayer: trackLayerPercent, animationLayer: animationLayerPercent, duration: 2.5)
+        makeGraphic(score: flickerIndex, trackLayer: trackLayerFlickerIndex, animationLayer: animationLayerFlickerIndex, duration: 1.5)
         
         //Event handlers
         let exposureTap = UITapGestureRecognizer(target: self, action: #selector(exposureTap(_:)))
@@ -465,10 +454,133 @@ class ResultsViewController: UIViewController {
         tipsContainer.addGestureRecognizer(tipsTap)
         
     }
+    
+    private func constraintsDaylightDisplay() {
+        resultsDisplay.addSubview(percentResultsContainer)
+        percentResultsContainer.addSubview(percentLabel)
+        percentResultsContainer.addSubview(resultsViewPercent)
+        percentResultsContainer.layer.addSublayer(trackLayerPercent)
+        percentResultsContainer.layer.addSublayer(animationLayerPercent)
+        
+        // percent results container
+        percentResultsContainer.topAnchor.constraint(equalTo: resultsDisplay.topAnchor).isActive = true
+        percentResultsContainer.leadingAnchor.constraint(equalTo: resultsDisplay.leadingAnchor).isActive = true
+        percentResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        percentResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        // percent title label
+        percentLabel.centerXAnchor.constraint(equalTo: percentResultsContainer.centerXAnchor).isActive = true
+        percentLabel.topAnchor.constraint(equalTo: percentResultsContainer.bottomAnchor, constant: -((Constants.containerDimension / 2) - Constants.radius)).isActive = true
+        percentLabel.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        percentLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        // percent results display
+        resultsViewPercent.centerYAnchor.constraint(equalTo: percentResultsContainer.centerYAnchor).isActive = true
+        resultsViewPercent.centerXAnchor.constraint(equalTo: percentResultsContainer.centerXAnchor).isActive = true
+        resultsViewPercent.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        resultsViewPercent.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        resultsDisplay.addSubview(dayLightDisplay)
+        dayLightDisplay.trailingAnchor.constraint(equalTo: resultsDisplay.trailingAnchor).isActive = true
+        dayLightDisplay.bottomAnchor.constraint(equalTo: resultsDisplay.bottomAnchor).isActive = true
+        dayLightDisplay.topAnchor.constraint(equalTo: resultsDisplay.topAnchor, constant: ((Constants.containerDimension / 2) - Constants.radius) - (Constants.trackLayerLineWidth / 2)).isActive = true
+        dayLightDisplay.leadingAnchor.constraint(equalTo: percentResultsContainer.trailingAnchor).isActive = true
+    }
 
+    
+    private func constraintsResultDisplay() {
+        resultsDisplay.addSubview(percentResultsContainer)
+        percentResultsContainer.addSubview(percentLabel)
+        percentResultsContainer.addSubview(resultsViewPercent)
+        percentResultsContainer.layer.addSublayer(trackLayerPercent)
+        percentResultsContainer.layer.addSublayer(animationLayerPercent)
+         
+        resultsDisplay.addSubview(flickerIndexResultsContainer)
+        flickerIndexResultsContainer.addSubview(flickerIndexLabel)
+        flickerIndexResultsContainer.addSubview(resultsViewFlickerIndex)
+        flickerIndexResultsContainer.layer.addSublayer(trackLayerFlickerIndex)
+        flickerIndexResultsContainer.layer.addSublayer(animationLayerFlickerIndex)
+         
+        resultsDisplay.addSubview(hertzResultsContainer)
+        hertzResultsContainer.addSubview(hertzLabel)
+        hertzResultsContainer.addSubview(detailCircle)
+        detailCircle.addSubview(resultsViewHertz)
+        
+        // flicker index results container
+        flickerIndexResultsContainer.topAnchor.constraint(equalTo: resultsDisplay.topAnchor).isActive = true
+        flickerIndexResultsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        flickerIndexResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        flickerIndexResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+    
+        // flicker title label
+        flickerIndexLabel.centerXAnchor.constraint(equalTo: flickerIndexResultsContainer.centerXAnchor).isActive = true
+        flickerIndexLabel.topAnchor.constraint(equalTo: flickerIndexResultsContainer.bottomAnchor, constant: -((Constants.containerDimension / 2) - Constants.radius)).isActive = true
+        flickerIndexLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        flickerIndexLabel.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        // flicker index results display
+        resultsViewFlickerIndex.centerXAnchor.constraint(equalTo: flickerIndexResultsContainer.centerXAnchor).isActive = true
+        resultsViewFlickerIndex.centerYAnchor.constraint(equalTo: flickerIndexResultsContainer.centerYAnchor).isActive = true
+        resultsViewFlickerIndex.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        resultsViewFlickerIndex.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        // percent results container
+        percentResultsContainer.topAnchor.constraint(equalTo: resultsDisplay.topAnchor).isActive = true
+        percentResultsContainer.trailingAnchor.constraint(equalTo: flickerIndexResultsContainer.leadingAnchor).isActive = true
+        percentResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        percentResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        // percent title label
+        percentLabel.centerXAnchor.constraint(equalTo: percentResultsContainer.centerXAnchor).isActive = true
+        percentLabel.topAnchor.constraint(equalTo: percentResultsContainer.bottomAnchor, constant: -((Constants.containerDimension / 2) - Constants.radius)).isActive = true
+        percentLabel.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        percentLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        // percent results display
+        resultsViewPercent.centerYAnchor.constraint(equalTo: percentResultsContainer.centerYAnchor).isActive = true
+        resultsViewPercent.centerXAnchor.constraint(equalTo: percentResultsContainer.centerXAnchor).isActive = true
+        resultsViewPercent.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        resultsViewPercent.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        // hertz results container
+        hertzResultsContainer.topAnchor.constraint(equalTo: resultsDisplay.topAnchor).isActive = true
+        hertzResultsContainer.leadingAnchor.constraint(equalTo: flickerIndexResultsContainer.trailingAnchor).isActive = true
+        hertzResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        hertzResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        // hertz title label
+        hertzLabel.centerXAnchor.constraint(equalTo: hertzResultsContainer.centerXAnchor).isActive = true
+        hertzLabel.topAnchor.constraint(equalTo: hertzResultsContainer.bottomAnchor, constant: -((Constants.containerDimension / 2) - Constants.radius)).isActive = true
+        hertzLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        hertzLabel.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        // hertz results display
+        detailCircle.centerYAnchor.constraint(equalTo: hertzResultsContainer.centerYAnchor).isActive = true
+        detailCircle.centerXAnchor.constraint(equalTo: hertzResultsContainer.centerXAnchor).isActive = true
+        detailCircle.heightAnchor.constraint(equalToConstant: Constants.radius * 2).isActive = true
+        detailCircle.widthAnchor.constraint(equalToConstant: Constants.radius * 2).isActive = true
+        
+        // hertz results display
+        resultsViewHertz.centerYAnchor.constraint(equalTo: detailCircle.centerYAnchor).isActive = true
+        resultsViewHertz.centerXAnchor.constraint(equalTo: detailCircle.centerXAnchor).isActive = true
+        resultsViewHertz.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        resultsViewHertz.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+    }
+    
     private func setupLayoutConstraints() {
+        self.view.addSubview(thisLabel)
+        self.view.addSubview(lightIsLabel)
+        self.view.addSubview(lightQualityLabel)
+        self.view.addSubview(helperLabel1)
+        self.view.addSubview(helperLabel2)
+        self.view.addSubview(helperLabel3)
+        self.view.addSubview(overallResultsHelper)
+        self.view.addSubview(overallResults)
+        self.view.addSubview(resultsDisplay)
+        
         // overall results display
-        overallResults.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topMargin * 0.6).isActive = true
+        overallResults.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topMargin).isActive = true
         overallResults.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         overallResults.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 0.8).isActive = true
         overallResults.widthAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 0.8).isActive = true
@@ -507,123 +619,61 @@ class ResultsViewController: UIViewController {
         helperLabel3.heightAnchor.constraint(equalTo: lightQualityLabel.heightAnchor).isActive = true
         helperLabel3.centerYAnchor.constraint(equalTo: lightQualityLabel.centerYAnchor).isActive = true
         
-        // flicker index results container
-        flickerIndexResultsContainer.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
-        flickerIndexResultsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        flickerIndexResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        flickerIndexResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        // flicker index results display
-        resultsViewFlickerIndex.centerXAnchor.constraint(equalTo: flickerIndexResultsContainer.centerXAnchor).isActive = true
-        resultsViewFlickerIndex.centerYAnchor.constraint(equalTo: flickerIndexResultsContainer.centerYAnchor).isActive = true
-        resultsViewFlickerIndex.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        resultsViewFlickerIndex.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        // flicker index title label
-        flickerIndexTitle.centerXAnchor.constraint(equalTo: flickerIndexResultsContainer.centerXAnchor).isActive = true
-        flickerIndexTitle.topAnchor.constraint(equalTo: flickerIndexResultsContainer.bottomAnchor, constant: -Constants.verticalMargins * 0.5).isActive = true
-        flickerIndexTitle.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        // percent results container
-        percentResultsContainer.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
-        percentResultsContainer.trailingAnchor.constraint(equalTo: flickerIndexResultsContainer.leadingAnchor).isActive = true
-        percentResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        percentResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        // percent results display
-        resultsViewPercent.centerYAnchor.constraint(equalTo: percentResultsContainer.centerYAnchor).isActive = true
-        resultsViewPercent.centerXAnchor.constraint(equalTo: percentResultsContainer.centerXAnchor).isActive = true
-        resultsViewPercent.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        resultsViewPercent.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        // percent title label
-        flickerPercentTitle.centerXAnchor.constraint(equalTo: percentResultsContainer.centerXAnchor).isActive = true
-        flickerPercentTitle.topAnchor.constraint(equalTo: percentResultsContainer.bottomAnchor, constant: -Constants.verticalMargins * 0.5).isActive = true
-        flickerPercentTitle.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        // hertz results container
-        hertzResultsContainer.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
-        hertzResultsContainer.leadingAnchor.constraint(equalTo: flickerIndexResultsContainer.trailingAnchor).isActive = true
-        hertzResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        hertzResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        // hertz results display
-        detailCircle.centerYAnchor.constraint(equalTo: hertzResultsContainer.centerYAnchor).isActive = true
-        detailCircle.centerXAnchor.constraint(equalTo: hertzResultsContainer.centerXAnchor).isActive = true
-        detailCircle.heightAnchor.constraint(equalToConstant: Constants.radius * 2).isActive = true
-        detailCircle.widthAnchor.constraint(equalToConstant: Constants.radius * 2).isActive = true
-        
-        // hertz results display
-        resultsViewHertz.centerYAnchor.constraint(equalTo: detailCircle.centerYAnchor).isActive = true
-        resultsViewHertz.centerXAnchor.constraint(equalTo: detailCircle.centerXAnchor).isActive = true
-        resultsViewHertz.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        resultsViewHertz.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        // hertz title label
-        hertzTitle.centerXAnchor.constraint(equalTo: hertzResultsContainer.centerXAnchor).isActive = true
-        hertzTitle.topAnchor.constraint(equalTo: hertzResultsContainer.bottomAnchor, constant: -Constants.verticalMargins * 0.5).isActive = true
-        hertzTitle.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        
-        let seperator = ((Constants.containerDimension * 3) - (4 * Constants.smallContainerDimensions)) / 5
-        
-        //ScrollView
-        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: flickerIndexTitle.bottomAnchor, constant: Constants.verticalMargins).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        //Vertical Container
-        verticalContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        verticalContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        verticalContainer.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        verticalContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        verticalContainer.heightAnchor.constraint(equalToConstant: 700).isActive = true
-        verticalContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        
-        
+        resultsDisplay.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
+        resultsDisplay.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        resultsDisplay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.verticalMargins).isActive = true
+        resultsDisplay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.verticalMargins).isActive = true
+    
         // info container timer
-        infoContainer.topAnchor.constraint(equalTo: verticalContainer.topAnchor).isActive = true
         infoContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         infoContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
-        infoContainer.centerXAnchor.constraint(equalTo: verticalContainer.centerXAnchor).isActive = true
+        infoContainer.topAnchor.constraint(equalTo: view.centerYAnchor,constant: Constants.verticalMargins * 0.5).isActive = true
+        infoContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         // timer title
         timerTitle.topAnchor.constraint(equalTo: infoContainer.topAnchor, constant: Constants.sideMargins).isActive = true
-        timerTitle.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: Constants.sideMargins).isActive = true
-        timerTitle.widthAnchor.constraint(equalTo: infoContainer.widthAnchor).isActive = true
+        timerTitle.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: Constants.seperator).isActive = true
         
         // timer image container
         timerView.topAnchor.constraint(equalTo: timerTitle.bottomAnchor).isActive = true
-        timerView.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: seperator).isActive = true
+        timerView.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: Constants.seperator).isActive = true
         timerView.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
         timerView.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
         
         // timer indicator container
         timerIndiatorContainer.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
         timerIndiatorContainer.leadingAnchor.constraint(equalTo: timerView.trailingAnchor).isActive = true
-        timerIndiatorContainer.topAnchor.constraint(equalTo: timerTitle.bottomAnchor).isActive = true
+        timerIndiatorContainer.centerYAnchor.constraint(equalTo: timerView.centerYAnchor).isActive = true
         timerIndiatorContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
         // info container side effects
-        
         infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 1.3).isActive = true
-        infoContainerMoreInfoObjects.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         infoContainerMoreInfoObjects.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         
         // side effects title
         MoreInfoObjectsTitle.topAnchor.constraint(equalTo: infoContainerMoreInfoObjects.topAnchor, constant: Constants.sideMargins).isActive = true
-        MoreInfoObjectsTitle.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: Constants.sideMargins).isActive = true
+        MoreInfoObjectsTitle.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: Constants.seperator).isActive = true
         MoreInfoObjectsTitle.widthAnchor.constraint(equalTo: infoContainerMoreInfoObjects.widthAnchor).isActive = true
         
         //Side effects stack container
-        horizontalMoreInfoObjectsContainer.topAnchor.constraint(equalTo: MoreInfoObjectsTitle.bottomAnchor).isActive = true
-        horizontalMoreInfoObjectsContainer.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: seperator).isActive = true
-        horizontalMoreInfoObjectsContainer.trailingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.trailingAnchor, constant: -seperator).isActive = true
+        horizontalMoreInfoObjectsContainer.topAnchor.constraint(equalTo: MoreInfoObjectsTitle.bottomAnchor, constant: Constants.sideMargins).isActive = true
+        horizontalMoreInfoObjectsContainer.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: Constants.seperator).isActive = true
+        horizontalMoreInfoObjectsContainer.trailingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.trailingAnchor, constant: -Constants.seperator).isActive = true
         
         //tips container
-        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 2).isActive = true
-        tipsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         tipsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
+        
+        //tips title
+        tipsTitle.topAnchor.constraint(equalTo: tipsContainer.topAnchor, constant: Constants.sideMargins).isActive = true
+        tipsTitle.leadingAnchor.constraint(equalTo: tipsContainer.leadingAnchor, constant: Constants.seperator).isActive = true
+        tipsTitle.widthAnchor.constraint(equalTo: tipsContainer.widthAnchor).isActive = true
+        
+        //results swiping container
+        resultsSwiper.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.verticalMargins * 0.5).isActive = true
+        resultsSwiper.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.verticalMargins).isActive = true
+        resultsSwiper.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
+        resultsSwiper.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.verticalMargins).isActive = true
     }
     
     func getNewResults() {
@@ -696,6 +746,13 @@ class ResultsViewController: UIViewController {
     }
     
     func setState() {
+        if (state.type == "Best") {
+            constraintsDaylightDisplay()
+        }
+        else {
+            constraintsResultDisplay()
+        }
+        
         setDisplay(resultIcon: state.overallImageName!, resultAnimationColor1: state.overallIndicatorColorMain!, resultAnimationColor2: state.overallIndicatorColorSub!, timerTime: state.exposureTime!, timerIndication: state.indicatorTime!, timerIndicatorColor: state.indicatorColor!)
         
         animationLayerPercent.strokeColor = UIColor(named: state.overallIndicatorColorMain!)?.cgColor
@@ -730,7 +787,6 @@ class ResultsViewController: UIViewController {
         //timer
         timerTitle.attributedText = attributedExposureText(text1: timerTime)
         timerFillerLayer.strokeColor = trackColor
-        //timerIndicator.backgroundColor = trackColor
         makeTimerGraphic(score: timerScore, track: timerTrackLayer, filler: timerFillerLayer)
     }
     
@@ -742,7 +798,7 @@ class ResultsViewController: UIViewController {
     }
     
     func attributedExposureText(text1: String) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: "Exposure: ", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Italic", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
+        let attributedText = NSMutableAttributedString(string: "Exposure: ", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
         attributedText.append(NSAttributedString(string: text1, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-ExtraLight", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!]))
         return attributedText
     }
