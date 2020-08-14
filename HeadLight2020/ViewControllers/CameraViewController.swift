@@ -39,7 +39,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "accentLight")
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderColor = UIColor.init(named: "mainColor")?.cgColor
+        button.layer.borderColor = UIColor.init(named: "mainColorAccentDark")?.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = sizeOfCaptureButton * 0.5
         return button
@@ -66,13 +66,13 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         label.text = "Headlight"
         label.textColor = UIColor(named: "accentLight")
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Poppins-ExtraLight", size: 20)
+        label.font = UIFont(name: "Poppins-Medium", size: 20)
         return label
     }()
     
     let captureAnimation: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.fillColor = UIColor(named: "mainContrastColor")?.cgColor
+        layer.fillColor = UIColor(named: "mainColorAccentLight")?.cgColor
         layer.isHidden = true
         let size = (sizeOfCaptureButton * 1.2 - sizeOfCaptureButton) / 2
         layer.path = CGPath(ellipseIn: CGRect(x: -size / 2, y: ( -CGFloat(sizeOfCaptureButton * 1.2) / 2), width: size, height: size), transform: nil)
@@ -239,7 +239,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
     }
 
     @objc func longTap(_ sender: UIGestureRecognizer){
-        captureButton.backgroundColor = UIColor(named: "mainColor")
+        captureButton.backgroundColor = UIColor(named: "mainColorAccentDark")
         decorativeCircle.backgroundColor = UIColor(named: "accentLight")
         captureAnimation.isHidden = false
         
@@ -300,7 +300,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
                //dismiss
             }
             
-            else if named == "Second" {
+            else if named == "How to use" {
                 self.howToUseController.view.isHidden = false
                 
             }

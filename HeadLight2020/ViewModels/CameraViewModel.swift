@@ -47,6 +47,7 @@ class CameraViewModel {
     @objc func getNewResults() {
         self.flickerPercent = fourierModel.flickerPercent * 100
         self.flickerIndex = fourierModel.flickerIndex * 100
+        print("ghjk",self.flickerIndex)
         self.hertz = fourierModel.hertz
         self.luminance = fourierModel.luminance
         self.lightDetected = checkForLight()
@@ -72,7 +73,7 @@ class CameraViewModel {
     }
     
     func checkForLight() -> Bool {
-        if (luminance < 30 && hertz < 20) {
+        if (luminance < 50 && hertz < 20) {
             print("lum",luminance,"hert",hertz)
             return false
         }

@@ -11,8 +11,8 @@ import UIKit
 
 class MenuListController: UITableViewController {
     
-    var items = ["Home", "Second", "Third", "Fourth"]
-    let icons = ["Info", "Info", "Info", "Info"]
+    var items = ["Home", "How to use", "Lighting and your health", "Fourth"]
+    let icons = ["HomeIcon", "HowToUse", "Health", "HomeIcon"]
     var delegate: MenuControllerDelegate?
     
     override func viewDidLoad() {
@@ -30,14 +30,14 @@ class MenuListController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomCell
         cell.backgroundColor = UIColor(named: "mainColorAccentDark")
-        cell.name.font = UIFont(name: "Poppins-Italic", size: 20)
+        cell.name.font = UIFont(name: "Poppins-Medium", size: 22)
         cell.name.textColor = UIColor(named: "accentLight")
         cell.name.text = items[indexPath.row]
         cell.icon.image = UIImage(named: icons[indexPath.row])
 
         let backgroundColorWhenSelected = UIView()
-         backgroundColorWhenSelected.backgroundColor = UIColor.init(named: "mainContrastColor")
-         cell.selectedBackgroundView = backgroundColorWhenSelected
+        backgroundColorWhenSelected.backgroundColor = UIColor.init(named: "mainColorAccentLight")
+        cell.selectedBackgroundView = backgroundColorWhenSelected
  
         return cell
     }
@@ -51,11 +51,17 @@ class MenuListController: UITableViewController {
     override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CustomCell
         cell.name.textColor = UIColor(named: "mainColorAccentDark")
+        let image = UIImage(named: icons[indexPath.row])
+        cell.icon.image = image!.withRenderingMode(.alwaysTemplate)
+        cell.icon.tintColor = UIColor(named: "mainColorAccentDark")
     }
     
     override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CustomCell
         cell.name.textColor = UIColor(named: "accentLight")
+        let image = UIImage(named: icons[indexPath.row])
+        cell.icon.image = image!.withRenderingMode(.alwaysTemplate)
+        cell.icon.tintColor = UIColor(named: "accentLight")
     }
 }
 

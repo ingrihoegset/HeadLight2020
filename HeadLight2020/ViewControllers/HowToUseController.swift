@@ -25,7 +25,7 @@ class HowToUseController: UIViewController {
         label.text = "Headlight"
         label.textColor = UIColor(named: "accentLight")
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Poppins-ExtraLight", size: 20)
+        label.font = UIFont(name: "Poppins-Medium", size: 20)
         return label
     }()
     

@@ -69,7 +69,7 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         //This is because every pixel is represented by 4 bits of memory, so to get to the next pixel, we must move
         //4 spaces down the array.
         //Returns array of 36 simultaneous pixels with leap of * 20 (for my screen size)
-        for i in stride(from: 0, to: width * height * 4 - 1, by: width * 20) {
+        for i in stride(from: 0, to: width * height * 4 - 1, by: width) {
             let pixel = getPixelNumber(byteBuffer: byteBuffer, index: i)
             rowOfPixels.append(pixel)
         }

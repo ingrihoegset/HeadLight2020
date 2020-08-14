@@ -46,10 +46,10 @@ class SwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataS
     
     let dots: UIPageControl = {
         let controller = UIPageControl()
-        controller.currentPageIndicatorTintColor = UIColor(named: "mainContrastColor")
+        controller.currentPageIndicatorTintColor = UIColor(named: "mainColorAccentLight")
         controller.backgroundColor = .clear
         controller.layer.cornerRadius = Constants.cornerRadius
-        controller.pageIndicatorTintColor = UIColor(named: "mainColor")
+        controller.pageIndicatorTintColor = UIColor(named: "mainColorAccentDark")
         controller.translatesAutoresizingMaskIntoConstraints = false
         return controller
     }()

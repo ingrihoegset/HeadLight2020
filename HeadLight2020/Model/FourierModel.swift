@@ -77,10 +77,10 @@ class FourierModel: NSObject {
         let preflickerPercent = calculateFlickerPercent(averageLumosity: averageLumosity, averageAmplitude: averageAmplitude)
         flickerPercent = roundFlickerPercent(flickerPercent: preflickerPercent)
         
+        flickerIndex = calculateFlickerIndex(averageLumosity: averageLumosity, modeHertz: modeHertz, averageAmplitude: averageAmplitude)
+        
         let calculatedState = calculateState(hertz: modeHertz, flickerPercent: flickerPercent)
         state = calculatedState
-
-        flickerIndex = calculateFlickerIndex(averageLumosity: averageLumosity, modeHertz: modeHertz, averageAmplitude: averageAmplitude)
         
         let preHertz = Double(modeHertz)
         hertz = roundHertz(hertz: preHertz)
@@ -230,6 +230,7 @@ class FourierModel: NSObject {
         if (hertz < 10) {
             calculatedState = stateholder.best
             self.flickerPercent = 0
+            self.flickerIndex = 0
         }
         
         return calculatedState
@@ -293,35 +294,35 @@ class FourierModel: NSObject {
         if (flickerPercent < 0.05) {
             flickerPercent = 0
         }
-        else if (flickerPercent < 0.15) {
-            flickerPercent = 0.10
+        else if (flickerPercent < 0.10) {
+            flickerPercent = 0.05
         }
-        else if (flickerPercent < 0.25) {
-            flickerPercent = 0.20
+        else if (flickerPercent < 0.20) {
+            flickerPercent = 0.15
         }
-        else if (flickerPercent < 0.35) {
-            flickerPercent = 0.30
+        else if (flickerPercent < 0.30) {
+            flickerPercent = 0.25
         }
-        else if (flickerPercent < 0.45) {
-            flickerPercent = 0.40
+        else if (flickerPercent < 0.40) {
+            flickerPercent = 0.35
         }
-        else if (flickerPercent < 0.55) {
-            flickerPercent = 0.50
+        else if (flickerPercent < 0.50) {
+            flickerPercent = 0.45
         }
-        else if (flickerPercent < 0.65) {
-            flickerPercent = 0.60
+        else if (flickerPercent < 0.60) {
+            flickerPercent = 0.55
         }
-        else if (flickerPercent < 0.75) {
-            flickerPercent = 0.70
+        else if (flickerPercent < 0.70) {
+            flickerPercent = 0.65
         }
-        else if (flickerPercent < 0.85) {
-            flickerPercent = 0.80
+        else if (flickerPercent < 0.80) {
+            flickerPercent = 0.75
         }
-        else if (flickerPercent < 0.95) {
-            flickerPercent = 0.90
+        else if (flickerPercent < 0.90) {
+            flickerPercent = 0.85
         }
         else if (flickerPercent < 1.05) {
-            flickerPercent = 1
+            flickerPercent = 0.95
         }
         return flickerPercent
     }

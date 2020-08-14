@@ -20,7 +20,7 @@ class PopUpView: UIView {
     let closePopUpButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "accentLight")
-        button.layer.cornerRadius = Constants.topMargin / 1.8 / 2
+        button.layer.cornerRadius = Constants.topMargin / 1.5 / 2
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "Exit"), for: .normal)
         button.addTarget(self, action: #selector(handleDismissal), for: .touchUpInside)
@@ -38,7 +38,7 @@ class PopUpView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(closePopUpButton)
-        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
+        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.verticalMargins).isActive = true
         closePopUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.sideMargins).isActive = true
         closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
         closePopUpButton.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
@@ -48,10 +48,10 @@ class PopUpView: UIView {
         super.init(frame: frame)
         self.addSubview(closePopUpButton)
         self.addSubview(titleLabel)
-        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
+        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.verticalMargins).isActive = true
         closePopUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.seperator).isActive = true
-        closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.8).isActive = true
-        closePopUpButton.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.8).isActive = true
+        closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
+        closePopUpButton.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
         
         titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.seperator).isActive = true

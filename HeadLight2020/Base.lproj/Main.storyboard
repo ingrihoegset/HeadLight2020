@@ -7,25 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tester-->
-        <scene sceneID="vhN-py-aJl">
-            <objects>
-                <viewController id="slr-Rn-feo" customClass="Tester" customModule="HeadLight2020" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="UsI-vk-sWr">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="pS8-UC-tdl"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ndd-Ic-HHk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1777" y="529"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="qPO-Sl-Coo">
             <objects>
-                <navigationController id="fZ3-d1-vJd" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="navCont" id="fZ3-d1-vJd" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ctg-15-5ap">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -41,7 +26,7 @@
         <!--Camera View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="CameraViewController" customModule="HeadLight2020" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="cameraViewController" id="BYZ-38-t0r" customClass="CameraViewController" customModule="HeadLight2020" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

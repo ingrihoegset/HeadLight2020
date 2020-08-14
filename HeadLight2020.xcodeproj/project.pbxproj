@@ -27,6 +27,8 @@
 		BF75E3ED24E40523000E9F7C /* ResultSwipingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75E3EC24E40523000E9F7C /* ResultSwipingController.swift */; };
 		BF75E3EF24E40CCB000E9F7C /* ResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75E3EE24E40CCB000E9F7C /* ResultsCell.swift */; };
 		BF75E3F124E4425A000E9F7C /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF75E3F024E4425A000E9F7C /* Poppins-Medium.ttf */; };
+		BF75E3FB24E68124000E9F7C /* Launcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF75E3FA24E68124000E9F7C /* Launcher.xib */; };
+		BF75E3FD24E68149000E9F7C /* LaunchScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75E3FC24E68149000E9F7C /* LaunchScreenManager.swift */; };
 		BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8210AE24CF1D77000F4A74 /* CustomCell.swift */; };
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
 		BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */; };
@@ -34,7 +36,6 @@
 		BFBCCB9124AB8782005F93DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFBCCB8F24AB8782005F93DB /* Main.storyboard */; };
 		BFBCCB9424AB8782005F93DB /* HeadLight2020.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB9224AB8782005F93DB /* HeadLight2020.xcdatamodeld */; };
 		BFBCCB9624AB8785005F93DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFBCCB9524AB8785005F93DB /* Assets.xcassets */; };
-		BFBCCB9924AB8785005F93DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFBCCB9724AB8785005F93DB /* LaunchScreen.storyboard */; };
 		BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBED24B32134005F93DB /* CameraViewModel.swift */; };
 		BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */; };
 		BFF48A5724D0AAC600304DB9 /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF48A5624D0AAC600304DB9 /* PopUpView.swift */; };
@@ -67,6 +68,8 @@
 		BF75E3EC24E40523000E9F7C /* ResultSwipingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSwipingController.swift; sourceTree = "<group>"; };
 		BF75E3EE24E40CCB000E9F7C /* ResultsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsCell.swift; sourceTree = "<group>"; };
 		BF75E3F024E4425A000E9F7C /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		BF75E3FA24E68124000E9F7C /* Launcher.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Launcher.xib; sourceTree = "<group>"; };
+		BF75E3FC24E68149000E9F7C /* LaunchScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenManager.swift; sourceTree = "<group>"; };
 		BF8210AE24CF1D77000F4A74 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBCCB8924AB8782005F93DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -75,7 +78,6 @@
 		BFBCCB9024AB8782005F93DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFBCCB9324AB8782005F93DB /* HeadLight2020.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeadLight2020.xcdatamodel; sourceTree = "<group>"; };
 		BFBCCB9524AB8785005F93DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BFBCCB9824AB8785005F93DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFBCCB9A24AB8785005F93DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BFBCCBED24B32134005F93DB /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +126,20 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		BF75E3F224E67963000E9F7C /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				BF75E3EA24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf */,
+				BF75E3E824E1E925000E9F7C /* Poppins-ExtraBold.ttf */,
+				BF75E3F024E4425A000E9F7C /* Poppins-Medium.ttf */,
+				BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */,
+				BF4A255C24D839D000E03B6C /* Poppins-Light.ttf */,
+				BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */,
+				BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		BFBCCB7D24AB8782005F93DB = {
 			isa = PBXGroup;
 			children = (
@@ -149,20 +165,15 @@
 				BFBCCBF124B33F6F005F93DB /* ViewControllers */,
 				BF70F6E724C849040044F6B3 /* ViewModels */,
 				BFBCCBF424B4AC57005F93DB /* Model */,
+				BF75E3F224E67963000E9F7C /* Fonts */,
 				BFBCCB8924AB8782005F93DB /* AppDelegate.swift */,
 				BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */,
 				BFBCCB8F24AB8782005F93DB /* Main.storyboard */,
 				BFBCCB9524AB8785005F93DB /* Assets.xcassets */,
-				BF75E3EA24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf */,
-				BF75E3E824E1E925000E9F7C /* Poppins-ExtraBold.ttf */,
-				BF75E3F024E4425A000E9F7C /* Poppins-Medium.ttf */,
-				BF70F6F524C887DB0044F6B3 /* Poppins-ExtraLight.ttf */,
-				BF4A255C24D839D000E03B6C /* Poppins-Light.ttf */,
-				BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */,
-				BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */,
-				BFBCCB9724AB8785005F93DB /* LaunchScreen.storyboard */,
 				BFBCCB9A24AB8785005F93DB /* Info.plist */,
 				BFBCCB9224AB8782005F93DB /* HeadLight2020.xcdatamodeld */,
+				BF75E3FA24E68124000E9F7C /* Launcher.xib */,
+				BF75E3FC24E68149000E9F7C /* LaunchScreenManager.swift */,
 			);
 			path = HeadLight2020;
 			sourceTree = "<group>";
@@ -243,6 +254,9 @@
 		BFBCCB7E24AB8782005F93DB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					1,
+				);
 				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = Ingrid;
@@ -276,11 +290,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF4A255D24D839D100E03B6C /* Poppins-Light.ttf in Resources */,
+				BF75E3FB24E68124000E9F7C /* Launcher.xib in Resources */,
 				BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */,
 				BF634E8624CB13C80050CE69 /* Poppins-SemiBold.ttf in Resources */,
 				BF70F6F624C888180044F6B3 /* Poppins-ExtraLight.ttf in Resources */,
 				BF75E3E924E1E925000E9F7C /* Poppins-ExtraBold.ttf in Resources */,
-				BFBCCB9924AB8785005F93DB /* LaunchScreen.storyboard in Resources */,
 				BFBCCB9624AB8785005F93DB /* Assets.xcassets in Resources */,
 				BF75E3EB24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf in Resources */,
 				BFBCCB9124AB8782005F93DB /* Main.storyboard in Resources */,
@@ -345,6 +359,7 @@
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
 				BF75E3ED24E40523000E9F7C /* ResultSwipingController.swift in Sources */,
 				BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */,
+				BF75E3FD24E68149000E9F7C /* LaunchScreenManager.swift in Sources */,
 				BF634E8E24CDF2270050CE69 /* MenuListController.swift in Sources */,
 				BF75E3E724E1CB37000E9F7C /* FourierModel.swift in Sources */,
 				BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */,
@@ -373,14 +388,6 @@
 				BFBCCB9024AB8782005F93DB /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		BFBCCB9724AB8785005F93DB /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BFBCCB9824AB8785005F93DB /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -516,7 +523,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ingrid.HeadLight2020;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -536,7 +543,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ingrid.HeadLight2020;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

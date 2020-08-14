@@ -22,6 +22,8 @@ class CustomCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .clear
+        label.numberOfLines = 2
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -45,6 +47,7 @@ class CustomCell: UITableViewCell {
 
         name.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: Constants.sideMargins).isActive = true
         name.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
+        name.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay / 2).isActive = true
     }
     
     

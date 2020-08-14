@@ -47,9 +47,9 @@ class ResultsViewController: UIViewController {
         label.numberOfLines = 3
         label.translatesAutoresizingMaskIntoConstraints = false
         let text = "No"
-        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 22)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
-        attributedText.append(NSAttributedString(string: "Detectable" + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 22)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
-        attributedText.append(NSAttributedString(string: "Flicker", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 22)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
+        let attributedText = NSMutableAttributedString(string: text + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
+        attributedText.append(NSAttributedString(string: "Detectable" + "\n", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
+        attributedText.append(NSAttributedString(string: "Flicker", attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 16)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
         label.attributedText = attributedText
         label.layer.masksToBounds = true
         label.textAlignment = .center
@@ -215,12 +215,30 @@ class ResultsViewController: UIViewController {
         return view
     }()
     
+    let infoContainerChevron: UIImageView = {
+        let imageView = UIImageView()
+        let image = UIImage(systemName: "chevron.right.circle.fill")
+        imageView.image = image!.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = UIColor(named: "mainColorAccentDark")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     let infoContainerMoreInfoObjects: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.radiusContainers
         return view
+    }()
+    
+    let moreInfoContainerChevron: UIImageView = {
+        let imageView = UIImageView()
+        let image = UIImage(systemName: "chevron.right.circle.fill")
+        imageView.image = image!.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = UIColor(named: "mainColorAccentDark")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     let horizontalMoreInfoObjectsContainer: UIStackView = {
@@ -313,6 +331,15 @@ class ResultsViewController: UIViewController {
         return label
     }()
     
+    let tipsContainerChevron: UIImageView = {
+        let imageView = UIImageView()
+        let image = UIImage(systemName: "chevron.right.circle.fill")
+        imageView.image = image!.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = UIColor(named: "mainColorAccentDark")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     lazy var popUpView: PopUpView = {
         let view = PopUpView(frame: .zero, title: "Title")
         view.backgroundColor = UIColor(named: "mainColorAccentDark")
@@ -344,7 +371,7 @@ class ResultsViewController: UIViewController {
     }()
     
     let visualEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .regular)
+        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
         let view = UIVisualEffectView(effect: blurEffect)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -422,13 +449,16 @@ class ResultsViewController: UIViewController {
         
         self.view.addSubview(infoContainer)
         infoContainer.addSubview(timerTitle)
+        infoContainer.addSubview(infoContainerChevron)
         infoContainer.addSubview(timerView)
         infoContainer.addSubview(timerIndiatorContainer)
         
         infoContainerMoreInfoObjects.addSubview(MoreInfoObjectsTitle)
         infoContainerMoreInfoObjects.addSubview(horizontalMoreInfoObjectsContainer)
+        infoContainerMoreInfoObjects.addSubview(moreInfoContainerChevron)
         
         tipsContainer.addSubview(tipsTitle)
+        tipsContainer.addSubview(tipsContainerChevron)
         
         resultObjects = [infoContainerMoreInfoObjects, tipsContainer]
         resultsSwiper.items = resultObjects
@@ -441,6 +471,10 @@ class ResultsViewController: UIViewController {
         
         setState()
         getNewResults()
+        
+        //Needed to make animation render over other views
+        view.bringSubviewToFront(overallResultsHelper)
+        view.bringSubviewToFront(overallResults)
         
         makeGraphic(score: flickerPercent, trackLayer: trackLayerPercent, animationLayer: animationLayerPercent, duration: 2.5)
         makeGraphic(score: flickerIndex, trackLayer: trackLayerFlickerIndex, animationLayer: animationLayerFlickerIndex, duration: 1.5)
@@ -456,6 +490,30 @@ class ResultsViewController: UIViewController {
     }
     
     private func constraintsDaylightDisplay() {
+        resultsDisplay.addSubview(flickerIndexResultsContainer)
+        flickerIndexResultsContainer.addSubview(flickerIndexLabel)
+        flickerIndexResultsContainer.addSubview(resultsViewFlickerIndex)
+        flickerIndexResultsContainer.layer.addSublayer(trackLayerFlickerIndex)
+        flickerIndexResultsContainer.layer.addSublayer(animationLayerFlickerIndex)
+        
+        // flicker index results container
+        flickerIndexResultsContainer.topAnchor.constraint(equalTo: resultsDisplay.topAnchor).isActive = true
+        flickerIndexResultsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        flickerIndexResultsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        flickerIndexResultsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+    
+        // flicker title label
+        flickerIndexLabel.centerXAnchor.constraint(equalTo: flickerIndexResultsContainer.centerXAnchor).isActive = true
+        flickerIndexLabel.topAnchor.constraint(equalTo: flickerIndexResultsContainer.bottomAnchor, constant: -((Constants.containerDimension / 2) - Constants.radius)).isActive = true
+        flickerIndexLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        flickerIndexLabel.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
+        // flicker index results display
+        resultsViewFlickerIndex.centerXAnchor.constraint(equalTo: flickerIndexResultsContainer.centerXAnchor).isActive = true
+        resultsViewFlickerIndex.centerYAnchor.constraint(equalTo: flickerIndexResultsContainer.centerYAnchor).isActive = true
+        resultsViewFlickerIndex.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        resultsViewFlickerIndex.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        
         resultsDisplay.addSubview(percentResultsContainer)
         percentResultsContainer.addSubview(percentLabel)
         percentResultsContainer.addSubview(resultsViewPercent)
@@ -484,7 +542,7 @@ class ResultsViewController: UIViewController {
         dayLightDisplay.trailingAnchor.constraint(equalTo: resultsDisplay.trailingAnchor).isActive = true
         dayLightDisplay.bottomAnchor.constraint(equalTo: resultsDisplay.bottomAnchor).isActive = true
         dayLightDisplay.topAnchor.constraint(equalTo: resultsDisplay.topAnchor, constant: ((Constants.containerDimension / 2) - Constants.radius) - (Constants.trackLayerLineWidth / 2)).isActive = true
-        dayLightDisplay.leadingAnchor.constraint(equalTo: percentResultsContainer.trailingAnchor).isActive = true
+        dayLightDisplay.leadingAnchor.constraint(equalTo: flickerIndexResultsContainer.trailingAnchor).isActive = true
     }
 
     
@@ -625,7 +683,7 @@ class ResultsViewController: UIViewController {
         resultsDisplay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.verticalMargins).isActive = true
     
         // info container timer
-        infoContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        infoContainer.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.18).isActive = true
         infoContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         infoContainer.topAnchor.constraint(equalTo: view.centerYAnchor,constant: Constants.verticalMargins * 0.5).isActive = true
         infoContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -634,8 +692,14 @@ class ResultsViewController: UIViewController {
         timerTitle.topAnchor.constraint(equalTo: infoContainer.topAnchor, constant: Constants.sideMargins).isActive = true
         timerTitle.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: Constants.seperator).isActive = true
         
+        // info container chevron
+        infoContainerChevron.centerYAnchor.constraint(equalTo: timerTitle.centerYAnchor).isActive = true
+        infoContainerChevron.trailingAnchor.constraint(equalTo: infoContainer.trailingAnchor, constant: -Constants.seperator).isActive = true
+        infoContainerChevron.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 0.25).isActive = true
+        infoContainerChevron.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 0.25).isActive = true
+        
         // timer image container
-        timerView.topAnchor.constraint(equalTo: timerTitle.bottomAnchor).isActive = true
+        timerView.topAnchor.constraint(equalTo: timerTitle.bottomAnchor, constant: Constants.sideMargins).isActive = true
         timerView.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor, constant: Constants.seperator).isActive = true
         timerView.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
         timerView.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
@@ -647,7 +711,7 @@ class ResultsViewController: UIViewController {
         timerIndiatorContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
         // info container side effects
-        infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 1.3).isActive = true
+        infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.2).isActive = true
         infoContainerMoreInfoObjects.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         
         // side effects title
@@ -655,19 +719,31 @@ class ResultsViewController: UIViewController {
         MoreInfoObjectsTitle.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: Constants.seperator).isActive = true
         MoreInfoObjectsTitle.widthAnchor.constraint(equalTo: infoContainerMoreInfoObjects.widthAnchor).isActive = true
         
+        // info container chevron
+        moreInfoContainerChevron.centerYAnchor.constraint(equalTo: MoreInfoObjectsTitle.centerYAnchor).isActive = true
+        moreInfoContainerChevron.trailingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.trailingAnchor, constant: -Constants.seperator).isActive = true
+        moreInfoContainerChevron.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 0.25).isActive = true
+        moreInfoContainerChevron.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 0.25).isActive = true
+        
         //Side effects stack container
         horizontalMoreInfoObjectsContainer.topAnchor.constraint(equalTo: MoreInfoObjectsTitle.bottomAnchor, constant: Constants.sideMargins).isActive = true
         horizontalMoreInfoObjectsContainer.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: Constants.seperator).isActive = true
         horizontalMoreInfoObjectsContainer.trailingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.trailingAnchor, constant: -Constants.seperator).isActive = true
         
         //tips container
-        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
+        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.2).isActive = true
         tipsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         
         //tips title
         tipsTitle.topAnchor.constraint(equalTo: tipsContainer.topAnchor, constant: Constants.sideMargins).isActive = true
         tipsTitle.leadingAnchor.constraint(equalTo: tipsContainer.leadingAnchor, constant: Constants.seperator).isActive = true
         tipsTitle.widthAnchor.constraint(equalTo: tipsContainer.widthAnchor).isActive = true
+        
+        // tips container chevron
+        tipsContainerChevron.centerYAnchor.constraint(equalTo: tipsTitle.centerYAnchor).isActive = true
+        tipsContainerChevron.trailingAnchor.constraint(equalTo: tipsContainer.trailingAnchor, constant: -Constants.seperator).isActive = true
+        tipsContainerChevron.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 0.25).isActive = true
+        tipsContainerChevron.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 0.25).isActive = true
         
         //results swiping container
         resultsSwiper.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.verticalMargins * 0.5).isActive = true
@@ -701,10 +777,18 @@ class ResultsViewController: UIViewController {
         
         trackLayer.path = circularPath.cgPath
         animationLayer.path = circularPath.cgPath
+        
+        var scale = CGFloat(0)
+        if (score > 50) {
+            scale = 1
+        }
+        else {
+           scale = CGFloat(score / 50)
+        }
 
-        let scale = CGFloat(score / 100.0)
         
         let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        basicAnimation.fromValue = 0.01
         basicAnimation.toValue = scale
         basicAnimation.duration = duration
         basicAnimation.fillMode = CAMediaTimingFillMode.forwards
@@ -735,14 +819,6 @@ class ResultsViewController: UIViewController {
         barAnimation.fillMode = CAMediaTimingFillMode.forwards
         barAnimation.isRemovedOnCompletion = false
         filler.add(barAnimation, forKey: "basic")
-        
-        /*
-        let basicAnimation = CABasicAnimation(keyPath: "position")
-        basicAnimation.toValue = CGPoint(x: endOfPathX * CGFloat(endpoint) + 12.5, y: Constants.smallContainerDimensions * 0.5)
-        basicAnimation.duration = 2.0
-        basicAnimation.fillMode = CAMediaTimingFillMode.forwards
-        basicAnimation.isRemovedOnCompletion = false
-        animationLayer.add(basicAnimation, forKey: "position")*/
     }
     
     func setState() {
@@ -778,6 +854,7 @@ class ResultsViewController: UIViewController {
 
         //Top results image and animation
         overallResults.image = UIImage(named: resultIcon)
+        overallResults.shake()
         let position = CGPoint(x: Constants.largeContainerDimension / 2, y: Constants.largeContainerDimension / 2)
         let pulse = PulseAnimation(numberOfPulses: 3, radius: Constants.largeContainerDimension / 2, position: position, color: pulse1Color!, duration: 1)
         let pulse2 = PulseAnimation(numberOfPulses: 2, radius: Constants.largeContainerDimension / 1.8, position: position, color: pulse2Color!, duration: 1)
@@ -841,8 +918,8 @@ class ResultsViewController: UIViewController {
         popUpView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -(4 * Constants.topMargin)).isActive = true
         popUpView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -(2 * Constants.verticalMargins)).isActive = true
         
-        swiper.topAnchor.constraint(equalTo: popUpView.closePopUpButton.bottomAnchor, constant: Constants.sideMargins).isActive = true
-        swiper.bottomAnchor.constraint(equalTo: popUpView.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
+        swiper.topAnchor.constraint(equalTo: popUpView.closePopUpButton.bottomAnchor, constant: Constants.verticalMargins).isActive = true
+        swiper.bottomAnchor.constraint(equalTo: popUpView.bottomAnchor, constant: -Constants.verticalMargins * 2).isActive = true
         swiper.leadingAnchor.constraint(equalTo: popUpView.leadingAnchor).isActive = true
         swiper.trailingAnchor.constraint(equalTo: popUpView.trailingAnchor).isActive = true
         
@@ -878,3 +955,14 @@ extension ResultsViewController: PopUpDelegate {
         }
     }
 }
+
+extension UIView {
+    func shake() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+        animation.duration = 1.25
+        animation.values = [-1, 1, -1, 1, -1, 1, -1, 1, -1, 1, 0]
+        self.layer.add(animation, forKey: "shake")
+    }
+}
+

@@ -29,7 +29,7 @@ struct Constants {
     static let verticalMargins = heightOfDisplay * 0.03
     static let cornerRadius = CGFloat(5.0)
     static let containerDimension = widthOfDisplay * 0.3
-    static let smallContainerDimensions = widthOfDisplay * 0.175
+    static let smallContainerDimensions = heightOfDisplay * 0.1
     static let largeContainerDimension = widthOfDisplay * 0.4
     static let radius = Constants.containerDimension * 0.375
     static let radiusContainers = Constants.containerDimension * 0.225
