@@ -36,7 +36,6 @@ class ResultSwipingController: UIView, UICollectionViewDelegate, UICollectionVie
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.layer.cornerRadius = Constants.radiusContainers
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +45,7 @@ class ResultSwipingController: UIView, UICollectionViewDelegate, UICollectionVie
     
     let dots: UIPageControl = {
         let controller = UIPageControl()
-        controller.currentPageIndicatorTintColor = UIColor(named: "accentLight")
+        controller.currentPageIndicatorTintColor = UIColor(named: "mainContrastColor")
         controller.backgroundColor = .clear
         controller.layer.cornerRadius = Constants.cornerRadius
         controller.pageIndicatorTintColor = UIColor(named: "mainColorAccentDark")

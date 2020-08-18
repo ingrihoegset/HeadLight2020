@@ -11,6 +11,9 @@ import UIKit
 
 struct Constants {
     
+    //Fonts
+    static let readingFont = UIFont(name: "Poppins-Light", size: 18)
+    
     //Titles
     static let exposureTitle = "Exposure"
     static let sideEffectsTitle = "Possible Side Effects"
@@ -43,5 +46,8 @@ struct Constants {
     static let yellow = "indicatorYellow"
     static let redYellow = "indicatorRedYellow"
     static let greenYellow = "indicatorGreenYellow"
+    
+    //Page titles
+    static let howTo = "How to use Headlight"
     
 }

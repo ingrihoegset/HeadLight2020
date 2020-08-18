@@ -117,7 +117,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
 
         NotificationCenter.default.addObserver(self, selector: #selector(segueToResults), name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
         
-       NotificationCenter.default.addObserver(self, selector: #selector(holdPhoneStillToast), name: NSNotification.Name.init(rawValue: "holdPhoneStillToast"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(holdPhoneStillToast), name: NSNotification.Name.init(rawValue: "holdPhoneStillToast"), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

@@ -30,6 +30,8 @@
 		BF75E3FB24E68124000E9F7C /* Launcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF75E3FA24E68124000E9F7C /* Launcher.xib */; };
 		BF75E3FD24E68149000E9F7C /* LaunchScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75E3FC24E68149000E9F7C /* LaunchScreenManager.swift */; };
 		BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8210AE24CF1D77000F4A74 /* CustomCell.swift */; };
+		BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */; };
+		BFB357C624EC0CC100E117DD /* HowToUseTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */; };
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
 		BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */; };
 		BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */; };
@@ -71,6 +73,8 @@
 		BF75E3FA24E68124000E9F7C /* Launcher.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Launcher.xib; sourceTree = "<group>"; };
 		BF75E3FC24E68149000E9F7C /* LaunchScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenManager.swift; sourceTree = "<group>"; };
 		BF8210AE24CF1D77000F4A74 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfoViewController.swift; sourceTree = "<group>"; };
+		BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseTexts.swift; sourceTree = "<group>"; };
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBCCB8924AB8782005F93DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFBCCB8B24AB8782005F93DB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,7 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				BF70F6E924C849450044F6B3 /* Constants.swift */,
-				BFF48A6324D745DF00304DB9 /* MoreInfoObjectTexts.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -138,6 +141,15 @@
 				BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		BFB357C424EC0C9600E117DD /* Texts */ = {
+			isa = PBXGroup;
+			children = (
+				BFF48A6324D745DF00304DB9 /* MoreInfoObjectTexts.swift */,
+				BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */,
+			);
+			path = Texts;
 			sourceTree = "<group>";
 		};
 		BFBCCB7D24AB8782005F93DB = {
@@ -161,6 +173,7 @@
 		BFBCCB8824AB8782005F93DB /* HeadLight2020 */ = {
 			isa = PBXGroup;
 			children = (
+				BFB357C424EC0C9600E117DD /* Texts */,
 				BF70F6E824C849300044F6B3 /* Constants */,
 				BFBCCBF124B33F6F005F93DB /* ViewControllers */,
 				BF70F6E724C849040044F6B3 /* ViewModels */,
@@ -186,6 +199,7 @@
 				BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */,
 				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
 				BF634E8F24CE42770050CE69 /* HowToUseController.swift */,
+				BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -357,6 +371,7 @@
 				BF75E3EF24E40CCB000E9F7C /* ResultsCell.swift in Sources */,
 				BFF48A6224D7425500304DB9 /* MoreInfoObject.swift in Sources */,
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
+				BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */,
 				BF75E3ED24E40523000E9F7C /* ResultSwipingController.swift in Sources */,
 				BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */,
 				BF75E3FD24E68149000E9F7C /* LaunchScreenManager.swift in Sources */,
@@ -366,6 +381,7 @@
 				BF634E9024CE42770050CE69 /* HowToUseController.swift in Sources */,
 				BF75E3E524E1CACC000E9F7C /* Result.swift in Sources */,
 				BFF48A6624D75CBC00304DB9 /* InfoCell.swift in Sources */,
+				BFB357C624EC0CC100E117DD /* HowToUseTexts.swift in Sources */,
 				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
 				BFF48A6424D745DF00304DB9 /* MoreInfoObjectTexts.swift in Sources */,

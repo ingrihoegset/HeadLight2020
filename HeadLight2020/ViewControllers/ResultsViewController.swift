@@ -314,6 +314,7 @@ class ResultsViewController: UIViewController {
     let tipsContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = Constants.radiusContainers
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
         return view
     }()
@@ -438,7 +439,6 @@ class ResultsViewController: UIViewController {
         let swiper = ResultSwipingController(frame: .zero)
         swiper.layer.cornerRadius = Constants.radiusContainers
         swiper.translatesAutoresizingMaskIntoConstraints = false
-        swiper.backgroundColor = UIColor(named: "mainColorAccentLight")
         return swiper
     }()
 
@@ -711,7 +711,7 @@ class ResultsViewController: UIViewController {
         timerIndiatorContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
         // info container side effects
-        infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.2).isActive = true
+        infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.225).isActive = true
         infoContainerMoreInfoObjects.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         
         // side effects title
@@ -731,7 +731,7 @@ class ResultsViewController: UIViewController {
         horizontalMoreInfoObjectsContainer.trailingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.trailingAnchor, constant: -Constants.seperator).isActive = true
         
         //tips container
-        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.2).isActive = true
+        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.225).isActive = true
         tipsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         
         //tips title
@@ -748,8 +748,8 @@ class ResultsViewController: UIViewController {
         //results swiping container
         resultsSwiper.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.verticalMargins * 0.5).isActive = true
         resultsSwiper.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.verticalMargins).isActive = true
-        resultsSwiper.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
-        resultsSwiper.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.verticalMargins).isActive = true
+        resultsSwiper.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
+        resultsSwiper.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.275).isActive = true
     }
     
     func getNewResults() {
