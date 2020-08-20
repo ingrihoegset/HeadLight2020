@@ -12,7 +12,7 @@ import UIKit
 
 class InfoCell: UICollectionViewCell {
     
-    let container: UIView = {
+    var container: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.cornerRadius
@@ -20,7 +20,7 @@ class InfoCell: UICollectionViewCell {
         return view
     }()
     
-    let imageView: UIImageView = {
+    var imageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .clear
         view.layer.cornerRadius = Constants.largeContainerDimension * 0.4 / 2

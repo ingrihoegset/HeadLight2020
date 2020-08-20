@@ -10,9 +10,7 @@ import UIKit
 import AVFoundation
 import SideMenu
 
-let semaphore = DispatchSemaphore(value: 0)
 let sizeOfCaptureButton = Constants.displayViewPortionOfScreen * 0.6
-
 
 class CameraViewController: UIViewController, MenuControllerDelegate {
     
@@ -21,9 +19,13 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
 
     let viewModel = CameraViewModel(fourierModel: FourierModel(cameraCapture: CameraCapture()))
     
+    @IBAction func infoButtonPressed(_ sender: Any) {
+        infoPopUp()
+    }
+    
     let displayView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "mainColorTinted")
+        view.backgroundColor = UIColor(named: "mainColor")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -34,6 +36,8 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    
     
     let captureButton: UIButton = {
         let button = UIButton()
@@ -66,7 +70,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         label.text = "Headlight"
         label.textColor = UIColor(named: "accentLight")
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Poppins-Medium", size: 20)
+        label.font = Constants.logoFont
         return label
     }()
     
@@ -75,10 +79,35 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         layer.fillColor = UIColor(named: "mainColorAccentLight")?.cgColor
         layer.isHidden = true
         let size = (sizeOfCaptureButton * 1.2 - sizeOfCaptureButton) / 2
-        layer.path = CGPath(ellipseIn: CGRect(x: -size / 2, y: ( -CGFloat(sizeOfCaptureButton * 1.2) / 2), width: size, height: size), transform: nil)
+        layer.path = CGPath(ellipseIn: CGRect(x: -size / 2, y: (-CGFloat(sizeOfCaptureButton * 1.2) / 2), width: size, height: size), transform: nil)
         let circleCenter = CGPoint(x: CGFloat(sizeOfCaptureButton / 2), y: CGFloat(sizeOfCaptureButton / 2))
         layer.position = circleCenter
         return layer
+    }()
+    
+    lazy var popUpView: PopUpView = {
+        let view = PopUpView(frame: .zero, title: "Quick Tip")
+        view.backgroundColor = UIColor(named: "mainColorAccentLight")
+        view.layer.cornerRadius = Constants.radiusContainers
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = self
+        
+        view.titleLabel.textColor = .black
+        view.titleLabel.font = Constants.pageHeaderFont
+        view.titleLabel.textAlignment = .center
+        
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.text = HowToUseText.infoButtonText
+        textView.textColor = .black
+        textView.font = Constants.readingFont
+        textView.backgroundColor = UIColor(named: "mainColorAccentLight")
+        view.addSubview(textView)
+        textView.topAnchor.constraint(equalTo: view.titleLabel.bottomAnchor).isActive = true
+        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.seperator).isActive = true
+        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.seperator).isActive = true
+        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.seperator).isActive = true
+        return view
     }()
     
     //In order to set up camera
@@ -91,8 +120,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        
-        
+
         let menu = MenuListController()
         menu.delegate = self
         sideMenu = UISideMenuNavigationController(rootViewController: menu)
@@ -102,10 +130,11 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         SideMenuManager.default.menuAddPanGestureToPresent(toView: self.view)
         
         //Camera setup
-        cameraSetup()
+       // cameraSetup()
         
         self.view.addSubview(topPanelView)
         topPanelView.addSubview(titleLabel)
+
         self.view.addSubview(displayView)
         displayView.addSubview(helper)
         helper.addSubview(decorativeCircle)
@@ -114,6 +143,8 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
 
         setupLayoutConstraints()
         addChildControllers()
+        
+
 
         NotificationCenter.default.addObserver(self, selector: #selector(segueToResults), name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
         
@@ -127,6 +158,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         decorativeCircle.backgroundColor = UIColor(named: "accentLight")
         captureAnimation.isHidden = true
         captureAnimation.removeAnimation(forKey: "basic")
+
     }
  
     func cameraSetup() {
@@ -167,7 +199,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
 
         //starts the camera
         captureSession.startRunning()
-        
     }
     
     //Selects the function of the camera to be 240 fps
@@ -199,20 +230,19 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         topPanelView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         topPanelView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         topPanelView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topPanelView.heightAnchor.constraint(equalToConstant: Constants.topMargin).isActive = true
+        topPanelView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         
         //Top panel title
-        titleLabel.centerXAnchor.constraint(equalTo: topPanelView.centerXAnchor
-        ).isActive = true
-        titleLabel.heightAnchor.constraint(equalTo: topPanelView.heightAnchor).isActive = true
-        titleLabel.centerYAnchor.constraint(equalTo: topPanelView.centerYAnchor).isActive = true
+        titleLabel.centerXAnchor.constraint(equalTo: topPanelView.centerXAnchor).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: Constants.topMargin).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         
         //Constraints of bottom display
         displayView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay).isActive = true
         displayView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         displayView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         displayView.heightAnchor.constraint(equalToConstant: Constants.displayViewPortionOfScreen).isActive = true
-    
+
         //Constraints of capture button
         captureButton.centerYAnchor.constraint(equalTo: displayView.centerYAnchor).isActive = true
         captureButton.centerXAnchor.constraint(equalTo: displayView.centerXAnchor).isActive = true
@@ -236,7 +266,9 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
     
     @IBAction func didTapMenu() {
         present(sideMenu!, animated: true)
+        handleDismissal()
     }
+    
 
     @objc func longTap(_ sender: UIGestureRecognizer){
         captureButton.backgroundColor = UIColor(named: "mainColorAccentDark")
@@ -259,6 +291,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
     }
     
     @objc func segueToResults() {
+        handleDismissal()
         if (viewModel.lightDetected == false) {
             self.showToast(message: "No light detected", font: UIFont(name: "Poppins-Light", size: 18)!)
         }
@@ -323,7 +356,25 @@ class CameraViewController: UIViewController, MenuControllerDelegate {
         howToUseController.view.frame = view.bounds
         howToUseController.didMove(toParent: self)
         howToUseController.view.isHidden = true
+    }
+    
+    @objc func infoPopUp() {
         
+        self.view.addSubview(popUpView)
+
+        popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        popUpView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.3).isActive = true
+        popUpView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay * 0.8).isActive = true
+        
+        popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        popUpView.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+
+            self.popUpView.alpha = 1
+            self.popUpView.transform = CGAffineTransform.identity
+        }
     }
 }
 
@@ -371,7 +422,18 @@ extension CameraViewController {
             toastLabel.removeFromSuperview()
         })
     }
-    
 }
 
+extension CameraViewController: PopUpDelegate {
+    
+    func handleDismissal() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.popUpView.alpha = 0
+            self.popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        }) { (_) in
+            self.popUpView.removeFromSuperview()
+            print("did remove")
+        }
+    }
+}
 

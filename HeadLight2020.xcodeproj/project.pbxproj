@@ -11,6 +11,8 @@
 		BF41A12024D771B800228F81 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41A11F24D771B800228F81 /* State.swift */; };
 		BF41A12224D7790C00228F81 /* StateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41A12124D7790C00228F81 /* StateHolder.swift */; };
 		BF4A255D24D839D100E03B6C /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF4A255C24D839D000E03B6C /* Poppins-Light.ttf */; };
+		BF55027224EC724A00B6B7C5 /* Lora-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF55027124EC724A00B6B7C5 /* Lora-Regular.ttf */; };
+		BF55027424EC725200B6B7C5 /* Lora-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF55027324EC725200B6B7C5 /* Lora-Medium.ttf */; };
 		BF634E8624CB13C80050CE69 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */; };
 		BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */; };
 		BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */; };
@@ -29,6 +31,11 @@
 		BF75E3F124E4425A000E9F7C /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF75E3F024E4425A000E9F7C /* Poppins-Medium.ttf */; };
 		BF75E3FB24E68124000E9F7C /* Launcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF75E3FA24E68124000E9F7C /* Launcher.xib */; };
 		BF75E3FD24E68149000E9F7C /* LaunchScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF75E3FC24E68149000E9F7C /* LaunchScreenManager.swift */; };
+		BF7778AE24EC8318006F891B /* GrandHotel-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF7778AD24EC8318006F891B /* GrandHotel-Regular.ttf */; };
+		BF7778B024EC83BC006F891B /* Sacramento-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF7778AF24EC83BC006F891B /* Sacramento-Regular.ttf */; };
+		BF7778B624EDC7CB006F891B /* HowToSwiperController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778B524EDC7CB006F891B /* HowToSwiperController.swift */; };
+		BF7778B824EDC7EB006F891B /* HowToCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778B724EDC7EB006F891B /* HowToCell.swift */; };
+		BF7778BA24EDC878006F891B /* HowToSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778B924EDC878006F891B /* HowToSlide.swift */; };
 		BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8210AE24CF1D77000F4A74 /* CustomCell.swift */; };
 		BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */; };
 		BFB357C624EC0CC100E117DD /* HowToUseTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */; };
@@ -54,6 +61,8 @@
 		BF41A11F24D771B800228F81 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		BF41A12124D7790C00228F81 /* StateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHolder.swift; sourceTree = "<group>"; };
 		BF4A255C24D839D000E03B6C /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
+		BF55027124EC724A00B6B7C5 /* Lora-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Regular.ttf"; sourceTree = "<group>"; };
+		BF55027324EC725200B6B7C5 /* Lora-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Medium.ttf"; sourceTree = "<group>"; };
 		BF634E8524CB13C80050CE69 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		BF634E8724CB13CF0050CE69 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		BF634E8B24CDC22A0050CE69 /* PulseAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseAnimation.swift; sourceTree = "<group>"; };
@@ -72,6 +81,11 @@
 		BF75E3F024E4425A000E9F7C /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		BF75E3FA24E68124000E9F7C /* Launcher.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Launcher.xib; sourceTree = "<group>"; };
 		BF75E3FC24E68149000E9F7C /* LaunchScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenManager.swift; sourceTree = "<group>"; };
+		BF7778AD24EC8318006F891B /* GrandHotel-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GrandHotel-Regular.ttf"; sourceTree = "<group>"; };
+		BF7778AF24EC83BC006F891B /* Sacramento-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sacramento-Regular.ttf"; sourceTree = "<group>"; };
+		BF7778B524EDC7CB006F891B /* HowToSwiperController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToSwiperController.swift; sourceTree = "<group>"; };
+		BF7778B724EDC7EB006F891B /* HowToCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToCell.swift; sourceTree = "<group>"; };
+		BF7778B924EDC878006F891B /* HowToSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToSlide.swift; sourceTree = "<group>"; };
 		BF8210AE24CF1D77000F4A74 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfoViewController.swift; sourceTree = "<group>"; };
 		BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseTexts.swift; sourceTree = "<group>"; };
@@ -132,6 +146,10 @@
 		BF75E3F224E67963000E9F7C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				BF7778AF24EC83BC006F891B /* Sacramento-Regular.ttf */,
+				BF7778AD24EC8318006F891B /* GrandHotel-Regular.ttf */,
+				BF55027324EC725200B6B7C5 /* Lora-Medium.ttf */,
+				BF55027124EC724A00B6B7C5 /* Lora-Regular.ttf */,
 				BF75E3EA24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf */,
 				BF75E3E824E1E925000E9F7C /* Poppins-ExtraBold.ttf */,
 				BF75E3F024E4425A000E9F7C /* Poppins-Medium.ttf */,
@@ -228,6 +246,9 @@
 				BFF48A6524D75CBC00304DB9 /* InfoCell.swift */,
 				BF75E3EC24E40523000E9F7C /* ResultSwipingController.swift */,
 				BF75E3EE24E40CCB000E9F7C /* ResultsCell.swift */,
+				BF7778B524EDC7CB006F891B /* HowToSwiperController.swift */,
+				BF7778B724EDC7EB006F891B /* HowToCell.swift */,
+				BF7778B924EDC878006F891B /* HowToSlide.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -305,14 +326,18 @@
 			files = (
 				BF4A255D24D839D100E03B6C /* Poppins-Light.ttf in Resources */,
 				BF75E3FB24E68124000E9F7C /* Launcher.xib in Resources */,
+				BF7778B024EC83BC006F891B /* Sacramento-Regular.ttf in Resources */,
 				BF634E8824CB13CF0050CE69 /* Poppins-Italic.ttf in Resources */,
 				BF634E8624CB13C80050CE69 /* Poppins-SemiBold.ttf in Resources */,
 				BF70F6F624C888180044F6B3 /* Poppins-ExtraLight.ttf in Resources */,
 				BF75E3E924E1E925000E9F7C /* Poppins-ExtraBold.ttf in Resources */,
 				BFBCCB9624AB8785005F93DB /* Assets.xcassets in Resources */,
+				BF7778AE24EC8318006F891B /* GrandHotel-Regular.ttf in Resources */,
 				BF75E3EB24E1EF1E000E9F7C /* Poppins-BlackItalic.ttf in Resources */,
 				BFBCCB9124AB8782005F93DB /* Main.storyboard in Resources */,
 				BF75E3F124E4425A000E9F7C /* Poppins-Medium.ttf in Resources */,
+				BF55027224EC724A00B6B7C5 /* Lora-Regular.ttf in Resources */,
+				BF55027424EC725200B6B7C5 /* Lora-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +394,9 @@
 				BFBCCB9424AB8782005F93DB /* HeadLight2020.xcdatamodeld in Sources */,
 				BF41A12024D771B800228F81 /* State.swift in Sources */,
 				BF75E3EF24E40CCB000E9F7C /* ResultsCell.swift in Sources */,
+				BF7778B824EDC7EB006F891B /* HowToCell.swift in Sources */,
 				BFF48A6224D7425500304DB9 /* MoreInfoObject.swift in Sources */,
+				BF7778B624EDC7CB006F891B /* HowToSwiperController.swift in Sources */,
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
 				BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */,
 				BF75E3ED24E40523000E9F7C /* ResultSwipingController.swift in Sources */,
@@ -386,6 +413,7 @@
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
 				BFF48A6424D745DF00304DB9 /* MoreInfoObjectTexts.swift in Sources */,
 				BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */,
+				BF7778BA24EDC878006F891B /* HowToSlide.swift in Sources */,
 				BFF48A6024D0C1E500304DB9 /* SwipingController.swift in Sources */,
 				BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */,
 				BF41A12224D7790C00228F81 /* StateHolder.swift in Sources */,

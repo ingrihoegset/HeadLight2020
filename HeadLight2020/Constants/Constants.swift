@@ -13,6 +13,8 @@ struct Constants {
     
     //Fonts
     static let readingFont = UIFont(name: "Poppins-Light", size: 18)
+    static let pageHeaderFont = UIFont(name: "Poppins-Light", size: 24)
+    static let logoFont = UIFont(name: "GrandHotel-Regular", size: 28)
     
     //Titles
     static let exposureTitle = "Exposure"
@@ -32,12 +34,12 @@ struct Constants {
     static let verticalMargins = heightOfDisplay * 0.03
     static let cornerRadius = CGFloat(5.0)
     static let containerDimension = widthOfDisplay * 0.3
-    static let smallContainerDimensions = heightOfDisplay * 0.1
-    static let largeContainerDimension = widthOfDisplay * 0.4
+    static let smallContainerDimensions = widthOfDisplay * 0.175
+    static let largeContainerDimension = heightOfDisplay * 0.225
     static let radius = Constants.containerDimension * 0.375
     static let radiusContainers = Constants.containerDimension * 0.225
     static let trackLayerLineWidth = CGFloat(8)
-    static let seperator = ((Constants.containerDimension * 3) - (4 * Constants.smallContainerDimensions)) / 5
+    static let seperator = widthOfDisplay * 0.03
     
     //Colors
     static let mainColor = "mainColor"
@@ -48,6 +50,6 @@ struct Constants {
     static let greenYellow = "indicatorGreenYellow"
     
     //Page titles
-    static let howTo = "How to use Headlight"
+    static let howTo = "How to use"
     
 }

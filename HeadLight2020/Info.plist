@@ -24,6 +24,10 @@
 	<string>May we access your camera?</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Sacramento-Regular.ttf</string>
+		<string>Lora-Medium.ttf</string>
+		<string>GrandHotel-Regular.ttf</string>
+		<string>Lora-Regular.ttf</string>
 		<string>Poppins-Medium.ttf</string>
 		<string>Poppins-ExtraBold.ttf</string>
 		<string>Poppins-BlackItalic.ttf</string>

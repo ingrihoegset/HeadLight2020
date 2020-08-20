@@ -32,14 +32,15 @@ class PopUpView: UIView {
         label.backgroundColor = .clear
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(named: "accentLight")
+        label.font = Constants.pageHeaderFont
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(closePopUpButton)
-        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.verticalMargins).isActive = true
-        closePopUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.sideMargins).isActive = true
+        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.seperator).isActive = true
+        closePopUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.seperator).isActive = true
         closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
         closePopUpButton.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
     }
@@ -48,14 +49,14 @@ class PopUpView: UIView {
         super.init(frame: frame)
         self.addSubview(closePopUpButton)
         self.addSubview(titleLabel)
-        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.verticalMargins).isActive = true
+        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.seperator).isActive = true
         closePopUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.seperator).isActive = true
         closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
         closePopUpButton.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
         
         titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.seperator).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: closePopUpButton.leadingAnchor, constant: -Constants.sideMargins).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.seperator).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: closePopUpButton.centerYAnchor).isActive = true
         titleLabel.attributedText = attributedTitle(text1: title)
     }

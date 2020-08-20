@@ -17,24 +17,16 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFo-q7-uqp" userLabel="Ring">
                     <rect key="frame" x="-2" y="0.0" width="414" height="896"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Headlight" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Olx-L8-iwG">
-                            <rect key="frame" x="80" y="551" width="254.5" height="72"/>
-                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="60"/>
-                            <color key="textColor" name="accentLight"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="SlR-wV-5gA">
-                            <rect key="frame" x="7" y="151" width="400" height="400"/>
+                            <rect key="frame" x="7" y="248" width="400" height="400"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" name="Clear"/>
                     <constraints>
-                        <constraint firstItem="SlR-wV-5gA" firstAttribute="top" secondItem="cFo-q7-uqp" secondAttribute="top" constant="151" id="IDA-NJ-rZq"/>
+                        <constraint firstItem="SlR-wV-5gA" firstAttribute="centerY" secondItem="cFo-q7-uqp" secondAttribute="centerY" id="KEu-tu-GyY"/>
                         <constraint firstItem="SlR-wV-5gA" firstAttribute="height" secondItem="cFo-q7-uqp" secondAttribute="height" multiplier="0.446429" id="Koa-Hu-9re"/>
                         <constraint firstItem="SlR-wV-5gA" firstAttribute="centerX" secondItem="cFo-q7-uqp" secondAttribute="centerX" id="XsT-KC-YHk"/>
                         <constraint firstItem="SlR-wV-5gA" firstAttribute="width" secondItem="cFo-q7-uqp" secondAttribute="width" multiplier="0.966184" id="eg2-YX-7gJ"/>
-                        <constraint firstItem="Olx-L8-iwG" firstAttribute="centerX" secondItem="cFo-q7-uqp" secondAttribute="centerX" id="fF3-bd-TcY"/>
-                        <constraint firstItem="Olx-L8-iwG" firstAttribute="top" secondItem="SlR-wV-5gA" secondAttribute="bottom" id="y5s-0t-ttM"/>
                     </constraints>
                 </view>
             </subviews>
@@ -53,9 +45,6 @@
         <image name="LaunchImage" width="400" height="400"/>
         <namedColor name="Clear">
             <color red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="accentLight">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="mainColor">
             <color red="0.18400000035762787" green="0.3449999988079071" blue="0.53700000047683716" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

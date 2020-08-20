@@ -62,13 +62,13 @@ class LaunchScreenManager {
             animations: {
                 launchImage.alpha = 1.0
                 backgroudview.alpha = 1.0
-                launchImage.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+                launchImage.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
             }
         )
     
         UIView.animate(
             withDuration: animationDurationBase,
-            delay: 1.25,
+            delay: 0.25,
             options: .beginFromCurrentState,
             animations: {
                 launchImage.alpha = 0

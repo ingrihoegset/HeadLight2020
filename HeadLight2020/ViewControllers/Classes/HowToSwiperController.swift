@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ResultSwipingController: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class HowToSwiperController: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var items = [UIView]()
     let cellId = "infoCellId"
@@ -65,21 +65,20 @@ class ResultSwipingController: UIView, UICollectionViewDelegate, UICollectionVie
         addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(ResultsCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(HowToCell.self, forCellWithReuseIdentifier: cellId)
         
-        collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        collectionView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        collectionView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
-    
 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ResultsCell
-        let view = items[indexPath.row]
-        cell.container.addSubview(view)
-
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HowToCell
+        let view = items[indexPath.row] as! HowToSlide
+        cell.imageView.image = view.imageView.image
+        cell.textView.text = view.textView.text
         return cell
     }
     
@@ -91,6 +90,7 @@ class ResultSwipingController: UIView, UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: self.frame.width, height: self.frame.height)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -107,7 +107,8 @@ class ResultSwipingController: UIView, UICollectionViewDelegate, UICollectionVie
             .rounded(.toNearestOrAwayFromZero)
         )
     }
-}
 
+
+}
 
 

@@ -40,8 +40,8 @@ class CustomCell: UITableViewCell {
     
     func setConstraints() {
 
-        icon.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
-        icon.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions * 0.75).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions * 0.75).isActive = true
         icon.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         icon.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: Constants.sideMargins).isActive = true
 

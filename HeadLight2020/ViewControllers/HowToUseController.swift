@@ -25,150 +25,57 @@ class HowToUseController: UIViewController {
         label.text = "Headlight"
         label.textColor = UIColor(named: "accentLight")
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Poppins-Medium", size: 20)
+        label.font = Constants.logoFont
         return label
     }()
     
     let pageTitle: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor(named: "mainColorAccentDark")
-        label.text = Constants.howTo
+        let text = Constants.howTo
+        let attributedText = NSMutableAttributedString(string: text + " ", attributes: [NSAttributedString.Key.font: Constants.pageHeaderFont!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
+        attributedText.append(NSAttributedString(string: "Headlight", attributes: [NSAttributedString.Key.font: UIFont(name: "GrandHotel-Regular", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!]))
+        label.attributedText = attributedText
         label.textColor = UIColor(named: "accentLight")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Poppins-Medium", size: 26)
         return label
     }()
     
     let introView: UIView = {
-        let view = UIView()
+        let view = HowToSlide(frame: .zero, image: "Introduction", text: HowToUseText.slide1, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
-        
-        let viewHeight = Constants.heightOfDisplay - Constants.topMargin * 2
-        
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "Introduction")
-        view.addSubview(imageView)
-        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: viewHeight * 0.7).isActive = true
-        
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.isSelectable = false
-        textView.textAlignment = .center
-        textView.backgroundColor = .clear
-        textView.font = Constants.readingFont
-        textView.text = HowToUseText.slide1
-        view.addSubview(textView)
-        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.seperator).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.seperator).isActive = true
-        textView.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
-        
-        return view
-    }()
-    
-    let nightView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        let viewHeight = Constants.heightOfDisplay - Constants.topMargin * 2
-        
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "Night")
-        view.addSubview(imageView)
-        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: viewHeight * 0.7).isActive = true
-        
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.isSelectable = false
-        textView.textAlignment = .center
-        textView.backgroundColor = .clear
-        textView.font = Constants.readingFont
-        textView.text = "cfg"
-        view.addSubview(textView)
-        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.seperator).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.seperator).isActive = true
-        textView.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
         return view
     }()
     
     let detectView: UIView = {
-        let view = UIView()
+        let view = HowToSlide(frame: .zero, image: "Detection", text: HowToUseText.slide2, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
-        
-        let viewHeight = Constants.heightOfDisplay - Constants.topMargin * 2
-        
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "Detection")
-        view.addSubview(imageView)
-        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: viewHeight * 0.7).isActive = true
-        
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.isSelectable = false
-        textView.textAlignment = .center
-        textView.backgroundColor = .clear
-        textView.font = Constants.readingFont
-        textView.text = "fghijkojiohug iyuftdry ytfyguhijokoji hougiyfu"
-        view.addSubview(textView)
-        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.seperator).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.seperator).isActive = true
-        textView.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
+        return view
+    }()
+    
+    let captureView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Capture", text: HowToUseText.slide3, fill: false)
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let howToHoldView: UIView = {
-        let view = UIView()
+        let view = HowToSlide(frame: .zero, image: "Holding", text: HowToUseText.slide4, fill: true)
         view.translatesAutoresizingMaskIntoConstraints = false
-        
-        let viewHeight = Constants.heightOfDisplay - Constants.topMargin * 2
-        
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "Holding")
-        view.addSubview(imageView)
-        
-        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: viewHeight * 0.7).isActive = true
-        
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.isSelectable = false
-        textView.textAlignment = .center
-        textView.backgroundColor = .clear
-        textView.font = Constants.readingFont
-        textView.text = "dfghjkl"
-        view.addSubview(textView)
-        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.seperator).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.seperator).isActive = true
-        textView.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
         return view
     }()
     
-    let swiper: ResultSwipingController = {
-        let swiper = ResultSwipingController(frame: .zero)
+    let nightView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Night", text: HowToUseText.slide5, fill: false)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+ 
+    
+    let swiper: HowToSwiperController = {
+        let swiper = HowToSwiperController(frame: .zero)
         swiper.translatesAutoresizingMaskIntoConstraints = false
         return swiper
     }()
@@ -176,16 +83,13 @@ class HowToUseController: UIViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = UIColor.white
         view.addSubview(topPanelView)
         topPanelView.addSubview(titleLabel)
         view.addSubview(pageTitle)
-        
-        swiper.items = [introView, detectView, howToHoldView, nightView]
-        
+        swiper.items = [introView, detectView, captureView, howToHoldView, nightView]
         view.addSubview(swiper)
-
-
         setConstraints()
 
     }
@@ -195,39 +99,26 @@ class HowToUseController: UIViewController {
         topPanelView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         topPanelView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         topPanelView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topPanelView.heightAnchor.constraint(equalToConstant: Constants.topMargin).isActive = true
+        topPanelView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         
         //Top panel title
         titleLabel.centerXAnchor.constraint(equalTo: topPanelView.centerXAnchor
         ).isActive = true
-        titleLabel.heightAnchor.constraint(equalTo: topPanelView.heightAnchor).isActive = true
-        titleLabel.centerYAnchor.constraint(equalTo: topPanelView.centerYAnchor).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: Constants.topMargin).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         
         //Tilte of page
         pageTitle.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         pageTitle.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        pageTitle.topAnchor.constraint(equalTo: topPanelView.bottomAnchor).isActive = true
+        pageTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         pageTitle.heightAnchor.constraint(equalToConstant: Constants.topMargin).isActive = true
         
         //Swiper
-        swiper.topAnchor.constraint(equalTo: pageTitle.bottomAnchor).isActive = true
+        swiper.topAnchor.constraint(equalTo: pageTitle.bottomAnchor, constant: Constants.verticalMargins).isActive = true
         swiper.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay).isActive = true
         swiper.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         swiper.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
-        //Image views
-        nightView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay).isActive = true
-        nightView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay - Constants.topMargin * 2).isActive = true
         
-        detectView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay).isActive = true
-        detectView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay - Constants.topMargin * 2).isActive = true
-        
-        introView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay).isActive = true
-        introView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay - Constants.topMargin * 2).isActive = true
-        
-        howToHoldView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay).isActive = true
-        howToHoldView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay - Constants.topMargin * 2).isActive = true
-        
-    
     }
 }

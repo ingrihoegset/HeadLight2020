@@ -67,7 +67,7 @@ class StateHolder {
             overallIndicatorColorSub: Constants.yellow,
             exposureTime: "Unlimited", indicatorTime: 50,
             indicatorColor: Constants.yellow,
-            sideeffects: [eyeStrain, dizzyness, noSideEffect, noSideEffect],
+            sideeffects: [eyeStrain, dizzyness, generalDiscomfort, headache],
             timerObject: [bestTimerObject],
             tipsObject: [tip1, tip2, tip3])
 

@@ -65,7 +65,6 @@ class MenuListController: UITableViewController {
     }
 }
 
-
 protocol MenuControllerDelegate {
     func didSelectMenuItem(named: String)
 }

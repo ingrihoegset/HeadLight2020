@@ -247,7 +247,6 @@ class ResultsViewController: UIViewController {
         container.alignment = .center
         container.distribution = .fillEqually
         container.axis = .horizontal
-        container.spacing = (Constants.containerDimension * 3 - 4 * Constants.smallContainerDimensions) / 5
         return container
     }()
     
@@ -385,7 +384,7 @@ class ResultsViewController: UIViewController {
         label.backgroundColor = UIColor(named: "mainColorAccentDark")
         label.textColor = UIColor(named: "accentLight")
         label.text = "This"
-        label.font = UIFont(name: "Poppins-BlackItalic", size: 20)
+        label.font = UIFont(name: "Poppins-Medium", size: 20)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -397,7 +396,7 @@ class ResultsViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = UIColor(named: "accentLight")
         label.text = "Light is"
-        label.font = UIFont(name: "Poppins-BlackItalic", size: 20)
+        label.font = UIFont(name: "Poppins-Medium", size: 20)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -409,7 +408,7 @@ class ResultsViewController: UIViewController {
         label.backgroundColor = UIColor(named: "mainColorAccentDark")
         label.textColor = UIColor(named: "accentLight")
         label.text = "Good"
-        label.font = UIFont(name: "Poppins-BlackItalic", size: 20)
+        label.font = UIFont(name: "Poppins-Medium", size: 20)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -638,7 +637,7 @@ class ResultsViewController: UIViewController {
         self.view.addSubview(resultsDisplay)
         
         // overall results display
-        overallResults.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topMargin).isActive = true
+        overallResults.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         overallResults.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         overallResults.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 0.8).isActive = true
         overallResults.widthAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 0.8).isActive = true
@@ -727,8 +726,8 @@ class ResultsViewController: UIViewController {
         
         //Side effects stack container
         horizontalMoreInfoObjectsContainer.topAnchor.constraint(equalTo: MoreInfoObjectsTitle.bottomAnchor, constant: Constants.sideMargins).isActive = true
-        horizontalMoreInfoObjectsContainer.leadingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.leadingAnchor, constant: Constants.seperator).isActive = true
-        horizontalMoreInfoObjectsContainer.trailingAnchor.constraint(equalTo: infoContainerMoreInfoObjects.trailingAnchor, constant: -Constants.seperator).isActive = true
+        horizontalMoreInfoObjectsContainer.centerXAnchor.constraint(equalTo: infoContainerMoreInfoObjects.centerXAnchor).isActive = true
+        horizontalMoreInfoObjectsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3 - 2 * Constants.seperator).isActive = true
         
         //tips container
         tipsContainer.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.225).isActive = true
@@ -747,7 +746,7 @@ class ResultsViewController: UIViewController {
         
         //results swiping container
         resultsSwiper.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.verticalMargins * 0.5).isActive = true
-        resultsSwiper.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.verticalMargins).isActive = true
+        resultsSwiper.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         resultsSwiper.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
         resultsSwiper.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.275).isActive = true
     }
