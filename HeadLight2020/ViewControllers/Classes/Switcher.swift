@@ -43,12 +43,12 @@ class Switcher: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.setStatus(true)
+        self.setStatus(false)
         self.addSubview(backGroundShape)
         self.addSubview(toggleIndicatorOn)
         self.addSubview(toggleIndicatorOff)
-        toggleIndicatorOn.isHidden = false
-        toggleIndicatorOff.isHidden = true
+        toggleIndicatorOn.isHidden = true
+        toggleIndicatorOff.isHidden = false
         setConstraints()
     }
     

@@ -17,4 +17,7 @@ struct HowToUseText {
     static let slide5 = "Daylight mitigates the effect of flickering in electric lights. To get the most accurate results, analyze the lights when there is less natural light."
     static let infoButtonText = "When you observe flicker on the display, point the camera at the flicker and hold the button until the analysis is complete."
     static let infoButtonTitle = "Quick tip"
+    static let correctCaptureTitle = "Press and Hold"
+    static let correctCaptureText = "Press and hold the button to analyze the lighting. Make sure to hold your phone still during the analysis."
+    
 }

@@ -104,24 +104,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         
-        /*
-        view.titleLabel.textColor = .black
-        view.titleLabel.font = Constants.pageHeaderFont
-        view.titleLabel.textAlignment = .center
-        view.titleLabel.isUserInteractionEnabled = false
-        
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = HowToUseText.infoButtonText
-        textView.textColor = .black
-        textView.font = Constants.readingFont
-        textView.isUserInteractionEnabled = false
-        textView.backgroundColor = UIColor(named: "mainColorAccentLight")
-        view.addSubview(textView)
-        textView.topAnchor.constraint(equalTo: view.titleLabel.bottomAnchor).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.seperator).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.seperator).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.seperator).isActive = true*/
         return view
     }()
     
@@ -174,6 +156,13 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         SKPaymentQueue.default().add(self)
         
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(correctCapturePop))
+        captureButton.addGestureRecognizer(tapGesture)
+        switcher = Switcher(frame: CGRect(x: (Constants.widthOfDisplay/2) + Constants.widthOfDisplay * 0.2, y: Constants.displayViewPortionOfScreen/2 - Constants.heightToggle/2, width: Constants.widthToggle, height: Constants.heightToggle))
+
+        displayView.addSubview(switcher)
+        switcher.isHidden = true
+
         
         //If user has made purchase
         if (isPurchased() == true) {
@@ -192,6 +181,9 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
             else {
                 //Indicates no more remaining spins
                 freeSpinIndicator.setTitle("0", for: .normal)
+                
+                //Show flicker detector switch
+                switcher.isHidden = false
                 
                 //remove any gestures
                 if let gestures = captureButton.gestureRecognizers //first be safe if gestures are there
@@ -239,9 +231,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         helper.addSubview(captureButton)
         displayView.addSubview(freeSpinIndicator)
         self.view.addSubview(detectionModeView)
-
-        switcher = Switcher(frame: CGRect(x: (Constants.widthOfDisplay/2) + Constants.widthOfDisplay * 0.2, y: Constants.displayViewPortionOfScreen/2 - Constants.heightToggle/2, width: Constants.widthToggle, height: Constants.heightToggle))
-        displayView.addSubview(switcher)
         
         setupLayoutConstraints()
         addChildControllers()
@@ -261,7 +250,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         removeCaptureAnimation(view: decorativeCircle)
         captureAnimation.isHidden = true
         captureAnimation.removeAnimation(forKey: "basic")
-        freeSpinIndicator.titleLabel?.text = String(Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter))
         print("disappear")
     }
     
@@ -280,7 +268,12 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                         captureButton.removeGestureRecognizer(gesture) //remove gesture one by one
                     }
                 }
+                switcher.isHidden = false
                 captureButton.addTarget(self, action: #selector(buyMoreAccess), for: .allTouchEvents)
+                freeSpinIndicator.setTitle(String(Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter)), for: .normal)
+            }
+            else {
+                freeSpinIndicator.setTitle(String(Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter)), for: .normal)
             }
         }
 
@@ -400,8 +393,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         captureButton.centerXAnchor.constraint(equalTo: displayView.centerXAnchor).isActive = true
         captureButton.heightAnchor.constraint(equalToConstant: sizeOfCaptureButton).isActive = true
         captureButton.widthAnchor.constraint(equalToConstant: sizeOfCaptureButton).isActive = true
-        
-
         
         freeSpinIndicator.widthAnchor.constraint(equalToConstant: Constants.displayViewPortionOfScreen * 0.4).isActive = true
         freeSpinIndicator.centerYAnchor.constraint(equalTo: displayView.centerYAnchor).isActive = true
@@ -579,6 +570,28 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         }
     }
     
+    @objc func flickerDetectorOffInfoPop() {
+        
+        self.view.addSubview(popUpView)
+        
+        popUpView.titleLabel.text = HowToUseText.infoButtonTitle
+        popUpView.textView.text = HowToUseText.infoButtonText
+
+        popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        popUpView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.4).isActive = true
+        popUpView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay * 0.8).isActive = true
+        
+        popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        popUpView.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+
+            self.popUpView.alpha = 1
+            self.popUpView.transform = CGAffineTransform.identity
+        }
+    }
+    
     @objc func remainingPopUp() {
         
         self.view.addSubview(popUpView)
@@ -591,6 +604,27 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         else {
             popUpView.textView.text = Constants.freeSpinsRemainingText
         }
+
+        popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        popUpView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.4).isActive = true
+        popUpView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay * 0.8).isActive = true
+        
+        popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        popUpView.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+
+            self.popUpView.alpha = 1
+            self.popUpView.transform = CGAffineTransform.identity
+        }
+    }
+    
+    @objc func correctCapturePop() {
+        
+        self.view.addSubview(popUpView)
+        popUpView.titleLabel.text = HowToUseText.correctCaptureTitle
+        popUpView.textView.text = HowToUseText.correctCaptureText
 
         popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
@@ -670,7 +704,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     func giveFullAcces() {
         print("Full access given")
         //Visual indication of premium access
-        freeSpinIndicator.titleLabel?.text = ""
+        freeSpinIndicator.setTitle("", for: .normal)
         freeSpinIndicator.setImage(UIImage(named: "Star"), for: .normal)
         
         //Save purchased status permanently
@@ -680,8 +714,14 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         captureButton.removeTarget(self, action: #selector(buyMoreAccess), for: .allTouchEvents)
         
         //add back long gesture button so that the user can do analysis
+        //add back tap gesture so that user gets info if doing the capture wrong
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
         captureButton.addGestureRecognizer(longGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(infoPopUp))
+        captureButton.addGestureRecognizer(tapGesture)
+        
+        //hide flicker detector button
+        switcher.isHidden = true
     }
     
     func isPurchased() -> Bool {
