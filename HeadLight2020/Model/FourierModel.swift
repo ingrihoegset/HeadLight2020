@@ -75,6 +75,7 @@ class FourierModel: NSObject {
         luminance = Double(averageLumosity)
 
         let preflickerPercent = calculateFlickerPercent(averageLumosity: averageLumosity, averageAmplitude: averageAmplitude)
+        print("norounded flickerpercent", preflickerPercent)
         flickerPercent = roundFlickerPercent(flickerPercent: preflickerPercent)
         
         flickerIndex = calculateFlickerIndex(averageLumosity: averageLumosity, modeHertz: modeHertz, averageAmplitude: averageAmplitude)
@@ -210,19 +211,19 @@ class FourierModel: NSObject {
         
         var calculatedState = stateholder.OK
         
-        if (flickerPercent < 0.03) {
+        if (flickerPercent < 0.01) {
             calculatedState = stateholder.best
         }
-        else if (flickerPercent < 0.10) {
+        else if (flickerPercent < 0.05) {
             calculatedState = stateholder.secondBest
         }
-        else if (flickerPercent < 0.20) {
+        else if (flickerPercent < 0.10) {
             calculatedState = stateholder.OK
         }
-        else if (flickerPercent < 0.30) {
+        else if (flickerPercent < 0.20) {
             calculatedState = stateholder.secondWorst
         }
-        else if (flickerPercent >= 0.30) {
+        else if (flickerPercent >= 0.20) {
             calculatedState = stateholder.worst
         }
         
@@ -291,11 +292,17 @@ class FourierModel: NSObject {
     
     func roundFlickerPercent(flickerPercent: Double) -> Double {
         var flickerPercent = flickerPercent
-        if (flickerPercent < 0.05) {
+        if (flickerPercent < 0.01) {
             flickerPercent = 0
+        }
+        else if (flickerPercent < 0.05) {
+            flickerPercent = 0.03
         }
         else if (flickerPercent < 0.10) {
             flickerPercent = 0.05
+        }
+        else if (flickerPercent < 0.15) {
+            flickerPercent = 0.10
         }
         else if (flickerPercent < 0.20) {
             flickerPercent = 0.15

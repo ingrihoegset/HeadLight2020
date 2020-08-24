@@ -22,7 +22,10 @@ class PopUpView: UIView {
         button.backgroundColor = UIColor(named: "accentLight")
         button.layer.cornerRadius = Constants.topMargin / 1.5 / 2
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "Exit"), for: .normal)
+        let image = UIImage(systemName: "xmark")
+        let tintedImage = image?.withRenderingMode(.alwaysTemplate)
+        button.setImage(tintedImage, for: .normal)
+        button.tintColor = UIColor(named: "mainColorAccentDark")
         button.addTarget(self, action: #selector(handleDismissal), for: .touchUpInside)
         return button
     }()
@@ -31,8 +34,19 @@ class PopUpView: UIView {
         let label = UILabel()
         label.backgroundColor = .clear
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(named: "accentLight")
+        label.textColor = .black
         label.font = Constants.pageHeaderFont
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let textView: UITextView = {
+        let label = UITextView()
+        label.backgroundColor = .clear
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.textAlignment = .center
+        label.font = Constants.readingFont
         return label
     }()
     
@@ -59,6 +73,28 @@ class PopUpView: UIView {
         titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.seperator).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: closePopUpButton.centerYAnchor).isActive = true
         titleLabel.attributedText = attributedTitle(text1: title)
+    }
+    
+    init(frame: CGRect, title: String, text: String) {
+        super.init(frame: frame)
+        self.addSubview(closePopUpButton)
+        self.addSubview(titleLabel)
+        self.addSubview(textView)
+        closePopUpButton.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.seperator).isActive = true
+        closePopUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.seperator).isActive = true
+        closePopUpButton.widthAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
+        closePopUpButton.heightAnchor.constraint(equalToConstant: Constants.topMargin / 1.5).isActive = true
+        
+        titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.sideMargins).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.seperator).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.seperator).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: closePopUpButton.centerYAnchor).isActive = true
+        titleLabel.attributedText = attributedTitle(text1: title)
+        
+        textView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.sideMargins).isActive = true
+        textView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.seperator).isActive = true
+        textView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.seperator).isActive = true
+        textView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.seperator).isActive = true
     }
     
     required init?(coder: NSCoder) {

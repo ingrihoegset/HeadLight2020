@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class HealthInfoViewController: UIViewController {
+class AboutViewController: UIViewController {
     
     let topPanelView: UIView = {
         let view = UIView()
@@ -32,7 +32,7 @@ class HealthInfoViewController: UIViewController {
     let pageTitle: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor(named: "mainColorAccentDark")
-        let text = Constants.health
+        let text = Constants.about
         label.font = Constants.pageHeaderFont
         label.text = text
         label.textColor = UIColor(named: "accentLight")
@@ -70,9 +70,7 @@ class HealthInfoViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
- 
-    
+        
     let swiper: HowToSwiperController = {
         let swiper = HowToSwiperController(frame: .zero)
         swiper.translatesAutoresizingMaskIntoConstraints = false

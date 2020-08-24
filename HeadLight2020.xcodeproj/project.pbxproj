@@ -36,6 +36,10 @@
 		BF7778B624EDC7CB006F891B /* HowToSwiperController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778B524EDC7CB006F891B /* HowToSwiperController.swift */; };
 		BF7778B824EDC7EB006F891B /* HowToCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778B724EDC7EB006F891B /* HowToCell.swift */; };
 		BF7778BA24EDC878006F891B /* HowToSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778B924EDC878006F891B /* HowToSlide.swift */; };
+		BF7778BC24EFABDC006F891B /* TipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778BB24EFABDC006F891B /* TipsViewController.swift */; };
+		BF7778BE24EFC2DF006F891B /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778BD24EFC2DE006F891B /* Switcher.swift */; };
+		BF7778C024EFF8AC006F891B /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7778BF24EFF8AC006F891B /* AboutViewController.swift */; };
+		BF7778C224F00C29006F891B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7778C124F00C29006F891B /* StoreKit.framework */; };
 		BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8210AE24CF1D77000F4A74 /* CustomCell.swift */; };
 		BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */; };
 		BFB357C624EC0CC100E117DD /* HowToUseTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */; };
@@ -86,6 +90,10 @@
 		BF7778B524EDC7CB006F891B /* HowToSwiperController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToSwiperController.swift; sourceTree = "<group>"; };
 		BF7778B724EDC7EB006F891B /* HowToCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToCell.swift; sourceTree = "<group>"; };
 		BF7778B924EDC878006F891B /* HowToSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToSlide.swift; sourceTree = "<group>"; };
+		BF7778BB24EFABDC006F891B /* TipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsViewController.swift; sourceTree = "<group>"; };
+		BF7778BD24EFC2DE006F891B /* Switcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
+		BF7778BF24EFF8AC006F891B /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		BF7778C124F00C29006F891B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		BF8210AE24CF1D77000F4A74 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfoViewController.swift; sourceTree = "<group>"; };
 		BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseTexts.swift; sourceTree = "<group>"; };
@@ -112,6 +120,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA244A2DC33F1696CFC13368 /* Pods_HeadLight2020.framework in Frameworks */,
+				BF7778C224F00C29006F891B /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,9 +224,11 @@
 				BFF48A5824D0AACC00304DB9 /* Classes */,
 				BFBCCB8D24AB8782005F93DB /* CameraViewController.swift */,
 				BFBCCBEF24B33F67005F93DB /* ResultsViewController.swift */,
-				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
 				BF634E8F24CE42770050CE69 /* HowToUseController.swift */,
 				BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */,
+				BF7778BB24EFABDC006F891B /* TipsViewController.swift */,
+				BF7778BF24EFF8AC006F891B /* AboutViewController.swift */,
+				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -249,6 +260,7 @@
 				BF7778B524EDC7CB006F891B /* HowToSwiperController.swift */,
 				BF7778B724EDC7EB006F891B /* HowToCell.swift */,
 				BF7778B924EDC878006F891B /* HowToSlide.swift */,
+				BF7778BD24EFC2DE006F891B /* Switcher.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -256,6 +268,7 @@
 		F584E4F84D5241CF8E5C442A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF7778C124F00C29006F891B /* StoreKit.framework */,
 				8CBAC868CCFA279193463738 /* Pods_HeadLight2020.framework */,
 			);
 			name = Frameworks;
@@ -399,6 +412,7 @@
 				BF7778B624EDC7CB006F891B /* HowToSwiperController.swift in Sources */,
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
 				BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */,
+				BF7778BC24EFABDC006F891B /* TipsViewController.swift in Sources */,
 				BF75E3ED24E40523000E9F7C /* ResultSwipingController.swift in Sources */,
 				BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */,
 				BF75E3FD24E68149000E9F7C /* LaunchScreenManager.swift in Sources */,
@@ -407,11 +421,13 @@
 				BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */,
 				BF634E9024CE42770050CE69 /* HowToUseController.swift in Sources */,
 				BF75E3E524E1CACC000E9F7C /* Result.swift in Sources */,
+				BF7778BE24EFC2DF006F891B /* Switcher.swift in Sources */,
 				BFF48A6624D75CBC00304DB9 /* InfoCell.swift in Sources */,
 				BFB357C624EC0CC100E117DD /* HowToUseTexts.swift in Sources */,
 				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
 				BFF48A6424D745DF00304DB9 /* MoreInfoObjectTexts.swift in Sources */,
+				BF7778C024EFF8AC006F891B /* AboutViewController.swift in Sources */,
 				BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */,
 				BF7778BA24EDC878006F891B /* HowToSlide.swift in Sources */,
 				BFF48A6024D0C1E500304DB9 /* SwipingController.swift in Sources */,

@@ -24,11 +24,13 @@ class CustomCell: UITableViewCell {
         label.backgroundColor = .clear
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
+        label.font = Constants.menuFont
         return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = UIColor(named: "mainColorAccentDark")
         self.contentView.addSubview(icon)
         self.contentView.addSubview(name)
         setConstraints()

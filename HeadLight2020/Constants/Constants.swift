@@ -11,9 +11,20 @@ import UIKit
 
 struct Constants {
     
+    //Inn app purchases
+    static let fullAccess = "ingrid.HeadLight2020.fullAccess"
+    static let userDefaultCounter = "freeSpinsCounted"
+    static let totalFreeSpins = 3
+    static let hasMadePurchase = "purchaseMade"
+    static let freeSpinsRemainingTitle = "Trys remaining"
+    static let freeSpinsRemainingText = "XXXX XXXXX XXXX XXXX XXXX"
+    static let unlimitedAccessText = "You have unlimited access too the app. Use Headlight to test the quality of the light in your living and working environment."
+    static let unlimitedAccessTitle = "Unlimited Access"
+    
     //Fonts
     static let readingFont = UIFont(name: "Poppins-Light", size: 18)
     static let pageHeaderFont = UIFont(name: "Poppins-Light", size: 24)
+    static let menuFont = UIFont(name: "Poppins-Light", size: 20)
     static let logoFont = UIFont(name: "GrandHotel-Regular", size: 28)
     
     //Titles
@@ -40,6 +51,8 @@ struct Constants {
     static let radiusContainers = Constants.containerDimension * 0.225
     static let trackLayerLineWidth = CGFloat(8)
     static let seperator = widthOfDisplay * 0.03
+    static let heightToggle = displayViewPortionOfScreen * 0.3
+    static let widthToggle = displayViewPortionOfScreen * 0.5
     
     //Colors
     static let mainColor = "mainColor"
@@ -50,6 +63,12 @@ struct Constants {
     static let greenYellow = "indicatorGreenYellow"
     
     //Page titles
+    static let home = "Home"
     static let howTo = "How to use"
+    static let health = "Lighting and your health"
+    static let tips = "Improve your lighting"
+    static let about = "About Headlight"
     
+    //Strings
+    static let flickerIndicator = "Show flicker on screen: "
 }

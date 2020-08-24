@@ -41,7 +41,7 @@
                                 <action selector="didTapMenu" destination="BYZ-38-t0r" id="cvd-1p-yCy"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" largeContentSizeImage="info.circle" style="plain" id="ifd-rO-wxG">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="questionmark.circle" catalog="system" style="plain" id="ifd-rO-wxG">
                             <color key="tintColor" name="accentLight"/>
                             <connections>
                                 <action selector="infoButtonPressed:" destination="BYZ-38-t0r" id="Lwd-PY-cXJ"/>
@@ -70,13 +70,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZGR-PC-k1R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1222" y="134"/>
+            <point key="canvasLocation" x="1148" y="130"/>
         </scene>
     </scenes>
     <color key="tintColor" name="accentLight"/>
     <resources>
-        <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
+        <image name="questionmark.circle" catalog="system" width="128" height="121"/>
         <namedColor name="accentLight">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

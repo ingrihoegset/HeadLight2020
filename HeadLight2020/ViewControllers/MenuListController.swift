@@ -11,8 +11,8 @@ import UIKit
 
 class MenuListController: UITableViewController {
     
-    var items = ["Home", "How to use", "Lighting and your health", "Fourth"]
-    let icons = ["HomeIcon", "HowToUse", "Health", "HomeIcon"]
+    var items = [Constants.home, Constants.howTo, Constants.health, Constants.tips, Constants.about]
+    let icons = ["HomeIcon", "HowToUse", "Health", "CheckMarkCircle", "LaunchImage"]
     var delegate: MenuControllerDelegate?
     
     override func viewDidLoad() {
@@ -29,8 +29,6 @@ class MenuListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomCell
-        cell.backgroundColor = UIColor(named: "mainColorAccentDark")
-        cell.name.font = UIFont(name: "Poppins-Medium", size: 22)
         cell.name.textColor = UIColor(named: "accentLight")
         cell.name.text = items[indexPath.row]
         cell.icon.image = UIImage(named: icons[indexPath.row])

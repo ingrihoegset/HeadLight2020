@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class HealthInfoViewController: UIViewController {
+class TipsViewController: UIViewController {
     
     let topPanelView: UIView = {
         let view = UIView()
@@ -32,7 +32,7 @@ class HealthInfoViewController: UIViewController {
     let pageTitle: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor(named: "mainColorAccentDark")
-        let text = Constants.health
+        let text = Constants.tips
         label.font = Constants.pageHeaderFont
         label.text = text
         label.textColor = UIColor(named: "accentLight")

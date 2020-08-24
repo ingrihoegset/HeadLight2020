@@ -16,4 +16,5 @@ struct HowToUseText {
     static let slide4 = "To analyze the lighting most efficiently, point the camera at a flat surface like a table, wall or ceiling."
     static let slide5 = "Daylight mitigates the effect of flickering in electric lights. To get the most accurate results, analyze the lights when there is less natural light."
     static let infoButtonText = "When you observe flicker on the display, point the camera at the flicker and hold the button until the analysis is complete."
+    static let infoButtonTitle = "Quick tip"
 }
