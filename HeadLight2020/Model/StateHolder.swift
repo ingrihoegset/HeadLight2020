@@ -35,7 +35,7 @@ class StateHolder {
         
         self.best = State(
             type: "Best",
-            overallTitle: "Awesome",
+            overallTitle: "Great",
             overallImageName: "Best",
             overallIndicatorColorMain: Constants.green,
             overallIndicatorColorSub: Constants.green,

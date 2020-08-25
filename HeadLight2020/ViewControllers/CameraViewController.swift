@@ -20,13 +20,13 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     let healthInfoController = HealthInfoViewController()
     let tipsController = TipsViewController()
     let aboutController = AboutViewController()
+    let welcomePresenter = WelcomePresenter()
+    
     var freeSpinCounter = UserDefaults.standard.integer(forKey: Constants.userDefaultCounter)
     
     //Related to purchases
     let userDefaultCounter = UserDefaults.standard
     let userDefaultPurchased = UserDefaults.standard
-    
-           
 
     let viewModel = CameraViewModel(fourierModel: FourierModel(cameraCapture: CameraCapture()))
     
@@ -36,7 +36,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     
     let displayView: UIView = {
         let view = UIView()
-        //view.backgroundColor = UIColor(named: "mainColorVeryTinted")
         view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -102,6 +101,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
         view.layer.cornerRadius = Constants.radiusContainers
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.textView.textAlignment = .center
         view.delegate = self
         
         return view
@@ -199,9 +199,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
 
         }
         
-
-
-        
         print("freespinsused", freeSpinCounter)
         print("used",userDefaultCounter.integer(forKey: Constants.userDefaultCounter))
         print("remain", Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter))
@@ -217,8 +214,9 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         sideMenu?.leftSide = true
         SideMenuManager.default.menuLeftNavigationController = sideMenu
         SideMenuManager.default.menuAddPanGestureToPresent(toView: self.view)
-        
-        //Camera setup
+
+        //Checks status of user camera access and starts camera set up if user has granted access
+        //Gives user directions to give camera access if this is not already given
         cameraSetup()
         
         self.view.addSubview(topPanelView)
@@ -236,6 +234,10 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         addChildControllers()
         
         detectionModeView.isHidden = true
+        
+        if (firstLaunch() == true) {
+            showIntroSides()
+        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(segueToResults), name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
         
@@ -284,6 +286,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     }
  
     func cameraSetup() {
+        
         let captureSession = viewModel.captureSession
         captureSession.sessionPreset = AVCaptureSession.Preset.high
 
@@ -423,26 +426,31 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     }
 
     @objc func longTap(_ sender: UIGestureRecognizer){
-
-        //check if user has access to analysis
-        animateCaptureButtonSize(view: decorativeCircle)
-        captureButton.backgroundColor = UIColor(named: "accentLight")
-        decorativeCircle.backgroundColor = UIColor(named: "accentLight")
-        captureAnimation.isHidden = false
-        
-        //This code runs when the button is released
-        if sender.state == .ended {
-            removeCaptureAnimation(view: decorativeCircle)
-            captureButton.backgroundColor = UIColor(named: "accentLight")
-            decorativeCircle.backgroundColor = UIColor(named: "accentLight")
-            captureAnimation.removeAnimation(forKey: "basic")
-            captureAnimation.isHidden = true
-            viewModel.interruptMotionSensor()
+        if (AVCaptureDevice.authorizationStatus(for: AVMediaType.video) == .authorized) {
+            //check if user has access to analysis
+               animateCaptureButtonSize(view: decorativeCircle)
+               captureButton.backgroundColor = UIColor(named: "accentLight")
+               decorativeCircle.backgroundColor = UIColor(named: "accentLight")
+               captureAnimation.isHidden = false
+               
+               //This code runs when the button is released
+               if sender.state == .ended {
+                   removeCaptureAnimation(view: decorativeCircle)
+                   captureButton.backgroundColor = UIColor(named: "accentLight")
+                   decorativeCircle.backgroundColor = UIColor(named: "accentLight")
+                   captureAnimation.removeAnimation(forKey: "basic")
+                   captureAnimation.isHidden = true
+                   viewModel.interruptMotionSensor()
+               }
+               //This code runs as long as the capture button is being held down
+               else if sender.state == .began {
+                   viewModel.startMotionSensor()
+                   captureAnimation(layer: captureAnimation)
+               }
         }
-        //This code runs as long as the capture button is being held down
-        else if sender.state == .began {
-            viewModel.startMotionSensor()
-            captureAnimation(layer: captureAnimation)
+        else {
+            //In case user has not given access to camera yet
+            goToCamera()
         }
     }
     
@@ -489,6 +497,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 self.howToUseController.view.isHidden = true
                 self.healthInfoController.view.isHidden = true
                 self.tipsController.view.isHidden =  true
+                self.aboutController.view.isHidden = true
                //dismiss
             }
             
@@ -546,6 +555,12 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         aboutController.view.frame = view.bounds
         aboutController.didMove(toParent: self)
         aboutController.view.isHidden = true
+        
+        addChild(welcomePresenter)
+        view.addSubview(welcomePresenter.view)
+        welcomePresenter.view.frame = view.bounds
+        welcomePresenter.didMove(toParent: self)
+        welcomePresenter.view.isHidden = true
     }
     
     @objc func infoPopUp() {
@@ -602,7 +617,24 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
             popUpView.titleLabel.text = Constants.unlimitedAccessTitle   
         }
         else {
-            popUpView.textView.text = Constants.freeSpinsRemainingText
+            let remainingSpins = Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter)
+            let paragraphStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = NSTextAlignment.center
+            
+            let attributedText = NSMutableAttributedString(string: "You have ", attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle])
+            attributedText.append(NSAttributedString(string: String(remainingSpins), attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle]))
+            if (remainingSpins == 1) {
+                attributedText.append(NSAttributedString(string: " free trial remaining.", attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle]))
+            }
+            else if (remainingSpins == 0) {
+                attributedText.append(NSAttributedString(string: " free trials remaining. Press the camera button to get premium access.", attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle]))
+            }
+            else {
+                attributedText.append(NSAttributedString(string: " free trials remaining.", attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle]))
+            }
+
+
+            popUpView.textView.attributedText = attributedText
         }
 
         popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -621,23 +653,28 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     }
     
     @objc func correctCapturePop() {
-        
-        self.view.addSubview(popUpView)
-        popUpView.titleLabel.text = HowToUseText.correctCaptureTitle
-        popUpView.textView.text = HowToUseText.correctCaptureText
+        if (AVCaptureDevice.authorizationStatus(for: AVMediaType.video) == .authorized) {
+            self.view.addSubview(popUpView)
+            popUpView.titleLabel.text = HowToUseText.correctCaptureTitle
+            popUpView.textView.text = HowToUseText.correctCaptureText
 
-        popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        popUpView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.4).isActive = true
-        popUpView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay * 0.8).isActive = true
-        
-        popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-        popUpView.alpha = 0
-        
-        UIView.animate(withDuration: 0.5) {
+            popUpView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            popUpView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+            popUpView.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.4).isActive = true
+            popUpView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay * 0.8).isActive = true
+            
+            popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            popUpView.alpha = 0
+            
+            UIView.animate(withDuration: 0.5) {
 
-            self.popUpView.alpha = 1
-            self.popUpView.transform = CGAffineTransform.identity
+                self.popUpView.alpha = 1
+                self.popUpView.transform = CGAffineTransform.identity
+            }
+        }
+        else {
+            //In case user has not given access to camera yet
+            goToCamera()
         }
     }
     
@@ -717,7 +754,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         //add back tap gesture so that user gets info if doing the capture wrong
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
         captureButton.addGestureRecognizer(longGesture)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(infoPopUp))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(correctCapturePop))
         captureButton.addGestureRecognizer(tapGesture)
         
         //hide flicker detector button
@@ -728,6 +765,83 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         let purchasedStatus = UserDefaults.standard.bool(forKey: Constants.hasMadePurchase)
         print(purchasedStatus)
         return purchasedStatus
+    }
+    
+    func firstLaunch() -> Bool{
+        let userDefaultFirstLaunch = Constants.userDefaultFirstLaunch
+        
+        //Seems default value for bool is false before being set in else-bracket
+        if (userDefaultFirstLaunch.bool(forKey: Constants.firstLaunch)) {
+            print("App already launched :")
+            return false
+        }
+        else {
+            //Boolean is set to true when user clicks the "Let's Go!" button from the launch slide show.
+            //I.e. it is set when the dismissView func is called from Welcome Presenter button
+            print("App launched first time")
+            return true
+        }
+    }
+    
+    func showIntroSides() {
+        self.welcomePresenter.view.isHidden = false
+        
+    }
+    
+    //Makes sure that user has given access to camera before setting up a camerasession
+    func goToCamera() {
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        switch (status) {
+        case .authorized:
+            self.cameraSetup()
+
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: AVMediaType.video) { (granted) in
+                if (granted)
+                {
+                    self.cameraSetup()
+                }
+                else
+                {
+                    self.camDenied()
+                }
+            }
+
+        case .denied:
+            self.camDenied()
+
+        case .restricted:
+            let alert = UIAlertController(title: "Restricted",
+                                          message: "You've been restricted from using the camera on this device. Without camera access this app won't work. Please contact the device owner so they can give you access.",
+                                          preferredStyle: .alert)
+
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func camDenied() {
+        DispatchQueue.main.async {
+                var alertText = "It looks like your privacy settings are preventing us from accessing your camera. Headlight needs to access your camera to analyze your lighting. You can fix this error by doing the following steps:\n\n1. Close this app.\n\n2. Open the Settings app.\n\n3. Scroll to the bottom and select this app in the list.\n\n4. Turn the Camera on.\n\n5. Open this app and try again."
+
+                var alertButton = "OK"
+                var goAction = UIAlertAction(title: alertButton, style: .default, handler: nil)
+
+                if UIApplication.shared.canOpenURL(URL(string: UIApplication.openSettingsURLString)!)
+                {
+                    alertText = "It looks like your privacy settings are preventing us from accessing your camera. Headlight needs to access the camera to work. You can fix this error by doing the following steps:\n\n1. Touch the Go button below to open the Settings app.\n\n2. Turn the Camera on.\n\n3. Open this app and try again."
+
+                    alertButton = "Go"
+
+                    goAction = UIAlertAction(title: alertButton, style: .default, handler: {(alert: UIAlertAction!) -> Void in
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+                    })
+                }
+                let alert = UIAlertController(title: "Error", message: alertText, preferredStyle: .alert)
+                alert.addAction(goAction)
+                self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 

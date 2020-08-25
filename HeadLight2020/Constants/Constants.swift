@@ -14,18 +14,21 @@ struct Constants {
     //Inn app purchases
     static let fullAccess = "ingrid.HeadLight2020.fullAccess"
     static let userDefaultCounter = "freeSpinsCounted"
-    static let totalFreeSpins = 3
+    static let totalFreeSpins = 20
     static let hasMadePurchase = "purchaseMade"
-    static let freeSpinsRemainingTitle = "Trys remaining"
+    static let firstLaunch = "firstLaunch"
+    static let freeSpinsRemainingTitle = "Free trials"
     static let freeSpinsRemainingText = "XXXX XXXXX XXXX XXXX XXXX"
     static let unlimitedAccessText = "You have unlimited access too the app. Use Headlight to test the quality of the light in your living and working environment."
     static let unlimitedAccessTitle = "Unlimited Access"
+    static let userDefaultFirstLaunch = UserDefaults.standard
     
     //Fonts
     static let readingFont = UIFont(name: "Poppins-Light", size: 18)
     static let pageHeaderFont = UIFont(name: "Poppins-Light", size: 24)
     static let menuFont = UIFont(name: "Poppins-Light", size: 20)
     static let logoFont = UIFont(name: "GrandHotel-Regular", size: 28)
+    static let logoFontLarge = UIFont(name: "GrandHotel-Regular", size: 40)
     
     //Titles
     static let exposureTitle = "Exposure"
@@ -67,7 +70,7 @@ struct Constants {
     static let howTo = "How to use"
     static let health = "Lighting and your health"
     static let tips = "Improve your lighting"
-    static let about = "About Headlight"
+    static let about = "About the app"
     
     //Strings
     static let flickerIndicator = "Show flicker on screen: "

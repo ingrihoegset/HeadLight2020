@@ -21,7 +21,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>May we access your camera?</string>
+	<string>To analyze your lighting we need to access your camera. May we access your camera?</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Sacramento-Regular.ttf</string>

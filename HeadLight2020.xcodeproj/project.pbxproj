@@ -42,6 +42,7 @@
 		BF7778C224F00C29006F891B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7778C124F00C29006F891B /* StoreKit.framework */; };
 		BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8210AE24CF1D77000F4A74 /* CustomCell.swift */; };
 		BF950BC724F41E010091F7F4 /* HealthTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF950BC624F41E010091F7F4 /* HealthTexts.swift */; };
+		BF950BC924F52E630091F7F4 /* WelcomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF950BC824F52E630091F7F4 /* WelcomePresenter.swift */; };
 		BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */; };
 		BFB357C624EC0CC100E117DD /* HowToUseTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */; };
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
@@ -97,6 +98,7 @@
 		BF7778C124F00C29006F891B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		BF8210AE24CF1D77000F4A74 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		BF950BC624F41E010091F7F4 /* HealthTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTexts.swift; sourceTree = "<group>"; };
+		BF950BC824F52E630091F7F4 /* WelcomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePresenter.swift; sourceTree = "<group>"; };
 		BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfoViewController.swift; sourceTree = "<group>"; };
 		BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseTexts.swift; sourceTree = "<group>"; };
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,6 +233,7 @@
 				BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */,
 				BF7778BB24EFABDC006F891B /* TipsViewController.swift */,
 				BF7778BF24EFF8AC006F891B /* AboutViewController.swift */,
+				BF950BC824F52E630091F7F4 /* WelcomePresenter.swift */,
 				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
 			);
 			path = ViewControllers;
@@ -422,6 +425,7 @@
 				BF634E8E24CDF2270050CE69 /* MenuListController.swift in Sources */,
 				BF75E3E724E1CB37000E9F7C /* FourierModel.swift in Sources */,
 				BF634E8C24CDC22A0050CE69 /* PulseAnimation.swift in Sources */,
+				BF950BC924F52E630091F7F4 /* WelcomePresenter.swift in Sources */,
 				BF634E9024CE42770050CE69 /* HowToUseController.swift in Sources */,
 				BF75E3E524E1CACC000E9F7C /* Result.swift in Sources */,
 				BF7778BE24EFC2DF006F891B /* Switcher.swift in Sources */,
