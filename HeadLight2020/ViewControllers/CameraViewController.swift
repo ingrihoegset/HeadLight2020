@@ -91,7 +91,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         label.backgroundColor = UIColor(named: "whiteTinted")
         label.text = "hertz"
         label.textAlignment = .center
-        label.layer.cornerRadius = Constants.cornerRadius
+        label.layer.cornerRadius = Constants.displayViewPortionOfScreen * 0.15 / 2
         label.clipsToBounds = true
         label.textColor = UIColor(named: "mainColorAccentDark")
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -416,6 +416,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         hertzLabel.trailingAnchor.constraint(equalTo: displayView.trailingAnchor, constant: -Constants.seperator).isActive = true
         hertzLabel.topAnchor.constraint(equalTo: displayView.topAnchor, constant: Constants.seperator * 2).isActive = true
         hertzLabel.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
+        hertzLabel.heightAnchor.constraint(equalToConstant: Constants.displayViewPortionOfScreen * 0.15).isActive = true
         
         // Wave chart
         waveChartView.bottomAnchor.constraint(equalTo: displayView.topAnchor, constant: 16).isActive = true
