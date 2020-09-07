@@ -72,8 +72,6 @@ class HowToUseController: UIViewController {
         return view
     }()
     
- 
-    
     let swiper: HowToSwiperController = {
         let swiper = HowToSwiperController(frame: .zero)
         swiper.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +86,7 @@ class HowToUseController: UIViewController {
         view.addSubview(topPanelView)
         topPanelView.addSubview(titleLabel)
         view.addSubview(pageTitle)
-        swiper.items = [introView, detectView, captureView, howToHoldView, nightView]
+        swiper.items = [detectView, captureView, howToHoldView, nightView]
         view.addSubview(swiper)
         setConstraints()
 

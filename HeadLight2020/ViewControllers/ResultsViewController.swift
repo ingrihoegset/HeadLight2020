@@ -21,6 +21,8 @@ class ResultsViewController: UIViewController {
     var tipsObject = [MoreInfoObject]()
     var resultObjects = [UIView]()
     var state = State(type: "", overallTitle: "", overallImageName: "", overallIndicatorColorMain: "", overallIndicatorColorSub: "", exposureTime: "", indicatorTime: 0, indicatorColor: "", sideeffects: [], timerObject: [], tipsObject: [])
+    let infoContainerHeight = Constants.heightOfDisplay * 0.18
+    let heightOfTipsContainer = Constants.heightOfDisplay * 0.1
     
     let overallResults: UIImageView = {
         let view = UIImageView()
@@ -222,9 +224,9 @@ class ResultsViewController: UIViewController {
     let horizontalMoreInfoObjectsContainer: UIStackView = {
         let container = UIStackView(frame: .zero)
         container.translatesAutoresizingMaskIntoConstraints = false
-        container.alignment = .center
+        container.alignment = .leading
         container.distribution = .fillEqually
-        container.axis = .horizontal
+        container.axis = .vertical
         return container
     }()
     
@@ -272,7 +274,7 @@ class ResultsViewController: UIViewController {
     let timerTrackLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.fillColor = UIColor.clear.cgColor
-        layer.lineWidth = 8
+        layer.lineWidth = 20
         layer.lineCap = .round
         layer.strokeColor = UIColor(named: "mainColorVeryTinted")?.cgColor
         return layer
@@ -281,7 +283,7 @@ class ResultsViewController: UIViewController {
     let timerFillerLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.fillColor = UIColor.red.cgColor
-        layer.lineWidth = 8
+        layer.lineWidth = 18
         layer.strokeEnd = 0
         layer.lineCap = .round
         layer.strokeColor = UIColor.systemYellow.cgColor
@@ -303,7 +305,7 @@ class ResultsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .clear
         label.isUserInteractionEnabled = false
-        let text = "Tips...."
+        let text = "Tips for better lighting"
         let attributedText = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "mainColorAccentDark")!])
         label.attributedText = attributedText
         return label
@@ -418,28 +420,43 @@ class ResultsViewController: UIViewController {
         swiper.translatesAutoresizingMaskIntoConstraints = false
         return swiper
     }()
+    
+    let scrollView: FadeScrollView = {
+        let scroller = FadeScrollView()
+        scroller.translatesAutoresizingMaskIntoConstraints = false
+        scroller.backgroundColor = .clear
+        scroller.showsVerticalScrollIndicator = true
+        return scroller
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "mainColor")
         
-        self.view.addSubview(infoContainer)
+
+        
+        self.view.addSubview(scrollView)
+        scrollView.addSubview(infoContainer)
         infoContainer.addSubview(timerTitle)
         infoContainer.addSubview(infoContainerChevron)
         infoContainer.addSubview(timerView)
         infoContainer.addSubview(timerIndiatorContainer)
         
+        scrollView.addSubview(infoContainerMoreInfoObjects)
         infoContainerMoreInfoObjects.addSubview(MoreInfoObjectsTitle)
         infoContainerMoreInfoObjects.addSubview(horizontalMoreInfoObjectsContainer)
         infoContainerMoreInfoObjects.addSubview(moreInfoContainerChevron)
         
+        scrollView.addSubview(tipsContainer)
         tipsContainer.addSubview(tipsTitle)
         tipsContainer.addSubview(tipsContainerChevron)
         
-        resultObjects = [infoContainerMoreInfoObjects, tipsContainer]
-        resultsSwiper.items = resultObjects
-        self.view.addSubview(resultsSwiper)
+        let noOfSideeffects = state.sideeffects?.count
+        let heightOfMoreInfoContainer = Constants.topMargin + Constants.smallContainerDimensions * CGFloat(noOfSideeffects!) * 1.75
+        let spacing = 4 * Constants.verticalMargins
+        let heightOfScrollView = infoContainerHeight + heightOfMoreInfoContainer + heightOfTipsContainer
+        scrollView.contentSize = CGSize(width: Constants.widthOfDisplay, height: heightOfScrollView + spacing)
         
         setupLayoutConstraints()
 
@@ -577,10 +594,19 @@ class ResultsViewController: UIViewController {
         resultsDisplay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.verticalMargins).isActive = true
         resultsDisplay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.verticalMargins).isActive = true
     
+
+        
+        // scroll view
+        scrollView.topAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+
+        
         // info container timer
-        infoContainer.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.18).isActive = true
+        infoContainer.heightAnchor.constraint(equalToConstant: infoContainerHeight).isActive = true
         infoContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
-        infoContainer.topAnchor.constraint(equalTo: view.centerYAnchor,constant: Constants.verticalMargins * 0.5).isActive = true
+        infoContainer.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Constants.verticalMargins * 0.5).isActive = true
         infoContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         // timer title
@@ -605,9 +631,14 @@ class ResultsViewController: UIViewController {
         timerIndiatorContainer.centerYAnchor.constraint(equalTo: timerView.centerYAnchor).isActive = true
         timerIndiatorContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
+        let noOfSideEffects = state.sideeffects?.count
+        let heightOfMoreInfoContainer = Constants.smallContainerDimensions * CGFloat(noOfSideEffects!)
+        
         // info container side effects
-        infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.225).isActive = true
+        infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.topMargin + heightOfMoreInfoContainer * 1.75).isActive = true
         infoContainerMoreInfoObjects.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
+        infoContainerMoreInfoObjects.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.seperator).isActive = true
+        infoContainerMoreInfoObjects.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
         // side effects title
         MoreInfoObjectsTitle.topAnchor.constraint(equalTo: infoContainerMoreInfoObjects.topAnchor, constant: Constants.sideMargins).isActive = true
@@ -624,13 +655,16 @@ class ResultsViewController: UIViewController {
         horizontalMoreInfoObjectsContainer.topAnchor.constraint(equalTo: MoreInfoObjectsTitle.bottomAnchor, constant: Constants.sideMargins).isActive = true
         horizontalMoreInfoObjectsContainer.centerXAnchor.constraint(equalTo: infoContainerMoreInfoObjects.centerXAnchor).isActive = true
         horizontalMoreInfoObjectsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3 - 2 * Constants.seperator).isActive = true
+        horizontalMoreInfoObjectsContainer.bottomAnchor.constraint(equalTo: infoContainerMoreInfoObjects.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
         
         //tips container
-        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.225).isActive = true
+        tipsContainer.topAnchor.constraint(equalTo: infoContainerMoreInfoObjects.bottomAnchor, constant: Constants.seperator).isActive = true
+        tipsContainer.heightAnchor.constraint(equalToConstant: heightOfTipsContainer).isActive = true
         tipsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
+        tipsContainer.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
         //tips title
-        tipsTitle.topAnchor.constraint(equalTo: tipsContainer.topAnchor, constant: Constants.sideMargins).isActive = true
+        tipsTitle.centerYAnchor.constraint(equalTo: tipsContainer.centerYAnchor).isActive = true
         tipsTitle.leadingAnchor.constraint(equalTo: tipsContainer.leadingAnchor, constant: Constants.seperator).isActive = true
         tipsTitle.widthAnchor.constraint(equalTo: tipsContainer.widthAnchor).isActive = true
         
@@ -639,12 +673,6 @@ class ResultsViewController: UIViewController {
         tipsContainerChevron.trailingAnchor.constraint(equalTo: tipsContainer.trailingAnchor, constant: -Constants.seperator).isActive = true
         tipsContainerChevron.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 0.25).isActive = true
         tipsContainerChevron.heightAnchor.constraint(equalToConstant: Constants.containerDimension * 0.25).isActive = true
-        
-        //results swiping container
-        resultsSwiper.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.verticalMargins * 0.5).isActive = true
-        resultsSwiper.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        resultsSwiper.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
-        resultsSwiper.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.275).isActive = true
     }
     
     func getNewResults() {
@@ -689,15 +717,52 @@ class ResultsViewController: UIViewController {
     
     func makeTimerGraphic(score: Double, track: CAShapeLayer, filler: CAShapeLayer) {
         
-        let endpoint = score / 100
-        
-        let path = UIBezierPath()
-        let endOfPathX = Constants.containerDimension * 2
-        path.move(to: CGPoint(x: 0 + Constants.sideMargins * 2, y: Constants.smallContainerDimensions * 0.5))
-        path.addLine(to: CGPoint(x: endOfPathX , y: Constants.smallContainerDimensions * 0.5))
+         let endpoint = score / 100
+         let startOfPathX = 0 + Constants.sideMargins * 2
+         let endOfPathX = Constants.containerDimension * 2
+         let segmentSize = (endOfPathX - startOfPathX) / 4
 
-        track.path = path.cgPath
-        filler.path = path.cgPath
+         let path = UIBezierPath()
+         
+         var segments: [CAShapeLayer] = []
+         
+         for i in 0...3 {
+             
+             let layer = CAShapeLayer()
+             let gapSize: CGFloat = segmentSize * 0.40
+             
+             path.move(to: CGPoint(x: startOfPathX + segmentSize * CGFloat(i), y: Constants.smallContainerDimensions * 0.5))
+             path.addLine(to: CGPoint(x: startOfPathX + segmentSize * CGFloat(i) + segmentSize - gapSize , y: Constants.smallContainerDimensions * 0.5))
+             layer.path = path.cgPath
+             
+             layer.strokeColor = UIColor(named: "mainColorVeryTinted")?.cgColor
+             
+    
+             layer.lineCap = .round
+             layer.lineWidth = 20
+             
+             // add the segment to the segments array and to the view
+             segments.insert(layer, at: i)
+             
+             self.timerIndiatorContainer.layer.addSublayer(segments[i])
+
+         }
+             
+             if (endpoint <= 0.25) {
+                 timerFillerLayer.strokeColor = UIColor(named: "darkRed")?.cgColor
+             }
+             else if (endpoint <= 0.50) {
+                 timerFillerLayer.strokeColor = UIColor.red.cgColor
+             }
+             else if (endpoint <= 0.75) {
+                 timerFillerLayer.strokeColor = UIColor.yellow.cgColor
+             }
+             else {
+                timerFillerLayer.strokeColor = UIColor.green.cgColor
+             }
+             timerIndiatorContainer.layer.addSublayer(timerFillerLayer)
+                 
+             filler.path = path.cgPath
     
         let barAnimation = CABasicAnimation(keyPath: "strokeEnd")
         if endpoint == 0 {
@@ -735,6 +800,7 @@ class ResultsViewController: UIViewController {
               
         let pulse1Color = UIColor(named: resultAnimationColor1)?.cgColor
         let pulse2Color = UIColor(named: resultAnimationColor2)?.cgColor
+        
         let trackColor = UIColor(named: timerIndicatorColor)?.cgColor
         let timerScore = Double(timerIndication)
 
@@ -837,7 +903,6 @@ extension ResultsViewController: PopUpDelegate {
             self.timerSwiper.removeFromSuperview()
             self.tipsSwiper.removeFromSuperview()
             self.MoreInfoObjectsSwiper.removeFromSuperview()
-            print("did remove")
         }
     }
 }

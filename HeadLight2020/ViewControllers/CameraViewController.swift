@@ -10,8 +10,9 @@ import UIKit
 import AVFoundation
 import SideMenu
 import StoreKit
+import Charts
 
-let sizeOfCaptureButton = Constants.displayViewPortionOfScreen * 0.6
+let sizeOfCaptureButton = Constants.displayViewPortionOfScreen * 0.5
 
 class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentTransactionObserver {
     
@@ -21,6 +22,8 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     let tipsController = TipsViewController()
     let aboutController = AboutViewController()
     let welcomePresenter = WelcomePresenter()
+    let welcomePage = WelcomePage()
+    let restoreController = RestoreController()
     
     var freeSpinCounter = UserDefaults.standard.integer(forKey: Constants.userDefaultCounter)
     
@@ -36,7 +39,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     
     let displayView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor(named: "whiteTinted")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -80,6 +83,19 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         label.textColor = UIColor(named: "accentLight")
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.logoFont
+        return label
+    }()
+    
+    let hertzLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = UIColor(named: "whiteTinted")
+        label.text = "hertz"
+        label.textAlignment = .center
+        label.layer.cornerRadius = Constants.cornerRadius
+        label.clipsToBounds = true
+        label.textColor = UIColor(named: "mainColorAccentDark")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = Constants.readingFontSmall
         return label
     }()
     
@@ -141,7 +157,27 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         return view
     }()
     
-    var switcher = Switcher()
+    
+    lazy var waveChartView: LineChartView = {
+        let chartView = LineChartView()
+        chartView.translatesAutoresizingMaskIntoConstraints = false
+        chartView.backgroundColor = .clear
+        chartView.rightAxis.enabled = false
+        chartView.leftAxis.enabled = false
+        chartView.xAxis.enabled = true
+        chartView.xAxis.labelPosition = .bottom
+        chartView.xAxis.gridColor = .clear
+        chartView.xAxis.axisLineColor = .clear
+        chartView.xAxis.axisLineWidth = 1
+        chartView.xAxis.axisMaximum = 125
+        chartView.xAxis.axisMinimum = -5
+        chartView.legend.enabled = false
+        chartView.minOffset = 0
+        chartView.gridBackgroundColor = .yellow
+        chartView.noDataText = ""
+        
+        return chartView
+    }()
     
     //In order to set up camera
     var cameraDevice: AVCaptureDevice?
@@ -150,18 +186,12 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("load")
-        
         // For payments
         SKPaymentQueue.default().add(self)
         
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(correctCapturePop))
         captureButton.addGestureRecognizer(tapGesture)
-        switcher = Switcher(frame: CGRect(x: (Constants.widthOfDisplay/2) + Constants.widthOfDisplay * 0.2, y: Constants.displayViewPortionOfScreen/2 - Constants.heightToggle/2, width: Constants.widthToggle, height: Constants.heightToggle))
-
-        displayView.addSubview(switcher)
-        switcher.isHidden = true
 
         
         //If user has made purchase
@@ -182,9 +212,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 //Indicates no more remaining spins
                 freeSpinIndicator.setTitle("0", for: .normal)
                 
-                //Show flicker detector switch
-                switcher.isHidden = false
-                
                 //remove any gestures
                 if let gestures = captureButton.gestureRecognizers //first be safe if gestures are there
                 {
@@ -196,12 +223,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 //adds action that will trigger purchase box
                 captureButton.addTarget(self, action: #selector(buyMoreAccess), for: .allTouchEvents)
             }
-
         }
-        
-        print("freespinsused", freeSpinCounter)
-        print("used",userDefaultCounter.integer(forKey: Constants.userDefaultCounter))
-        print("remain", Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter))
  
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -224,14 +246,19 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
 
         self.view.addSubview(displayView)
         displayView.addSubview(helper)
+        displayView.addSubview(hertzLabel)
         helper.addSubview(decorativeCircle)
         helper.layer.addSublayer(captureAnimation)
         helper.addSubview(captureButton)
         displayView.addSubview(freeSpinIndicator)
         self.view.addSubview(detectionModeView)
         
+        self.view.addSubview(waveChartView)
+        
         setupLayoutConstraints()
         addChildControllers()
+    
+        setDummyValuesForChart()
         
         detectionModeView.isHidden = true
         
@@ -242,6 +269,8 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         NotificationCenter.default.addObserver(self, selector: #selector(segueToResults), name: NSNotification.Name.init(rawValue: "segueToResults"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(holdPhoneStillToast), name: NSNotification.Name.init(rawValue: "holdPhoneStillToast"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setDataForWaveChart), name: NSNotification.Name.init(rawValue: "waveDataReady"), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -252,7 +281,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         removeCaptureAnimation(view: decorativeCircle)
         captureAnimation.isHidden = true
         captureAnimation.removeAnimation(forKey: "basic")
-        print("disappear")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -270,7 +298,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                         captureButton.removeGestureRecognizer(gesture) //remove gesture one by one
                     }
                 }
-                switcher.isHidden = false
                 captureButton.addTarget(self, action: #selector(buyMoreAccess), for: .allTouchEvents)
                 freeSpinIndicator.setTitle(String(Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter)), for: .normal)
             }
@@ -278,15 +305,9 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 freeSpinIndicator.setTitle(String(Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter)), for: .normal)
             }
         }
-
-        
-
-        
-        print("appear")
     }
  
     func cameraSetup() {
-        
         let captureSession = viewModel.captureSession
         captureSession.sessionPreset = AVCaptureSession.Preset.high
 
@@ -390,6 +411,17 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         displayView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         displayView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         displayView.heightAnchor.constraint(equalToConstant: Constants.displayViewPortionOfScreen).isActive = true
+        
+        //hertz lable
+        hertzLabel.trailingAnchor.constraint(equalTo: displayView.trailingAnchor, constant: -Constants.seperator).isActive = true
+        hertzLabel.topAnchor.constraint(equalTo: displayView.topAnchor, constant: Constants.seperator * 2).isActive = true
+        hertzLabel.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
+        
+        // Wave chart
+        waveChartView.bottomAnchor.constraint(equalTo: displayView.topAnchor, constant: 16).isActive = true
+        waveChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        waveChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        waveChartView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.10).isActive = true
 
         //Constraints of capture button
         captureButton.centerYAnchor.constraint(equalTo: displayView.centerYAnchor).isActive = true
@@ -462,7 +494,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         else {
             self.performSegue(withIdentifier: "goToResults", sender: self)
             self.usedFreeSpin()
-            print("used", userDefaultCounter.integer(forKey: Constants.userDefaultCounter))
         }
     }
     
@@ -498,7 +529,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 self.healthInfoController.view.isHidden = true
                 self.tipsController.view.isHidden =  true
                 self.aboutController.view.isHidden = true
-               //dismiss
+                self.restoreController.view.isHidden = true
             }
             
             else if named == Constants.howTo {
@@ -506,6 +537,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 self.healthInfoController.view.isHidden = true
                 self.tipsController.view.isHidden =  true
                 self.aboutController.view.isHidden = true
+                self.restoreController.view.isHidden = true
             }
             
             else if named == Constants.health {
@@ -513,6 +545,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 self.healthInfoController.view.isHidden = false
                 self.tipsController.view.isHidden =  true
                 self.aboutController.view.isHidden = true
+                self.restoreController.view.isHidden = true
             }
             
             else if named == Constants.tips {
@@ -520,6 +553,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 self.healthInfoController.view.isHidden = true
                 self.tipsController.view.isHidden =  false
                 self.aboutController.view.isHidden = true
+                self.restoreController.view.isHidden = true
             }
                 
             else if named == Constants.about {
@@ -527,6 +561,15 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 self.healthInfoController.view.isHidden = true
                 self.tipsController.view.isHidden =  true
                 self.aboutController.view.isHidden = false
+                self.restoreController.view.isHidden = true
+            }
+            
+            else if named == Constants.restore {
+                self.howToUseController.view.isHidden = true
+                self.healthInfoController.view.isHidden = true
+                self.tipsController.view.isHidden =  true
+                self.aboutController.view.isHidden = true
+                self.restoreController.view.isHidden = false
             }
         })
     }
@@ -561,6 +604,18 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         welcomePresenter.view.frame = view.bounds
         welcomePresenter.didMove(toParent: self)
         welcomePresenter.view.isHidden = true
+        
+        addChild(welcomePage)
+        view.addSubview(welcomePage.view)
+        welcomePage.view.frame = view.bounds
+        welcomePage.didMove(toParent: self)
+        welcomePage.view.isHidden = true
+        
+        addChild(restoreController)
+        view.addSubview(restoreController.view)
+        restoreController.view.frame = view.bounds
+        restoreController.didMove(toParent: self)
+        restoreController.view.isHidden = true
     }
     
     @objc func infoPopUp() {
@@ -711,13 +766,15 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
 
         for transaction in transactions {
             if transaction.transactionState == .purchased {
-                print("transaction successful")
                 SKPaymentQueue.default().finishTransaction(transaction)
                 giveFullAcces()
                 
             }
             else if transaction.transactionState == .failed {
-                print("transaction failed")
+                SKPaymentQueue.default().finishTransaction(transaction)
+            }
+            else if transaction.transactionState == .restored {
+                giveFullAcces()
                 SKPaymentQueue.default().finishTransaction(transaction)
             }
         }
@@ -729,7 +786,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     }
     
     func checkIfMoreFreeSpins() -> Bool {
-        print(Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter))
         if (Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter) <= 0) {
             return false
         }
@@ -739,7 +795,6 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     }
     
     func giveFullAcces() {
-        print("Full access given")
         //Visual indication of premium access
         freeSpinIndicator.setTitle("", for: .normal)
         freeSpinIndicator.setImage(UIImage(named: "Star"), for: .normal)
@@ -756,14 +811,10 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         captureButton.addGestureRecognizer(longGesture)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(correctCapturePop))
         captureButton.addGestureRecognizer(tapGesture)
-        
-        //hide flicker detector button
-        switcher.isHidden = true
     }
     
     func isPurchased() -> Bool {
         let purchasedStatus = UserDefaults.standard.bool(forKey: Constants.hasMadePurchase)
-        print(purchasedStatus)
         return purchasedStatus
     }
     
@@ -772,21 +823,56 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         
         //Seems default value for bool is false before being set in else-bracket
         if (userDefaultFirstLaunch.bool(forKey: Constants.firstLaunch)) {
-            print("App already launched :")
             return false
         }
         else {
             //Boolean is set to true when user clicks the "Let's Go!" button from the launch slide show.
             //I.e. it is set when the dismissView func is called from Welcome Presenter button
-            print("App launched first time")
             return true
         }
     }
     
     func showIntroSides() {
         self.welcomePresenter.view.isHidden = false
-        
+        self.welcomePage.view.isHidden = false
     }
+    
+    func setDummyValuesForChart() {
+        let entries = [ChartDataEntry(x: -5, y: 0.0), ChartDataEntry(x: 0, y: 0.00), ChartDataEntry(x: 125, y: 0)]
+        let set = LineChartDataSet(entries: entries)
+        set.mode = .cubicBezier
+        set.drawCirclesEnabled = false
+        set.lineWidth = 1
+        set.setColor(.white)
+        set.fill = Fill(color: UIColor(named: "whiteTinted")!)
+        set.fillAlpha = 1
+        set.drawFilledEnabled = true
+        set.highlightEnabled = false
+        let data = LineChartData(dataSet: set)
+        data.setDrawValues(false)
+        self.waveChartView.data = data
+    }
+    
+    @objc func setDataForWaveChart() {
+        DispatchQueue.main.async {
+            let entries = self.viewModel.allAmplitudes
+            let set = LineChartDataSet(entries: entries)
+            set.mode = .cubicBezier
+            set.drawCirclesEnabled = false
+            set.lineWidth = 1
+            set.setColor(.white)
+            set.fill = Fill(color: UIColor(named: "whiteTinted")!)
+            set.fillAlpha = 1
+            set.drawFilledEnabled = true
+            set.highlightEnabled = false
+            let data = LineChartData(dataSet: set)
+            data.setDrawValues(false)
+            self.waveChartView.data = data
+        }
+
+    }
+    
+
     
     //Makes sure that user has given access to camera before setting up a camerasession
     func goToCamera() {
@@ -899,7 +985,6 @@ extension CameraViewController: PopUpDelegate {
             self.popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         }) { (_) in
             self.popUpView.removeFromSuperview()
-            print("did remove")
         }
     }
 }

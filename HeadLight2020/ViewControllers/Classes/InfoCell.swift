@@ -25,6 +25,7 @@ class InfoCell: UICollectionViewCell {
         view.backgroundColor = .clear
         view.layer.cornerRadius = Constants.largeContainerDimension * 0.4 / 2
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentMode = .scaleAspectFit
         let image = UIImage(named: "Best")
         view.image = image
         return view
@@ -37,7 +38,7 @@ class InfoCell: UICollectionViewCell {
         view.textColor = UIColor(named: "mainColorAccentDark")
         view.text = "Some information"
         view.font = UIFont(name: "Poppins-Light", size: 18)
-        view.textAlignment = .left
+        view.textAlignment = .center
         view.isUserInteractionEnabled = true
         view.isEditable = false
         view.isScrollEnabled = true
@@ -66,8 +67,8 @@ class InfoCell: UICollectionViewCell {
         container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 
-        imageView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.35).isActive = true
-        imageView.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.35).isActive = true
+        imageView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.45).isActive = true
+        imageView.heightAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.45).isActive = true
         imageView.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
         imageView.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
 

@@ -20,4 +20,10 @@ class Result {
         self.hertz = hertz
         self.value = value
     }
+    
+    init(hertz: Int, value: Float) {
+        lumosity = 0
+        self.hertz = hertz
+        self.value = value
+    }
 }

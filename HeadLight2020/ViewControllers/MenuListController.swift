@@ -11,8 +11,8 @@ import UIKit
 
 class MenuListController: UITableViewController {
     
-    var items = [Constants.home, Constants.howTo, Constants.health, Constants.tips, Constants.about]
-    let icons = ["HomeIcon", "HowToUse", "Health", "CheckMarkCircle", "LaunchImage"]
+    var items = [Constants.home, Constants.howTo, Constants.health, Constants.tips, Constants.about, Constants.restore]
+    let icons = ["HomeIcon", "HowToUse", "Health", "CheckMarkCircle", "LaunchImage", "Star"]
     var delegate: MenuControllerDelegate?
     
     override func viewDidLoad() {

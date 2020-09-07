@@ -41,32 +41,26 @@ class AboutViewController: UIViewController {
         return label
     }()
     
-    let introView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Introduction", text: HowToUseText.slide1, fill: false)
+    let aboutView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Welcome", text: AboutTexts.about, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let detectView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Detection", text: HowToUseText.slide2, fill: false)
+    let infoView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Zones", text: AboutTexts.method, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let captureView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Capture", text: HowToUseText.slide3, fill: false)
+    let infoView2: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Zones", text: AboutTexts.method2, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let howToHoldView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Holding", text: HowToUseText.slide4, fill: true)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let nightView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Night", text: HowToUseText.slide5, fill: false)
+    let infoView3: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Zones", text: AboutTexts.method3, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -85,7 +79,7 @@ class AboutViewController: UIViewController {
         view.addSubview(topPanelView)
         topPanelView.addSubview(titleLabel)
         view.addSubview(pageTitle)
-        swiper.items = [introView, detectView, captureView, howToHoldView, nightView]
+        swiper.items = [aboutView, infoView, infoView2, infoView3]
         view.addSubview(swiper)
         setConstraints()
 

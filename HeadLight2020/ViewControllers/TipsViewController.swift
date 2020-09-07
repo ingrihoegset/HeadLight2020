@@ -41,37 +41,41 @@ class TipsViewController: UIViewController {
         return label
     }()
     
-    let introView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Introduction", text: HowToUseText.slide1, fill: false)
+    let tip1View: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Introduction", text: TipsTexts.tip1, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let detectView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Detection", text: HowToUseText.slide2, fill: false)
+    let tip2View: UIView = {
+        let view = HowToSlide(frame: .zero, image: "LedLys", text: TipsTexts.tip2, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let captureView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Capture", text: HowToUseText.slide3, fill: false)
+    let tip3View: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Dimming", text: TipsTexts.tip3, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let howToHoldView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Holding", text: HowToUseText.slide4, fill: true)
+    let tip4View: UIView = {
+        let view = HowToSlide(frame: .zero, image: "FlourescentTube", text: TipsTexts.tip4, fill: true)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let nightView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Night", text: HowToUseText.slide5, fill: false)
+    let tip5View: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Bulb", text: TipsTexts.tip5, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
- 
+    let tip6View: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Curtains", text: TipsTexts.tip6, fill: false)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     let swiper: HowToSwiperController = {
         let swiper = HowToSwiperController(frame: .zero)
@@ -87,7 +91,7 @@ class TipsViewController: UIViewController {
         view.addSubview(topPanelView)
         topPanelView.addSubview(titleLabel)
         view.addSubview(pageTitle)
-        swiper.items = [introView, detectView, captureView, howToHoldView, nightView]
+        swiper.items = [tip1View, tip2View, tip3View, tip4View, tip5View, tip6View]
         view.addSubview(swiper)
         setConstraints()
 

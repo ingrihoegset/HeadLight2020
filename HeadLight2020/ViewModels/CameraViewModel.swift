@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import Charts
 
 
 class CameraViewModel {
@@ -23,6 +24,7 @@ class CameraViewModel {
     var lightDetected: Bool
     var state: State
     var phoneIsStill: Bool
+    var allAmplitudes: [ChartDataEntry]
     
     init(fourierModel: FourierModel) {
         
@@ -36,18 +38,20 @@ class CameraViewModel {
         self.state = fourierModel.state
         self.lightDetected = true
         self.phoneIsStill = false
+        self.allAmplitudes = []
         
         NotificationCenter.default.addObserver(self, selector: #selector(getNewResults), name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(calculateResults), name: NSNotification.Name.init(rawValue: "calculateResults"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(phoneIsNotStillAlert), name: NSNotification.Name.init(rawValue: "phoneIsNotStill"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(getWaveData), name: NSNotification.Name.init(rawValue: "getWaveData"), object: nil)
     }
     
     @objc func getNewResults() {
         self.flickerPercent = fourierModel.flickerPercent * 100
         self.flickerIndex = fourierModel.flickerIndex * 100
-        print("ghjk",self.flickerIndex)
         self.hertz = fourierModel.hertz
         self.luminance = fourierModel.luminance
         self.lightDetected = checkForLight()
@@ -73,13 +77,17 @@ class CameraViewModel {
     }
     
     func checkForLight() -> Bool {
-        if (luminance < 50 && hertz < 20) {
-            print("lum",luminance,"hert",hertz)
+        if (luminance < 40 && hertz < 20) {
             return false
         }
         else {
             return true
         }
+    }
+    
+    @objc func getWaveData() {
+        self.allAmplitudes = fourierModel.findAverageAmplitudeForAll()
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "waveDataReady"), object: nil)
     }
 }
     

@@ -14,10 +14,13 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     let captureSession = AVCaptureSession()
     var counter = 0
+    var secondCounter = 0
     
     //For Fourier
     var rowOfPixels = [Float]()
     var matrixOfPixelsFourier = [[Float]]()
+    var rowOfPixelsVisuals = [Float]()
+    var matrixOfPixelVisuals = [[Float]]()
 
     override init() {
         super.init()
@@ -28,7 +31,6 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: Int(kCVPixelFormatType_32BGRA)]
         videoOutput.alwaysDiscardsLateVideoFrames = true
-        
         
         let videoOutputQueue = DispatchQueue(label: "VideoQueue")
         videoOutput.setSampleBufferDelegate(self, queue: videoOutputQueue)
@@ -42,7 +44,6 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     //This function is called automatically each time a new frame is recieved, i.e. 240 times per second
     //as long as the configuration was successfull. Most of the analysis and processing goes on here.
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
 
         let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
         
@@ -55,10 +56,12 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
         
         // ------ For Fourier Start ------- //
         rowOfPixels = []
+        rowOfPixelsVisuals = []
         
         //Removes the oldest input from the matrix when the matrix reaches a certain size
         if(matrixOfPixelsFourier.count >= Constants.noOfFramesForAnalysis) {
             matrixOfPixelsFourier.removeFirst(1)
+            matrixOfPixelVisuals.removeFirst(1)
         }
         
         //Chosen pixel for analysis
@@ -74,10 +77,23 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
             rowOfPixels.append(pixel)
         }
         
+        let pixelVisual = getPixelNumber(byteBuffer: byteBuffer, index: 0)
+        rowOfPixelsVisuals.append(pixelVisual)
+        
         //Adds the array of simultaneus pixels to the matrix
         matrixOfPixelsFourier.append(rowOfPixels)
+        matrixOfPixelVisuals.append(rowOfPixelsVisuals)
+        
         
         // ------ For Fourier END ------- //
+        
+        if (secondCounter == 360) {
+            secondCounter = 0
+            NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getWaveData"), object: nil)
+        }
+        else {
+            secondCounter = secondCounter + 1
+        }
 
         //Dont know what this does, but dont move
         CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
@@ -100,5 +116,9 @@ class CameraCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     func getMatrixFourier() -> [[Float]] {
         return matrixOfPixelsFourier
+    }
+    
+    func getMatrixForVisuals() -> [[Float]] {
+        return matrixOfPixelVisuals
     }
 }

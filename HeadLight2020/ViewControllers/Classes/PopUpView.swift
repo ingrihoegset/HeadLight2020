@@ -35,7 +35,7 @@ class PopUpView: UIView {
         label.backgroundColor = .clear
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = Constants.pageHeaderFont
+        label.font = Constants.popUpHeader
         label.textAlignment = .center
         return label
     }()
@@ -106,7 +106,7 @@ class PopUpView: UIView {
     }
     
     func attributedTitle(text1: String) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: text1, attributes: [NSAttributedString.Key.font: UIFont(name: "Poppins-Medium", size: 22)!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
+        let attributedText = NSMutableAttributedString(string: text1, attributes: [NSAttributedString.Key.font: Constants.popUpHeader!, NSAttributedString.Key.foregroundColor: UIColor(named: "accentLight")!])
         return attributedText
     }
 }

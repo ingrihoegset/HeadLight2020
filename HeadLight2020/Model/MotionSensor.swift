@@ -33,18 +33,17 @@ class MotionSensor {
                 let mRotationRate = trueData.rotationRate
                 //When analysis array is not loaded with data yet
                 if isStillArray.count < 4 {
-                    if (abs(mRotationRate.x)) > 0.05 || abs(mRotationRate.y) > 0.05 || abs(mRotationRate.z) > 0.05 {
+                    if (abs(mRotationRate.x)) > 0.15 || abs(mRotationRate.y) > 0.15 || abs(mRotationRate.z) > 0.15 {
                         isStillArray.append(false)
                     }
                     else {
                         isStillArray.append(true)
                     }
                 }
-                print(mRotationRate.x)
                 
                 //When analysis array is full and needs to be gradually filled with new data
                 if isStillArray.count >= 4 {
-                    if (abs(mRotationRate.x)) > 0.05 || abs(mRotationRate.y) > 0.05 || abs(mRotationRate.z) > 0.05 {
+                    if (abs(mRotationRate.x)) > 0.15 || abs(mRotationRate.y) > 0.15 || abs(mRotationRate.z) > 0.15 {
                         isStillArray.removeFirst()
                         isStillArray.append(false)
                         //To alert with a toast that phone is in motion
@@ -58,7 +57,6 @@ class MotionSensor {
                     if isStillArray.allSatisfy({$0}){
                         self.motion.stopDeviceMotionUpdates()
                         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "calculateResults"), object: nil)
-                        print("Phone is being held still")
                     }
                 }
             }

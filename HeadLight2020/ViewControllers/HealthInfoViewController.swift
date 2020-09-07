@@ -41,32 +41,38 @@ class HealthInfoViewController: UIViewController {
         return label
     }()
     
-    let introView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Introduction", text: HowToUseText.slide1, fill: false)
+    let feelBadView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "FeelBad", text: HealthTexts.didYouKnow, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let detectView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Detection", text: HowToUseText.slide2, fill: false)
+    let eyestrainView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "EyestrainImage", text: HealthTexts.eyestrain, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let captureView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Capture", text: HowToUseText.slide3, fill: false)
+    let vertigoView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Vertigo", text: HealthTexts.vertigo, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let howToHoldView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Holding", text: HowToUseText.slide4, fill: true)
+    let headacheMigraineView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "HeadacheMigraine", text: HealthTexts.headache, fill: true)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let nightView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Night", text: HowToUseText.slide5, fill: false)
+    let fatigueView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Fatigue", text: HealthTexts.fatigue, fill: false)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let whatToDoView: UIView = {
+        let view = HowToSlide(frame: .zero, image: "Detection", text: HealthTexts.whatToDo, fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -87,7 +93,7 @@ class HealthInfoViewController: UIViewController {
         view.addSubview(topPanelView)
         topPanelView.addSubview(titleLabel)
         view.addSubview(pageTitle)
-        swiper.items = [introView, detectView, captureView, howToHoldView, nightView]
+        swiper.items = [feelBadView, eyestrainView, vertigoView, headacheMigraineView, fatigueView, whatToDoView]
         view.addSubview(swiper)
         setConstraints()
 

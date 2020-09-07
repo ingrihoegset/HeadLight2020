@@ -10,6 +10,10 @@
 		AA244A2DC33F1696CFC13368 /* Pods_HeadLight2020.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CBAC868CCFA279193463738 /* Pods_HeadLight2020.framework */; };
 		BF41A12024D771B800228F81 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41A11F24D771B800228F81 /* State.swift */; };
 		BF41A12224D7790C00228F81 /* StateHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41A12124D7790C00228F81 /* StateHolder.swift */; };
+		BF436D0B2501050E000A7722 /* FadeScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF436D0A2501050E000A7722 /* FadeScrollView.swift */; };
+		BF436D0D250397B0000A7722 /* AboutTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF436D0C250397B0000A7722 /* AboutTexts.swift */; };
+		BF436D0F25067CDF000A7722 /* TipsTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF436D0E25067CDF000A7722 /* TipsTexts.swift */; };
+		BF436D112506DE0B000A7722 /* RestoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF436D102506DE0A000A7722 /* RestoreController.swift */; };
 		BF4A255D24D839D100E03B6C /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF4A255C24D839D000E03B6C /* Poppins-Light.ttf */; };
 		BF55027224EC724A00B6B7C5 /* Lora-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF55027124EC724A00B6B7C5 /* Lora-Regular.ttf */; };
 		BF55027424EC725200B6B7C5 /* Lora-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF55027324EC725200B6B7C5 /* Lora-Medium.ttf */; };
@@ -43,6 +47,8 @@
 		BF8210AF24CF1D77000F4A74 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8210AE24CF1D77000F4A74 /* CustomCell.swift */; };
 		BF950BC724F41E010091F7F4 /* HealthTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF950BC624F41E010091F7F4 /* HealthTexts.swift */; };
 		BF950BC924F52E630091F7F4 /* WelcomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF950BC824F52E630091F7F4 /* WelcomePresenter.swift */; };
+		BF950BCB24F68E7C0091F7F4 /* LaunchTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF950BCA24F68E7C0091F7F4 /* LaunchTexts.swift */; };
+		BF950BCD24F6A0030091F7F4 /* WelcomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF950BCC24F6A0030091F7F4 /* WelcomePage.swift */; };
 		BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */; };
 		BFB357C624EC0CC100E117DD /* HowToUseTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */; };
 		BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBCCB8924AB8782005F93DB /* AppDelegate.swift */; };
@@ -66,6 +72,10 @@
 		8CBAC868CCFA279193463738 /* Pods_HeadLight2020.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HeadLight2020.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF41A11F24D771B800228F81 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		BF41A12124D7790C00228F81 /* StateHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateHolder.swift; sourceTree = "<group>"; };
+		BF436D0A2501050E000A7722 /* FadeScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeScrollView.swift; sourceTree = "<group>"; };
+		BF436D0C250397B0000A7722 /* AboutTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTexts.swift; sourceTree = "<group>"; };
+		BF436D0E25067CDF000A7722 /* TipsTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsTexts.swift; sourceTree = "<group>"; };
+		BF436D102506DE0A000A7722 /* RestoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreController.swift; sourceTree = "<group>"; };
 		BF4A255C24D839D000E03B6C /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
 		BF55027124EC724A00B6B7C5 /* Lora-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Regular.ttf"; sourceTree = "<group>"; };
 		BF55027324EC725200B6B7C5 /* Lora-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Medium.ttf"; sourceTree = "<group>"; };
@@ -99,6 +109,8 @@
 		BF8210AE24CF1D77000F4A74 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		BF950BC624F41E010091F7F4 /* HealthTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTexts.swift; sourceTree = "<group>"; };
 		BF950BC824F52E630091F7F4 /* WelcomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePresenter.swift; sourceTree = "<group>"; };
+		BF950BCA24F68E7C0091F7F4 /* LaunchTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchTexts.swift; sourceTree = "<group>"; };
+		BF950BCC24F6A0030091F7F4 /* WelcomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage.swift; sourceTree = "<group>"; };
 		BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfoViewController.swift; sourceTree = "<group>"; };
 		BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseTexts.swift; sourceTree = "<group>"; };
 		BFBCCB8624AB8782005F93DB /* HeadLight2020.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeadLight2020.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +192,9 @@
 				BFF48A6324D745DF00304DB9 /* MoreInfoObjectTexts.swift */,
 				BFB357C524EC0CC100E117DD /* HowToUseTexts.swift */,
 				BF950BC624F41E010091F7F4 /* HealthTexts.swift */,
+				BF950BCA24F68E7C0091F7F4 /* LaunchTexts.swift */,
+				BF436D0C250397B0000A7722 /* AboutTexts.swift */,
+				BF436D0E25067CDF000A7722 /* TipsTexts.swift */,
 			);
 			path = Texts;
 			sourceTree = "<group>";
@@ -233,8 +248,10 @@
 				BFB357C224EBE07B00E117DD /* HealthInfoViewController.swift */,
 				BF7778BB24EFABDC006F891B /* TipsViewController.swift */,
 				BF7778BF24EFF8AC006F891B /* AboutViewController.swift */,
+				BF950BCC24F6A0030091F7F4 /* WelcomePage.swift */,
 				BF950BC824F52E630091F7F4 /* WelcomePresenter.swift */,
 				BF634E8D24CDF2270050CE69 /* MenuListController.swift */,
+				BF436D102506DE0A000A7722 /* RestoreController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -267,6 +284,7 @@
 				BF7778B724EDC7EB006F891B /* HowToCell.swift */,
 				BF7778B924EDC878006F891B /* HowToSlide.swift */,
 				BF7778BD24EFC2DE006F891B /* Switcher.swift */,
+				BF436D0A2501050E000A7722 /* FadeScrollView.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -410,8 +428,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFF48A5724D0AAC600304DB9 /* PopUpView.swift in Sources */,
+				BF436D112506DE0B000A7722 /* RestoreController.swift in Sources */,
 				BFBCCB9424AB8782005F93DB /* HeadLight2020.xcdatamodeld in Sources */,
 				BF41A12024D771B800228F81 /* State.swift in Sources */,
+				BF950BCB24F68E7C0091F7F4 /* LaunchTexts.swift in Sources */,
 				BF75E3EF24E40CCB000E9F7C /* ResultsCell.swift in Sources */,
 				BF7778B824EDC7EB006F891B /* HowToCell.swift in Sources */,
 				BFF48A6224D7425500304DB9 /* MoreInfoObject.swift in Sources */,
@@ -419,6 +439,7 @@
 				BFBCCB8E24AB8782005F93DB /* CameraViewController.swift in Sources */,
 				BFB357C324EBE07B00E117DD /* HealthInfoViewController.swift in Sources */,
 				BF7778BC24EFABDC006F891B /* TipsViewController.swift in Sources */,
+				BF950BCD24F6A0030091F7F4 /* WelcomePage.swift in Sources */,
 				BF75E3ED24E40523000E9F7C /* ResultSwipingController.swift in Sources */,
 				BF70F6E624C71A2B0044F6B3 /* CameraCapture.swift in Sources */,
 				BF75E3FD24E68149000E9F7C /* LaunchScreenManager.swift in Sources */,
@@ -433,11 +454,14 @@
 				BFB357C624EC0CC100E117DD /* HowToUseTexts.swift in Sources */,
 				BFBCCBF024B33F67005F93DB /* ResultsViewController.swift in Sources */,
 				BFBCCB8A24AB8782005F93DB /* AppDelegate.swift in Sources */,
+				BF436D0F25067CDF000A7722 /* TipsTexts.swift in Sources */,
 				BFF48A6424D745DF00304DB9 /* MoreInfoObjectTexts.swift in Sources */,
 				BF7778C024EFF8AC006F891B /* AboutViewController.swift in Sources */,
 				BFBCCB8C24AB8782005F93DB /* SceneDelegate.swift in Sources */,
 				BF950BC724F41E010091F7F4 /* HealthTexts.swift in Sources */,
 				BF7778BA24EDC878006F891B /* HowToSlide.swift in Sources */,
+				BF436D0D250397B0000A7722 /* AboutTexts.swift in Sources */,
+				BF436D0B2501050E000A7722 /* FadeScrollView.swift in Sources */,
 				BFF48A6024D0C1E500304DB9 /* SwipingController.swift in Sources */,
 				BFBCCBEE24B32134005F93DB /* CameraViewModel.swift in Sources */,
 				BF41A12224D7790C00228F81 /* StateHolder.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import Foundation
 import Accelerate
+import Charts
 
 class FourierModel: NSObject {
     
@@ -67,6 +68,7 @@ class FourierModel: NSObject {
             
             let result = Result(lumosity: lumosity, hertz: thisHertz, value: value)
             resultArray.append(result)
+            
         }
         
         let modeHertz = findModeOfArray(array: resultArray)
@@ -75,24 +77,15 @@ class FourierModel: NSObject {
         luminance = Double(averageLumosity)
 
         let preflickerPercent = calculateFlickerPercent(averageLumosity: averageLumosity, averageAmplitude: averageAmplitude)
-        print("norounded flickerpercent", preflickerPercent)
-        flickerPercent = roundFlickerPercent(flickerPercent: preflickerPercent)
+        flickerPercent = preflickerPercent
         
         flickerIndex = calculateFlickerIndex(averageLumosity: averageLumosity, modeHertz: modeHertz, averageAmplitude: averageAmplitude)
         
-        let calculatedState = calculateState(hertz: modeHertz, flickerPercent: flickerPercent)
+        let calculatedState = calculateZone(hertz: modeHertz, flickerPercent: flickerPercent)
         state = calculatedState
         
         let preHertz = Double(modeHertz)
         hertz = roundHertz(hertz: preHertz)
-        
-        
-        print("average amplitude:", averageAmplitude)
-        print("average Lumosity:", averageLumosity)
-        
-        print("hertz: ", modeHertz)
-        print("flicker percent: ", flickerPercent)
-        print("flicker Index", flickerIndex)
         
         //Notifies viewModel to update its relevant parameters
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
@@ -133,16 +126,14 @@ class FourierModel: NSObject {
             }
         }
         
-        for key in hertzCountDictionary.keys {
+        /*for key in hertzCountDictionary.keys {
             print("\(key): \(hertzCountDictionary[key]!)")
-        }
+        }*/
         
         //Sorts the dictionary and returns the number of occurances for frequency with the highest number of occurances
         let sortedCount = hertzCountDictionary.values.sorted(by: >)
         //Occurances
         let mode = sortedCount[0]
-        print(sortedCount)
-        print(mode)
         
         var hertzWithHighestMode = 0
         //Find the frequency corresponding to the highest number of occurances (i.e.the mode)
@@ -166,6 +157,74 @@ class FourierModel: NSObject {
         }
         let averageAmplitude = (sum  / 240) / count
         return averageAmplitude
+    }
+    
+    func findAverageAmplitudeForAll() -> [ChartDataEntry] {
+        
+        let pixelsForAmplitude = cameraCapture.getMatrixForVisuals()
+            
+        let signals = transposeMatrix(matrix: pixelsForAmplitude)
+        var resultArray = [Result]()
+        
+        for i in 0...signals.count - 1 {
+            var forwardDCT = forwardDCTSetup!.transform(signals[i])
+            
+            vDSP.threshold(forwardDCT,
+            to: 100,
+            with: .zeroFill,
+            result: &forwardDCT)
+            
+            for i in 0...forwardDCT.count - 1 {
+                let thisHertz = Int(i/2)
+                let result = Result(hertz: thisHertz, value: forwardDCT[i])
+                resultArray.append(result)
+            }
+            
+            //Deler på ANTALL OBSERVASJONER i datasettet for å finne snittet
+
+        }
+        
+        var amplitudeArray = [ChartDataEntry]()
+        
+        for i in -6...5 {
+            var sum = Float(0)
+            var count = Float(0)
+            
+            if i % 3 == 0 {
+                for element in resultArray {
+                    if element.hertz == i {
+                        sum = sum + element.value
+                        count = count + 1
+                    }
+                }
+                var averageAmplitude = (sum / 240 / 240) / count
+                if (averageAmplitude.isNaN){
+                    averageAmplitude = 0
+                }
+                amplitudeArray.append(ChartDataEntry(x: Double(i), y: Double(averageAmplitude)))
+            }
+        }
+        
+        for i in 6...130 {
+            
+            var sum = Float(0)
+            var count = Float(0)
+            
+            if i % 3 == 0 {
+                for element in resultArray {
+                    if element.hertz == i {
+                        sum = sum + element.value
+                        count = count + 1
+                    }
+                }
+                var averageAmplitude = (sum / 240) / count
+                if (averageAmplitude.isNaN){
+                    averageAmplitude = 0
+                }
+                amplitudeArray.append(ChartDataEntry(x: Double(i), y: Double(averageAmplitude)))
+            }
+        }
+        return amplitudeArray
     }
     
     func findAverageLumosity(array: [Result], mode: Int) -> Float {
@@ -236,6 +295,71 @@ class FourierModel: NSObject {
         
         return calculatedState
     }
+    
+    func calculateZone(hertz: Int, flickerPercent: Double) -> State {
+        
+        var calculatedState = stateholder.best
+        let thisHertz = Double(hertz)
+        let thisFlickerPercent = flickerPercent * 100
+        
+        
+        // To account for when the light is without flicker (flicker must be set to 0 manually because of the strange things that happen when hertz is close to 0)
+        if (thisHertz < 10) {
+            calculatedState = stateholder.best
+            self.flickerPercent = 0
+            self.flickerIndex = 0
+            return calculatedState
+        }
+        
+        //check if catostrophic
+        if (thisFlickerPercent > 0.05 && thisHertz < 65) {
+            calculatedState = stateholder.worst
+            return calculatedState
+        }
+            
+        //When hertz is below 90
+        if (thisHertz < 90) {
+            //check if high risk
+            if (thisFlickerPercent >= 0.025 * thisHertz) {
+                calculatedState = stateholder.secondWorst
+                return calculatedState
+            }
+            
+            //check if in low risk zone
+            else if (thisFlickerPercent >= 0.01 * thisHertz) {
+                calculatedState = stateholder.OK
+                return calculatedState
+            }
+            
+            //check if in good zone
+            else if (thisFlickerPercent < 0.01 * thisHertz) {
+                calculatedState = stateholder.secondBest
+                return calculatedState
+            }
+        }
+        //When hertz is above 905
+        else if (thisHertz >= 90) {
+            //check if high risk
+            if (thisFlickerPercent >= 0.08 * thisHertz) {
+                calculatedState = stateholder.secondWorst
+                return calculatedState
+            }
+            
+            //check if in low risk zone
+            else if (thisFlickerPercent >= 0.033 * thisHertz) {
+                calculatedState = stateholder.OK
+                return calculatedState
+            }
+            
+            //check if in good zone
+            else if (thisFlickerPercent < 0.033 * thisHertz) {
+                calculatedState = stateholder.secondBest
+                return calculatedState
+            }
+        }
+        return calculatedState
+    }
+    
     
     func roundHertz(hertz: Double) -> Double {
         var hertz = hertz

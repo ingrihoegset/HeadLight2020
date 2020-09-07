@@ -58,7 +58,7 @@ class HowToSwiperController: UIView, UICollectionViewDelegate, UICollectionViewD
 
         addSubview(dots)
         dots.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        dots.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        dots.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.seperator).isActive = true
         dots.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         dots.heightAnchor.constraint(equalToConstant: 1.5 * Constants.verticalMargins).isActive = true
         
@@ -106,6 +106,13 @@ class HowToSwiperController: UIView, UICollectionViewDelegate, UICollectionViewD
             (collectionView.contentOffset.x / collectionView.frame.width)
             .rounded(.toNearestOrAwayFromZero)
         )
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+         if (indexPath.row == items.count - 1 ) { //it's your last cell
+           print("OK")
+         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "showLetsGoButton"), object: nil)
+         }
     }
 
 
