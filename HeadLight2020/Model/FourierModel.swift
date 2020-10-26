@@ -83,7 +83,7 @@ class FourierModel: NSObject {
         
         let calculatedState = calculateZone(hertz: modeHertz, flickerPercent: flickerPercent)
         state = calculatedState
-        
+    
         let preHertz = Double(modeHertz)
         hertz = roundHertz(hertz: preHertz)
         
@@ -302,9 +302,8 @@ class FourierModel: NSObject {
         let thisHertz = Double(hertz)
         let thisFlickerPercent = flickerPercent * 100
         
-        
         // To account for when the light is without flicker (flicker must be set to 0 manually because of the strange things that happen when hertz is close to 0)
-        if (thisHertz < 10) {
+        if (thisHertz < 20) {
             calculatedState = stateholder.best
             self.flickerPercent = 0
             self.flickerIndex = 0
@@ -312,7 +311,7 @@ class FourierModel: NSObject {
         }
         
         //check if catostrophic
-        if (thisFlickerPercent > 0.05 && thisHertz < 65) {
+        if (thisFlickerPercent > 5 && thisHertz < 65) {
             calculatedState = stateholder.worst
             return calculatedState
         }
@@ -337,7 +336,7 @@ class FourierModel: NSObject {
                 return calculatedState
             }
         }
-        //When hertz is above 905
+        //When hertz is above 90
         else if (thisHertz >= 90) {
             //check if high risk
             if (thisFlickerPercent >= 0.08 * thisHertz) {

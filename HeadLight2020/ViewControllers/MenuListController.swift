@@ -12,7 +12,7 @@ import UIKit
 class MenuListController: UITableViewController {
     
     var items = [Constants.home, Constants.howTo, Constants.health, Constants.tips, Constants.about, Constants.restore]
-    let icons = ["HomeIcon", "HowToUse", "Health", "CheckMarkCircle", "LaunchImage", "Star"]
+    let icons = ["HomeIcon", "HowToUse", "Health", "CheckMarkCircle", "LaunchImage", "StarWhite"]
     var delegate: MenuControllerDelegate?
     
     override func viewDidLoad() {

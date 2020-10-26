@@ -110,11 +110,9 @@ class HowToSwiperController: UIView, UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
          if (indexPath.row == items.count - 1 ) { //it's your last cell
-           print("OK")
          NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "showLetsGoButton"), object: nil)
          }
     }
-
 
 }
 

@@ -11,6 +11,7 @@
         <!--Navigation Controller-->
         <scene sceneID="qPO-Sl-Coo">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ROG-OB-h0X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="navCont" id="fZ3-d1-vJd" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ctg-15-5ap">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -20,7 +21,6 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Zoy-eu-jw3"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ROG-OB-h0X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-800" y="130"/>
         </scene>
@@ -70,7 +70,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZGR-PC-k1R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1148" y="130"/>
+            <point key="canvasLocation" x="1054" y="130"/>
         </scene>
     </scenes>
     <color key="tintColor" name="accentLight"/>

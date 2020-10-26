@@ -39,7 +39,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     
     let displayView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "whiteTinted")
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -144,8 +144,8 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     let freeSpinIndicator: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "whiteTinted")
-        view.layer.borderColor = UIColor(named: "accentLight")?.cgColor
+        view.backgroundColor = UIColor(named: "accentLight")
+        view.layer.borderColor = UIColor(named: "mainColor")?.cgColor
         view.layer.borderWidth = 2
         view.layer.cornerRadius = Constants.displayViewPortionOfScreen * 0.4 / 2
         view.layer.masksToBounds = true
@@ -246,19 +246,19 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
 
         self.view.addSubview(displayView)
         displayView.addSubview(helper)
-        displayView.addSubview(hertzLabel)
+        //displayView.addSubview(hertzLabel)
         helper.addSubview(decorativeCircle)
         helper.layer.addSublayer(captureAnimation)
         helper.addSubview(captureButton)
         displayView.addSubview(freeSpinIndicator)
         self.view.addSubview(detectionModeView)
         
-        self.view.addSubview(waveChartView)
+        //self.view.addSubview(waveChartView)
         
         setupLayoutConstraints()
         addChildControllers()
     
-        setDummyValuesForChart()
+        //setDummyValuesForChart()
         
         detectionModeView.isHidden = true
         
@@ -412,6 +412,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         displayView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         displayView.heightAnchor.constraint(equalToConstant: Constants.displayViewPortionOfScreen).isActive = true
         
+        /*
         //hertz lable
         hertzLabel.trailingAnchor.constraint(equalTo: displayView.trailingAnchor, constant: -Constants.seperator).isActive = true
         hertzLabel.topAnchor.constraint(equalTo: displayView.topAnchor, constant: Constants.seperator * 2).isActive = true
@@ -423,6 +424,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         waveChartView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         waveChartView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         waveChartView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.10).isActive = true
+        */
 
         //Constraints of capture button
         captureButton.centerYAnchor.constraint(equalTo: displayView.centerYAnchor).isActive = true
@@ -446,11 +448,13 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         decorativeCircle.heightAnchor.constraint(equalToConstant: sizeOfCaptureButton * 1.2).isActive = true
         decorativeCircle.widthAnchor.constraint(equalToConstant: sizeOfCaptureButton * 1.2).isActive = true
         
+        
         //Flicker detection
         detectionModeView.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay).isActive = true
         detectionModeView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         detectionModeView.bottomAnchor.constraint(equalTo: displayView.topAnchor, constant: 0).isActive = true
         detectionModeView.heightAnchor.constraint(equalToConstant: Constants.topMargin).isActive = true
+         
     }
     
     @IBAction func didTapMenu() {
