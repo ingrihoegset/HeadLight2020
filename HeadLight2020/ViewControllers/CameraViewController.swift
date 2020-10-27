@@ -39,7 +39,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     
     let displayView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor(named: "mainColorTinted")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -145,7 +145,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(named: "accentLight")
-        view.layer.borderColor = UIColor(named: "mainColor")?.cgColor
+        view.layer.borderColor = UIColor(named: "accentLight")?.cgColor
         view.layer.borderWidth = 2
         view.layer.cornerRadius = Constants.displayViewPortionOfScreen * 0.4 / 2
         view.layer.masksToBounds = true
