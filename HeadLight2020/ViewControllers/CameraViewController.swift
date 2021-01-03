@@ -123,6 +123,17 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         return view
     }()
     
+    lazy var popUpViewBuyAccess: PopUpView = {
+        let view = PopUpView(frame: .zero, title: "", text: "")
+        view.backgroundColor = UIColor(named: "mainColorAccentLight")
+        view.layer.cornerRadius = Constants.radiusContainers
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textView.textAlignment = .center
+        view.delegate = self
+        
+        return view
+    }()
+    
     let detectionModeView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -687,7 +698,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
                 attributedText.append(NSAttributedString(string: " free trial remaining.", attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle]))
             }
             else if (remainingSpins == 0) {
-                attributedText.append(NSAttributedString(string: " free trials remaining. Press the camera button to get premium access.", attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle]))
+                attributedText.append(NSAttributedString(string: " free trials remaining. Press the camera button to get additional trials or premium access.", attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle]))
             }
             else {
                 attributedText.append(NSAttributedString(string: " free trials remaining.", attributes: [NSAttributedString.Key.font: Constants.readingFont!, NSAttributedString.Key.paragraphStyle : paragraphStyle]))
@@ -739,7 +750,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     }
     
     func animateCaptureButtonSize(view: UIView) {
-        UIView.animate(withDuration: 0.25) {
+        UIView.animate(withDuration: 0.15) {
             view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }
     }
@@ -756,10 +767,113 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     
     // MARK: - In-App Purchase Methods
     @objc func buyMoreAccess() {
+        self.view.addSubview(popUpViewBuyAccess)
+        
+        popUpViewBuyAccess.titleLabel.text = "Get more trials"
+        popUpViewBuyAccess.textView.text = ""
 
+        popUpViewBuyAccess.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        popUpViewBuyAccess.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.verticalMargins).isActive = true
+        popUpViewBuyAccess.heightAnchor.constraint(equalToConstant: Constants.heightOfDisplay * 0.6).isActive = true
+        popUpViewBuyAccess.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay * 0.8).isActive = true
+        
+        let textView1: UITextView = {
+            let textView = UITextView()
+            textView.translatesAutoresizingMaskIntoConstraints = false
+            textView.backgroundColor = UIColor(named: "mainColorAccentLight")
+            textView.font = Constants.readingFont
+            textView.textAlignment = .center
+            textView.text = "Test more lights by buying more trials."
+            return textView
+        }()
+        
+        popUpViewBuyAccess.addSubview(textView1)
+        textView1.topAnchor.constraint(equalTo: popUpViewBuyAccess.titleLabel.bottomAnchor, constant: Constants.verticalMargins).isActive = true
+        textView1.widthAnchor.constraint(equalTo: popUpViewBuyAccess.widthAnchor, constant: -Constants.sideMargins * 2).isActive = true
+        textView1.heightAnchor.constraint(equalTo: popUpViewBuyAccess.heightAnchor, multiplier: 0.2).isActive = true
+        textView1.centerXAnchor.constraint(equalTo: popUpViewBuyAccess.centerXAnchor).isActive = true
+        
+        let button1: UIButton = {
+            let button = UIButton()
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.backgroundColor = UIColor(named: Constants.mainColor)
+            button.setTitle("Get 6 more trials", for: .normal)
+            button.titleLabel?.font = Constants.readingFont
+            button.addTarget(self, action: #selector(buyMoreSpins), for: .touchUpInside)
+            return button
+        }()
+        
+        popUpViewBuyAccess.addSubview(button1)
+        button1.topAnchor.constraint(equalTo: textView1.bottomAnchor).isActive = true
+        button1.widthAnchor.constraint(equalTo: popUpViewBuyAccess.widthAnchor, constant: -Constants.verticalMargins * 2).isActive = true
+        button1.heightAnchor.constraint(equalTo: popUpViewBuyAccess.heightAnchor, multiplier: 0.15).isActive = true
+        button1.centerXAnchor.constraint(equalTo: popUpViewBuyAccess.centerXAnchor).isActive = true
+        button1.layer.cornerRadius = Constants.heightOfDisplay * 0.6 * 0.075
+        
+        let textView2: UITextView = {
+            let textView = UITextView()
+            textView.translatesAutoresizingMaskIntoConstraints = false
+            textView.backgroundColor = UIColor(named: "mainColorAccentLight")
+            textView.font = Constants.readingFont
+            textView.textAlignment = .center
+            textView.text = "Test as many lights as you want with unlimited access."
+            return textView
+        }()
+        
+        let button2: UIButton = {
+            let button = UIButton()
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.backgroundColor = UIColor(named: Constants.mainColor)
+            button.setTitle("Get unlimited access", for: .normal)
+            button.clipsToBounds = true
+            button.titleLabel?.font = Constants.readingFont
+            button.layer.cornerRadius = Constants.radiusContainers
+            button.addTarget(self, action: #selector(buyFullAccess), for: .touchUpInside)
+            return button
+        }()
+        
+        popUpViewBuyAccess.addSubview(button2)
+        popUpViewBuyAccess.addSubview(textView2)
+        textView2.bottomAnchor.constraint(equalTo: button2.topAnchor).isActive = true
+        textView2.widthAnchor.constraint(equalTo: popUpViewBuyAccess.widthAnchor, constant: -Constants.sideMargins * 2).isActive = true
+        textView2.heightAnchor.constraint(equalTo: popUpViewBuyAccess.heightAnchor, multiplier: 0.2).isActive = true
+        textView1.centerXAnchor.constraint(equalTo: popUpViewBuyAccess.centerXAnchor).isActive = true
+        
+        button2.bottomAnchor.constraint(equalTo: popUpViewBuyAccess.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
+        button2.widthAnchor.constraint(equalTo: popUpViewBuyAccess.widthAnchor, constant: -Constants.verticalMargins * 2).isActive = true
+        button2.heightAnchor.constraint(equalTo: popUpViewBuyAccess.heightAnchor, multiplier: 0.15).isActive = true
+        button2.centerXAnchor.constraint(equalTo: popUpViewBuyAccess.centerXAnchor).isActive = true
+        button2.layer.cornerRadius = Constants.heightOfDisplay * 0.6 * 0.075
+
+        
+        popUpViewBuyAccess.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        popUpViewBuyAccess.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+
+            self.popUpViewBuyAccess.alpha = 1
+            self.popUpViewBuyAccess.transform = CGAffineTransform.identity
+        }
+
+    }
+    
+    @objc func buyFullAccess() {
+        
         if SKPaymentQueue.canMakePayments() {
             let paymentRequest = SKMutablePayment()
             paymentRequest.productIdentifier = Constants.fullAccess
+            SKPaymentQueue.default().add(paymentRequest)
+        }
+        else {
+            print("User can't make payments.")
+        }
+    }
+    
+    @objc func buyMoreSpins() {
+        
+        if SKPaymentQueue.canMakePayments() {
+            let paymentRequest = SKMutablePayment()
+            paymentRequest.productIdentifier = Constants.moreSpins
             SKPaymentQueue.default().add(paymentRequest)
         }
         else {
@@ -772,14 +886,26 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         for transaction in transactions {
             if transaction.transactionState == .purchased {
                 SKPaymentQueue.default().finishTransaction(transaction)
-                giveFullAcces()
+                if (transaction.payment.productIdentifier == Constants.fullAccess) {
+                    giveFullAcces()
+                }
+                if (transaction.payment.productIdentifier == Constants.moreSpins) {
+                    giveMoreSpins()
+                }
+                handleDismissal()
+                
                 
             }
             else if transaction.transactionState == .failed {
                 SKPaymentQueue.default().finishTransaction(transaction)
             }
             else if transaction.transactionState == .restored {
-                giveFullAcces()
+                if (transaction.payment.productIdentifier == Constants.fullAccess) {
+                    giveFullAcces()
+                }
+                if (transaction.payment.productIdentifier == Constants.moreSpins) {
+                    giveMoreSpins()
+                }
                 SKPaymentQueue.default().finishTransaction(transaction)
             }
         }
@@ -788,6 +914,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
     func usedFreeSpin() {
         freeSpinCounter = freeSpinCounter + 1
         userDefaultCounter.set(self.freeSpinCounter, forKey: Constants.userDefaultCounter)
+
     }
     
     func checkIfMoreFreeSpins() -> Bool {
@@ -806,6 +933,27 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
         
         //Save purchased status permanently
         userDefaultPurchased.set(true, forKey: Constants.hasMadePurchase)
+        
+        //Remove buy action from capture button
+        captureButton.removeTarget(self, action: #selector(buyMoreAccess), for: .allTouchEvents)
+        
+        //add back long gesture button so that the user can do analysis
+        //add back tap gesture so that user gets info if doing the capture wrong
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)))
+        captureButton.addGestureRecognizer(longGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(correctCapturePop))
+        captureButton.addGestureRecognizer(tapGesture)
+    }
+    
+    func giveMoreSpins() {
+        
+        //Reset spins
+        freeSpinCounter = 0
+        userDefaultCounter.set(self.freeSpinCounter, forKey: Constants.userDefaultCounter)
+        
+        // Reset spin indicator Button
+        let remainingSpins = String(Constants.totalFreeSpins - userDefaultCounter.integer(forKey: Constants.userDefaultCounter))
+        freeSpinIndicator.setTitle(remainingSpins, for: .normal)
         
         //Remove buy action from capture button
         captureButton.removeTarget(self, action: #selector(buyMoreAccess), for: .allTouchEvents)
@@ -874,10 +1022,7 @@ class CameraViewController: UIViewController, MenuControllerDelegate, SKPaymentT
             data.setDrawValues(false)
             self.waveChartView.data = data
         }
-
     }
-    
-
     
     //Makes sure that user has given access to camera before setting up a camerasession
     func goToCamera() {
@@ -988,8 +1133,11 @@ extension CameraViewController: PopUpDelegate {
         UIView.animate(withDuration: 0.5, animations: {
             self.popUpView.alpha = 0
             self.popUpView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            self.popUpViewBuyAccess.alpha = 0
+            self.popUpViewBuyAccess.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         }) { (_) in
             self.popUpView.removeFromSuperview()
+            self.popUpViewBuyAccess.removeFromSuperview()
         }
     }
 }

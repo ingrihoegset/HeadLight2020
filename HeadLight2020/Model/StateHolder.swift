@@ -25,6 +25,7 @@ class StateHolder {
         let headacheLowRisk = MoreInfoObject(frame: .zero, image: "Headache", title1: "Headache", title2: "", moreInfoText: MoreInfoObjectTexts.lowRiskHeadache, risk: 50)
         let eyeStrainLowRisk = MoreInfoObject(frame: .zero, image: "EyeStrain", title1: "Eye", title2: "Strain", moreInfoText: MoreInfoObjectTexts.lowRiskEyeStrain, risk: 50)
         let fatigueLowRisk = MoreInfoObject(frame: .zero, image: "Discomfort", title1: "Fatigue", title2: "", moreInfoText: MoreInfoObjectTexts.lowRiskFatigue, risk: 50)
+        let migraineLowRisk = MoreInfoObject(frame: .zero, image: "Migraine", title1: "Migraine", title2: "", moreInfoText: MoreInfoObjectTexts.higherRiskMigraine, risk: 50)
         let blurredVisionLowRisk = MoreInfoObject(frame: .zero, image: "Blurred", title1: "Blurred", title2: "Vision", moreInfoText: MoreInfoObjectTexts.lowRiskBlurredVision, risk: 50)
         let vertigoLowRisk = MoreInfoObject(frame: .zero, image: "Dizzyness", title1: "Vertigo", title2: "", moreInfoText: MoreInfoObjectTexts.lowRiskVertigo, risk: 50)
         
@@ -32,7 +33,7 @@ class StateHolder {
         let headacheSomeRisk = MoreInfoObject(frame: .zero, image: "Headache", title1: "Headache", title2: "", moreInfoText: MoreInfoObjectTexts.higherRiskHeadache, risk: 75)
         let eyeStrainSomeRisk = MoreInfoObject(frame: .zero, image: "EyeStrain", title1: "Eye", title2: "Strain", moreInfoText: MoreInfoObjectTexts.higherRiskEyeStrain, risk: 75)
         let fatigueSomeRisk = MoreInfoObject(frame: .zero, image: "Discomfort", title1: "Fatigue", title2: "", moreInfoText: MoreInfoObjectTexts.higherRiskFatigue, risk: 75)
-        let migraineSomeRisk = MoreInfoObject(frame: .zero, image: "Migraine", title1: "Migraine", title2: "", moreInfoText: MoreInfoObjectTexts.higherRiskMigraine, risk: 50)
+        let migraineSomeRisk = MoreInfoObject(frame: .zero, image: "Migraine", title1: "Migraine", title2: "", moreInfoText: MoreInfoObjectTexts.higherRiskMigraine, risk: 75)
         let blurredVisionSomeRisk = MoreInfoObject(frame: .zero, image: "Blurred", title1: "Blurred", title2: "Vision", moreInfoText: MoreInfoObjectTexts.higherRiskBlurredVision, risk: 75)
         let vertigoSomeRisk = MoreInfoObject(frame: .zero, image: "Dizzyness", title1: "Vertigo", title2: "", moreInfoText: MoreInfoObjectTexts.higherRiskVertigo, risk: 75)
         
@@ -90,7 +91,7 @@ class StateHolder {
             overallIndicatorColorSub: Constants.yellow,
             exposureTime: "Try to limit", indicatorTime: 75,
             indicatorColor: Constants.yellow,
-            sideeffects: [headacheLowRisk, eyeStrainLowRisk, fatigueLowRisk, vertigoLowRisk, blurredVisionLowRisk],
+            sideeffects: [headacheLowRisk, eyeStrainLowRisk, blurredVisionLowRisk],
             timerObject: [tryToLimitTimerObject],
             tipsObject: [tip2, tip3, tip4, tip5, tip6])
 
@@ -104,7 +105,7 @@ class StateHolder {
             exposureTime: "Limit",
             indicatorTime: 50,
             indicatorColor: Constants.red,
-            sideeffects: [migraineSomeRisk, headacheSomeRisk, eyeStrainSomeRisk, fatigueSomeRisk, vertigoSomeRisk, blurredVisionSomeRisk],
+            sideeffects: [migraineSomeRisk, headacheSomeRisk, eyeStrainSomeRisk, blurredVisionSomeRisk],
             timerObject: [limitTimerObject],
             tipsObject: [tip2, tip3, tip4, tip5, tip6])
         
@@ -118,7 +119,7 @@ class StateHolder {
             exposureTime: "Avoid",
             indicatorTime: 25,
             indicatorColor: Constants.red,
-            sideeffects: [epilepticSeizure, migraineSomeRisk, headacheSomeRisk, eyeStrainSomeRisk, fatigueSomeRisk, vertigoSomeRisk, blurredVisionSomeRisk],
+            sideeffects: [epilepticSeizure, migraineSomeRisk, headacheSomeRisk, eyeStrainSomeRisk, blurredVisionSomeRisk],
             timerObject: [AvoidTimerObject],
             tipsObject: [tip2, tip3, tip4, tip5, tip6])
     }

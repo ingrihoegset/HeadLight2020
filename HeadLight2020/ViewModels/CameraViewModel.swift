@@ -28,6 +28,8 @@ class CameraViewModel {
     
     init(fourierModel: FourierModel) {
         
+
+        
         self.fourierModel = fourierModel
         self.captureSession = fourierModel.cameraCapture.captureSession
         self.flickerPercent = fourierModel.flickerPercent
@@ -39,6 +41,9 @@ class CameraViewModel {
         self.lightDetected = true
         self.phoneIsStill = false
         self.allAmplitudes = []
+        
+        
+    
         
         NotificationCenter.default.addObserver(self, selector: #selector(getNewResults), name: NSNotification.Name.init(rawValue: "getNewResult"), object: nil)
         

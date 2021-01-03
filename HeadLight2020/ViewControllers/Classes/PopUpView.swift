@@ -46,6 +46,7 @@ class PopUpView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         label.textAlignment = .center
+        label.isEditable = false
         label.font = Constants.readingFont
         return label
     }()

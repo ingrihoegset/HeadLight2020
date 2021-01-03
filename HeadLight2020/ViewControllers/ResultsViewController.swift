@@ -22,12 +22,12 @@ class ResultsViewController: UIViewController {
     var resultObjects = [UIView]()
     var state = State(type: "", overallTitle: "", overallImageName: "", overallIndicatorColorMain: "", overallIndicatorColorSub: "", exposureTime: "", indicatorTime: 0, indicatorColor: "", sideeffects: [], timerObject: [], tipsObject: [])
     let infoContainerHeight = Constants.heightOfDisplay * 0.18
-    let heightOfTipsContainer = Constants.heightOfDisplay * 0.1
+    let heightOfTipsContainer = Constants.smallContainerDimensions * 1.9
     
     let overallResults: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor(named: "accentLight")
-        view.layer.cornerRadius = Constants.largeContainerDimension * 0.8 / 2
+        view.layer.cornerRadius = Constants.largeContainerDimension * 1 / 2
         view.translatesAutoresizingMaskIntoConstraints = false
         let image = UIImage(named: "SecondWorst")
         view.image = image
@@ -206,6 +206,7 @@ class ResultsViewController: UIViewController {
     
     let infoContainerMoreInfoObjects: UIView = {
         let view = UIView()
+        view.isUserInteractionEnabled = true
         view.backgroundColor = UIColor(named: "mainColorAccentLight")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.radiusContainers
@@ -247,6 +248,16 @@ class ResultsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.smallContainerDimensions / 2
         let image = UIImage(named: "Timer")
+        view.image = image
+        return view
+    }()
+    
+    let tipsImageView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = UIColor.init(named: "accentLight")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = Constants.smallContainerDimensions / 2
+        let image = UIImage(named: "BlueCheck")
         view.image = image
         return view
     }()
@@ -414,17 +425,10 @@ class ResultsViewController: UIViewController {
         return label
     }()
     
-    let resultsSwiper: ResultSwipingController = {
-        let swiper = ResultSwipingController(frame: .zero)
-        swiper.layer.cornerRadius = Constants.radiusContainers
-        swiper.translatesAutoresizingMaskIntoConstraints = false
-        return swiper
-    }()
-    
     let scrollView: FadeScrollView = {
         let scroller = FadeScrollView()
-        scroller.translatesAutoresizingMaskIntoConstraints = false
         scroller.backgroundColor = .clear
+        scroller.translatesAutoresizingMaskIntoConstraints = false
         scroller.showsVerticalScrollIndicator = true
         return scroller
     }()
@@ -434,7 +438,21 @@ class ResultsViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "mainColor")
         
-
+        //If we cant have side effects.
+        
+        /*
+        self.view.addSubview(infoContainer)
+        infoContainer.addSubview(timerTitle)
+        infoContainer.addSubview(infoContainerChevron)
+        infoContainer.addSubview(timerView)
+        infoContainer.addSubview(timerIndiatorContainer)
+        
+        self.view.addSubview(tipsContainer)
+        tipsContainer.addSubview(tipsTitle)
+        tipsContainer.addSubview(tipsContainerChevron)
+        tipsContainer.addSubview(tipsImageView)*/
+        
+        //Regarding side effects
         
         self.view.addSubview(scrollView)
         scrollView.addSubview(infoContainer)
@@ -451,6 +469,31 @@ class ResultsViewController: UIViewController {
         scrollView.addSubview(tipsContainer)
         tipsContainer.addSubview(tipsTitle)
         tipsContainer.addSubview(tipsContainerChevron)
+        tipsContainer.addSubview(tipsImageView)
+        
+        /*
+        //For testing resultscreen without segueing through camera view
+        
+            let AvoidTimerObject = MoreInfoObject(frame: .zero, image: "Timer", title1: "", title2: "", moreInfoText: "This light is terrible. You should avoid this lighting.")
+            //Tips
+            let tip1 = MoreInfoObject(frame: .zero, image: "Introduction", title1: "", title2: "", moreInfoText: "This light is good and is not associated with increased risk of any negative side effects. Use Headlight to check other light sources in your working and living environment.")
+            let vertigoLowRisk = MoreInfoObject(frame: .zero, image: "Dizzyness", title1: "Vertigo", title2: "", moreInfoText: MoreInfoObjectTexts.lowRiskVertigo, risk: 50)
+            let indicatorGreen = "indicatorGreen"
+            self.flickerIndex = 40.0
+            self.hertz = 10.0
+            self.flickerPercent = 30.0
+            self.luminance = 20.0
+            self.state =  State(type: "Best",
+            overallTitle: "Great",
+            overallImageName: "Best",
+            overallIndicatorColorMain: Constants.green,
+            overallIndicatorColorSub: Constants.green,
+            exposureTime: "Unlimited", indicatorTime: 100,
+            indicatorColor: indicatorGreen,
+            sideeffects: [vertigoLowRisk],
+            timerObject: [AvoidTimerObject],
+            tipsObject: [tip1])*/
+        
         
         let noOfSideeffects = state.sideeffects?.count
         let heightOfMoreInfoContainer = Constants.topMargin + Constants.smallContainerDimensions * CGFloat(noOfSideeffects!) * 1.75
@@ -462,6 +505,10 @@ class ResultsViewController: UIViewController {
 
         timerIndiatorContainer.layer.addSublayer(timerTrackLayer)
         timerIndiatorContainer.layer.addSublayer(timerFillerLayer)
+        
+
+        
+        
         
         setState()
         getNewResults()
@@ -476,11 +523,14 @@ class ResultsViewController: UIViewController {
         //Event handlers
         let exposureTap = UITapGestureRecognizer(target: self, action: #selector(exposureTap(_:)))
         infoContainer.addGestureRecognizer(exposureTap)
+        
+        //Regarding Side Effects
+        
         let MoreInfoObjectTap = UITapGestureRecognizer(target: self, action: #selector(MoreInfoObjectTap(_:)))
         infoContainerMoreInfoObjects.addGestureRecognizer(MoreInfoObjectTap)
+        
         let tipsTap = UITapGestureRecognizer(target: self, action: #selector(tipsTap(_:)))
         tipsContainer.addGestureRecognizer(tipsTap)
-        
     }
     
     private func constraintsResultDisplay() {
@@ -505,7 +555,7 @@ class ResultsViewController: UIViewController {
         percentLabel.centerXAnchor.constraint(equalTo: percentResultsContainer.centerXAnchor).isActive = true
         percentLabel.topAnchor.constraint(equalTo: percentResultsContainer.bottomAnchor, constant: -((Constants.containerDimension / 2) - Constants.radius)).isActive = true
         percentLabel.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
-        percentLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        percentLabel.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
         
         // percent results display
         resultsViewPercent.centerYAnchor.constraint(equalTo: percentResultsContainer.centerYAnchor).isActive = true
@@ -522,7 +572,7 @@ class ResultsViewController: UIViewController {
         // hertz title label
         hertzLabel.centerXAnchor.constraint(equalTo: hertzResultsContainer.centerXAnchor).isActive = true
         hertzLabel.topAnchor.constraint(equalTo: hertzResultsContainer.bottomAnchor, constant: -((Constants.containerDimension / 2) - Constants.radius)).isActive = true
-        hertzLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        hertzLabel.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
         hertzLabel.widthAnchor.constraint(equalToConstant: Constants.containerDimension).isActive = true
         
         // hertz results display
@@ -550,10 +600,10 @@ class ResultsViewController: UIViewController {
         self.view.addSubview(resultsDisplay)
         
         // overall results display
-        overallResults.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        overallResults.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.sideMargins).isActive = true
         overallResults.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        overallResults.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 0.8).isActive = true
-        overallResults.widthAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 0.8).isActive = true
+        overallResults.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 1).isActive = true
+        overallResults.widthAnchor.constraint(equalToConstant: Constants.largeContainerDimension * 1).isActive = true
         
         // overall results helper - purpose to create lalyer between animation
         overallResultsHelper.centerYAnchor.constraint(equalTo: overallResults.centerYAnchor).isActive = true
@@ -589,24 +639,23 @@ class ResultsViewController: UIViewController {
         helperLabel3.heightAnchor.constraint(equalTo: lightQualityLabel.heightAnchor).isActive = true
         helperLabel3.centerYAnchor.constraint(equalTo: lightQualityLabel.centerYAnchor).isActive = true
         
-        resultsDisplay.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor).isActive = true
-        resultsDisplay.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        resultsDisplay.topAnchor.constraint(equalTo: overallResultsHelper.bottomAnchor, constant: Constants.verticalMargins * 0.5).isActive = true
+        resultsDisplay.heightAnchor.constraint(equalToConstant: Constants.largeContainerDimension).isActive = true
         resultsDisplay.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.verticalMargins).isActive = true
         resultsDisplay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.verticalMargins).isActive = true
     
-
+        //Regarding side effects
         
         // scroll view
-        scrollView.topAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: resultsDisplay.bottomAnchor, constant: Constants.verticalMargins).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
         
         // info container timer
         infoContainer.heightAnchor.constraint(equalToConstant: infoContainerHeight).isActive = true
         infoContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
-        infoContainer.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Constants.verticalMargins * 0.5).isActive = true
+        infoContainer.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Constants.verticalMargins).isActive = true
         infoContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         // timer title
@@ -634,10 +683,12 @@ class ResultsViewController: UIViewController {
         let noOfSideEffects = state.sideeffects?.count
         let heightOfMoreInfoContainer = Constants.smallContainerDimensions * CGFloat(noOfSideEffects!)
         
+        //Regarding side effects
+        
         // info container side effects
         infoContainerMoreInfoObjects.heightAnchor.constraint(equalToConstant: Constants.topMargin + heightOfMoreInfoContainer * 1.75).isActive = true
         infoContainerMoreInfoObjects.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
-        infoContainerMoreInfoObjects.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.seperator).isActive = true
+        infoContainerMoreInfoObjects.topAnchor.constraint(equalTo: infoContainer.bottomAnchor, constant: Constants.sideMargins).isActive = true
         infoContainerMoreInfoObjects.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         
         // side effects title
@@ -658,15 +709,21 @@ class ResultsViewController: UIViewController {
         horizontalMoreInfoObjectsContainer.bottomAnchor.constraint(equalTo: infoContainerMoreInfoObjects.bottomAnchor, constant: -Constants.verticalMargins).isActive = true
         
         //tips container
-        tipsContainer.topAnchor.constraint(equalTo: infoContainerMoreInfoObjects.bottomAnchor, constant: Constants.seperator).isActive = true
-        tipsContainer.heightAnchor.constraint(equalToConstant: heightOfTipsContainer).isActive = true
+        tipsContainer.topAnchor.constraint(equalTo: infoContainerMoreInfoObjects.bottomAnchor, constant: Constants.sideMargins).isActive = true
+        tipsContainer.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions * 1.9).isActive = true
         tipsContainer.widthAnchor.constraint(equalToConstant: Constants.containerDimension * 3).isActive = true
-        tipsContainer.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        tipsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         //tips title
-        tipsTitle.centerYAnchor.constraint(equalTo: tipsContainer.centerYAnchor).isActive = true
+        tipsTitle.topAnchor.constraint(equalTo: tipsContainer.topAnchor, constant: Constants.sideMargins).isActive = true
         tipsTitle.leadingAnchor.constraint(equalTo: tipsContainer.leadingAnchor, constant: Constants.seperator).isActive = true
         tipsTitle.widthAnchor.constraint(equalTo: tipsContainer.widthAnchor).isActive = true
+        
+        // timer image container
+        tipsImageView.topAnchor.constraint(equalTo: tipsTitle.bottomAnchor, constant: Constants.sideMargins).isActive = true
+        tipsImageView.centerXAnchor.constraint(equalTo: tipsContainer.centerXAnchor).isActive = true
+        tipsImageView.heightAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
+        tipsImageView.widthAnchor.constraint(equalToConstant: Constants.smallContainerDimensions).isActive = true
         
         // tips container chevron
         tipsContainerChevron.centerYAnchor.constraint(equalTo: tipsTitle.centerYAnchor).isActive = true
@@ -808,8 +865,8 @@ class ResultsViewController: UIViewController {
         overallResults.image = UIImage(named: resultIcon)
         overallResults.shake()
         let position = CGPoint(x: Constants.largeContainerDimension / 2, y: Constants.largeContainerDimension / 2)
-        let pulse = PulseAnimation(numberOfPulses: 3, radius: Constants.largeContainerDimension / 2, position: position, color: pulse1Color!, duration: 1)
-        let pulse2 = PulseAnimation(numberOfPulses: 2, radius: Constants.largeContainerDimension / 1.8, position: position, color: pulse2Color!, duration: 1)
+        let pulse = PulseAnimation(numberOfPulses: 3, radius: Constants.largeContainerDimension * 1.15 / 2, position: position, color: pulse1Color!, duration: 1)
+        let pulse2 = PulseAnimation(numberOfPulses: 2, radius: Constants.largeContainerDimension * 1.05 / 2, position: position, color: pulse2Color!, duration: 1)
         overallResultsHelper.layer.addSublayer(pulse)
         overallResultsHelper.layer.addSublayer(pulse2)
         

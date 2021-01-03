@@ -54,7 +54,7 @@ class HealthInfoViewController: UIViewController {
     }()
     
     let vertigoView: UIView = {
-        let view = HowToSlide(frame: .zero, image: "Vertigo", text: HealthTexts.vertigo, fill: false)
+        let view = HowToSlide(frame: .zero, image: "Vertigo", text: /*HealthTexts.vertigo*/ "It may lead to blurred vision.", fill: false)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -77,8 +77,6 @@ class HealthInfoViewController: UIViewController {
         return view
     }()
     
- 
-    
     let swiper: HowToSwiperController = {
         let swiper = HowToSwiperController(frame: .zero)
         swiper.translatesAutoresizingMaskIntoConstraints = false
@@ -93,10 +91,9 @@ class HealthInfoViewController: UIViewController {
         view.addSubview(topPanelView)
         topPanelView.addSubview(titleLabel)
         view.addSubview(pageTitle)
-        swiper.items = [feelBadView, eyestrainView, vertigoView, headacheMigraineView, fatigueView, whatToDoView]
+        swiper.items = [feelBadView, eyestrainView, vertigoView, headacheMigraineView/*, fatigueView*/, whatToDoView]
         view.addSubview(swiper)
         setConstraints()
-
     }
     
     func setConstraints() {
@@ -123,7 +120,5 @@ class HealthInfoViewController: UIViewController {
         swiper.widthAnchor.constraint(equalToConstant: Constants.widthOfDisplay).isActive = true
         swiper.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         swiper.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        
     }
 }

@@ -42,7 +42,8 @@ class HowToCell: UICollectionViewCell {
         view.isSelectable = false
         view.textAlignment = .center
         view.backgroundColor = .clear
-        view.font = Constants.readingFont
+        view.textColor = UIColor(named: "mainColorAccentDark")
+        view.font = UIFont(name: "Poppins-Light", size: 18)
         return view
     }()
     
